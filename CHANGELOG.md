@@ -1,5 +1,14 @@
 # Change Log
 
+## [1.0.7.0] - 2022-06-16
+#### Improvements
+- Primeras adaptaciones para el sistema de titulaciones.
+  - css
+    - sidebar
+    - navbar
+  - DB
+    - migrations to postgres
+
 ## [1.0.6] 2022-05-30
 ### Improvements
 
