@@ -31,7 +31,19 @@ def pages(request):
             return HttpResponseRedirect(reverse('admin:index'))
         context['segment'] = load_template
 
-        html_template = loader.get_template('home/' + load_template)
+
+        if request.path.split('/')[-2] == 'estadisticas':
+            html_template = loader.get_template('home/estadisticas/' + load_template)
+        elif request.path.split('/')[-2] == 'tituloElectronico':
+            html_template = loader.get_template('home/tituloElectronico/' + load_template)
+        elif request.path.split('/')[-2] == 'certificado':
+            html_template = loader.get_template('home/certificado/' + load_template)
+        elif request.path.split('/')[-2] == 'folio':
+            html_template = loader.get_template('home/folio/' + load_template)
+        else:
+            html_template = loader.get_template('home/' + load_template)
+
+
         return HttpResponse(html_template.render(context, request))
 
     except template.TemplateDoesNotExist:

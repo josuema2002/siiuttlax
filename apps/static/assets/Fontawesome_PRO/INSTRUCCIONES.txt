@@ -1,0 +1,19 @@
+Esta es la version 5
+Pega estos archivos en tu proyecto
+
+pega esta linea en tu <HEAD>
+<link rel="stylesheet" href="css/all.min.css">
+
+LISTO
+_____________________________________________
+
+
+En la carpeta svgs estan todos los iconos en forma svg
+
+_____________________________________________
+
+para ver los iconos
+https://fontawesome.com/v6.0/icons
+
+
+
