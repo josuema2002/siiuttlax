@@ -8408,7 +8408,7 @@ body.sidebar-collapse:not(.sidebar-mini-md):not(.sidebar-mini) .main-header::bef
 
 [class*="sidebar-dark-"] {
   /* background-color: #343a40; } */
-  background-color: var(--primary); }
+  background-color: var(--primary) !important; }
   [class*="sidebar-dark-"] .user-panel a:hover {
     color: #fff; }
   [class*="sidebar-dark-"] .user-panel .status {

@@ -1,7 +1,7 @@
   <!-- Main Sidebar Container -->
   <aside class="main-sidebar sidebar-dark-primary elevation-4">
     <!-- Brand Logo -->
-    <a href="/" class="brand-link">
+    <a href="{{ request.PATHPROJECT }}" class="brand-link sidebar-dark-primary">
       <img src="{{ ASSETS_ROOT }}/img/Logo_utt.png" alt="AdminLTE Logo" class="brand-image img-circle elevation-3" style="opacity: .8">
       <span class="brand-text font-weight-light">Titulación</span>
     </a>
@@ -38,7 +38,7 @@
           <!-- Add icons to the links using the .nav-icon class
                with font-awesome or any other icon font library -->
           <li class="nav-item has-treeview {% if 'index' in segment %} menu-open {% endif %}">
-            <a href="#" class="nav-link {% if 'index' in segment %} active {% endif %}">
+            <a href="{{ request.PATHPROJECT }}" class="nav-link {% if 'index' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-tachometer-alt"></i>
               <p>
                 Dashboard
@@ -47,19 +47,19 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/index.html" class="nav-link {% if 'index.html' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/index.html" class="nav-link {% if 'index.html' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dashboard v1</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/index2.html" class="nav-link {% if 'index2.html' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/index2.html" class="nav-link {% if 'index2.html' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dashboard v2</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/index3.html" class="nav-link {% if 'index3.html' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/index3.html" class="nav-link {% if 'index3.html' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Dashboard v3</p>
                 </a>
@@ -67,8 +67,9 @@
             </ul>
           </li>
 
+          {% if request.user.is_superuser %}
           <li class="nav-item">
-            <a href="/certificado/allC.html" class="nav-link {% if 'allC' in segment %} active {% endif %}">
+            <a href="{{ request.PATHPROJECT }}/certificado/allC.html" class="nav-link {% if 'allC' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-file"></i>
               <p>
                 Certificado
@@ -78,7 +79,6 @@
               </p>
             </a>
           </li>
-
           <li class="nav-item has-treeview {% if 'charts' in segment %} menu-open {% endif %}">
             <a href="#" class="nav-link {% if 'charts' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -89,32 +89,31 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/estadisticas/charts-allE.html" class="nav-link {% if 'allE' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/estadisticas/charts-allE.html" class="nav-link {% if 'allE' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Todas</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/estadisticas/charts-chartjs.html" class="nav-link {% if 'charts-chartjs' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/estadisticas/charts-chartjs.html" class="nav-link {% if 'charts-chartjs' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Hombres</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/estadisticas/charts-flot.html" class="nav-link {% if 'charts-flot' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/estadisticas/charts-flot.html" class="nav-link {% if 'charts-flot' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Mujeres</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/estadisticas/charts-inline.html" class="nav-link {% if 'charts-inline' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/estadisticas/charts-inline.html" class="nav-link {% if 'charts-inline' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Humbres y mujeres</p>
                 </a>
               </li>
             </ul>
           </li>
-
           <li class="nav-item has-treeview {% if 'titulo' in segment %} menu-open {% endif %}">
             <a href="#" class="nav-link {% if 'titulo' in segment %} active {% endif %}">
               <i class="nav-icon fa-regular fa-file-certificate"></i>
@@ -125,53 +124,68 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="/tituloElectronico/titulo-allT.html" class="nav-link {% if 'allT' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/tituloElectronico/titulo-allT.html" class="nav-link {% if 'allT' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Todos</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/tituloElectronico/titulo-hombres.html" class="nav-link {% if 'hombres.html' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/tituloElectronico/titulo-hombres.html" class="nav-link {% if 'hombres.html' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Hombres</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/tituloElectronico/titulo-mujeres.html" class="nav-link {% if 'mujeres' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/tituloElectronico/titulo-mujeres.html" class="nav-link {% if 'mujeres' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Mujeres</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/tituloElectronico/titulo-hombresMujeres.html" class="nav-link {% if 'hombresMujeres' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/tituloElectronico/titulo-hombresMujeres.html" class="nav-link {% if 'hombresMujeres' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Humbres y mujeres</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/tituloElectronico/titulo-tsu.html" class="nav-link {% if 'tsu' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/tituloElectronico/titulo-tsu.html" class="nav-link {% if 'tsu' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>TSU</p>
                 </a>
               </li>
               <li class="nav-item">
-                <a href="/tituloElectronico/titulo-ingeneria.html" class="nav-link {% if 'ingeneria' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/tituloElectronico/titulo-ingeneria.html" class="nav-link {% if 'ingeneria' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Ingeneria</p>
                 </a>
               </li>
             </ul>
           </li>
+          {% endif %}
 
-          <!-- <li class="nav-item">
-            <a href="widgets.html" class="nav-link {% if 'widgets' in segment %} active {% endif %}">
+          {% if request.user.is_superuser == True %}
+          <li class="nav-item">
+            <a href="{{ request.PATHPROJECT }}/fileUpload/formF.html" class="nav-link {% if 'formF' in segment %} active {% endif %}">
+              <i class="nav-icon fas fa-folder-open"></i>
+              <p>
+                Subir archivos
+                <span class="right badge badge-warning">
+                  <i class="fas fa-file m-0"></i>
+                </span>
+              </p>
+            </a>
+          </li>
+          {% endif %}
+
+          <li class="nav-item">
+            <a href="./widgets.html" class="nav-link {% if 'widgets' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-th"></i>
               <p>
                 Widgets
                 <span class="right badge badge-danger">New</span>
               </p>
             </a>
-          </li> -->
+          </li>
           <li class="nav-item has-treeview {% if 'layout' in segment %} menu-open {% endif %}">
             <a href="#" class="nav-link {% if 'layout' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-copy"></i>
