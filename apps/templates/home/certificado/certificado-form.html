@@ -1,0 +1,364 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Tables Data {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %} 
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Certificados de titulación</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{{ request.PATHPROJECT }}">Home</a></li>
+              <li class="breadcrumb-item"><a href="{{ request.PATHPROJECT }}/certificado/allC.html">Certificado</a></li>
+              <li class="breadcrumb-item active">Form</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <form action="" class="card card-default" method="POST">
+          {% csrf_token %}
+          <div class="card-header">
+            <h3 class="card-title">Generar certificado de titulación</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+              </button> -->
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <div class="row">
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Matricula</label>
+                  <select class="select2"style="width: 100%;" id="selectA">
+                    <option selected disabled="disabled">Ingrese la matricula del alumno</option>
+                    {% for alumno in request.alumnos %}
+                      {% if alumno.estadiasTSU_alumno == True or alumno.estadiasIngLic_alumno == True %}
+                        <option value="{{ alumno.matricula_alumno }}">{{ alumno.matricula_alumno }}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                </div>
+                <!-- /.form-group -->
+              </div>
+              <!-- /.col -->
+            </div>
+            <!-- /.row -->
+            <!-- right column -->
+          <div class="col-md-12 d-none" id="formNewCertificado">
+            <!-- general form elements disabled -->
+            <div class="card card-warning">
+              <div class="card-header">
+                <h3 class="card-title">Verifique que los datos del alumno</h3>
+              </div>
+              {% if request.form.errors %}
+                <div class="alert alert-danger">
+                  <ul>
+                    {% for error in request.form.errors %}
+                      <li>{{ error }}</li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              {% endif %}
+              <!-- /.card-header -->
+              <div class="card-body">
+                <form>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label>Numbre</label>
+                        <p class="fs-1">
+                          Luis
+                        </p>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label>Apellido paterno</label>
+                        <p class="fs-1">
+                          Pérez
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label>Apellido materno</label>
+                        <p class="fs-1">
+                          García
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <div class="form-group">
+                        <label>Plan de estudios</label>
+                        <input type="number" min="2000" class="form-control" placeholder="2022">
+                      </div>
+                    </div>
+                  </div>
+                  <h5>Periodo escolar</h5>
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label>Inicio:</label>
+                        <div class="input-group date" id="init" data-target-input="nearest">
+                          <input type="text" placeholder="09/2020" class="form-control datetimepicker-input" data-target="#init"/>
+                            <div class="input-group-append" data-target="#init" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Fin:</label>
+                        <div class="input-group date" id="end" data-target-input="nearest">
+                          <input type="text" placeholder="08/2022" class="form-control datetimepicker-input" data-target="#end"/>
+                          <div class="input-group-append" data-target="#end" data-toggle="datetimepicker">
+                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    {% if alumno.estadiasTSU_alumno == False %}
+                    <div class="col-sm-6">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label>Carrera</label>
+                        <input type="text" class="form-control" placeholder="Tecnologias de Información">
+                      </div>
+                    </div>
+                    {% else %}
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Area de la carrera</label>
+                        <input type="text" class="form-control" placeholder="Desarrollo de Software Multiplataforma">
+                      </div>
+                    </div>
+                    {% endif %}
+                    <div class="col-sm-6">
+                      <div class="form-group">
+                        <label>Tipo de carrera</label>
+                        <input type="text" class="form-control" placeholder="Tecnico Superior Universitario">
+                      </div>
+                    </div>
+                  </div>
+
+                  <h5>Calificaciones</h5>
+
+                  <table class="table table-bordered mb-3">
+                    <thead class="thead-dark">
+                      <tr>
+                        <th>Materia</th>
+                        <th>Calificación</th>
+                      </tr>
+                    </thead>
+                    <tbody class="table-striped">
+                      <tr>
+                        <td>Matematicas</td>
+                        <td>10</td>
+                      </tr>
+                      <tr>
+                        <td>Español</td>
+                        <td>10</td>
+                      </tr>
+                    </tbody>
+                  </table>
+
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- checkbox -->
+                      <div class="form-group">
+                        <div class="form-check">
+                          <input class="form-check-input" type="checkbox" id="check">
+                          <label class="form-check-label">Acepto que los datos estan bien.</label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <div class="row">
+                    <div class="col-sm-12">
+                      <!-- checkbox -->
+                      <div class="form-group">
+                        <div class="form-check bg-warning rounded">
+                          <label class="form-check-label">
+                            Si los datos no son correctos, comunicarse con el area indicada.
+                          </label>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </form>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!--/.col (right) -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer">
+            <button class="btn btn-success d-none btn-block" id="btnGenerar" type="submit">
+              Generar
+            </button>
+          </div>
+        </form>
+        <!-- /.card -->
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- Page script -->
+<script>
+  $(
+    function(){
+      $('#init').datetimepicker({
+          viewMode: 'years',
+          format: 'MM/YYYY'
+      });
+      $('#end').datetimepicker({
+          viewMode: 'years',
+          format: 'MM/YYYY'
+      });
+      $('#selectA').on('change', function() {
+        $('#btnGenerar').removeClass('d-none');
+
+        //peticion ajax para obtener los datos del alumno en python
+        $('#formNewCertificado').removeClass('d-none');
+        $.ajax({
+          url: '{{ request.PATHPROJECT }}/alumno/index.html',
+          type: 'POST',
+          data: {
+            'matricula': $('#selectA').val()
+          },
+          success: function(data) {
+            console.log(data);
+          },
+          error: function(data) {
+            console.log(data);
+          }
+        });
+
+      });
+    }
+  )
+</script>
+
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    $('.my-colorpicker2').on('colorpickerChange', function(event) {
+      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+    });
+
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    });
+
+  })
+</script>
+
+{% endblock javascripts %}

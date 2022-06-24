@@ -12,3 +12,5 @@ django-environ==0.8.1
 psycopg2==2.9.3
 xhtml2pdf==0.2.8
 Js2Py==0.71
+reportlab==3.6.10
+cloudinary==1.29.0

@@ -5,7 +5,7 @@ Copyright (c) 2019 - present AppSeed.us
 
 from django import template
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.urls import reverse
 
@@ -14,6 +14,10 @@ from apps import config
 #importar los modelos
 from apps.home.models import alumno, empleado, certificadoTitulacion, tituloElectronico, estadisticasTitulacion
 from django.contrib.auth.models import User
+
+#importar los forms
+from apps.home.forms import fileUploadForm
+
 
 PATHPROJECT = config.PATHPROJECT
 
@@ -52,15 +56,45 @@ def pages(request):
             elif request.path.split('/')[-2] == 'tituloElectronico':
                 html_template = loader.get_template('home/tituloElectronico/' + load_template)
             elif request.path.split('/')[-2] == 'certificado':
+                
+                #     form = FormularioCertificado(request.POST)
+                #     if form.is_valid():
+                #         plan_estudios = form.cleaned_data['plan_estudios']
+                #         periodo_escolar_init = form.cleaned_data['periodo_escolar_init']
+                #         periodo_escolar_end = form.cleaned_data['periodo_escolar_end']
+                # else:
+                #     form = FormularioCertificado()
+                # request.form = form
                 html_template = loader.get_template('home/certificado/' + load_template)
             elif request.path.split('/')[-2] == 'folio':
                 html_template = loader.get_template('home/folio/' + load_template)
             elif request.path.split('/')[-2] == 'fileUpload':
                 #return HttpResponseRedirect('/soloAlumno') usar
                 html_template = loader.get_template('home/fileUpload/' + load_template)
+
+                
+                # peticiones de ajax
+            elif request.path.split('/')[-2] == 'alumno':
+                #obtener los datos POST de alumnos
+                if request.method == 'POST':
+                    #obtener los datos POST
+                    datos = request.POST
+                    #obtener la matricula
+                    matricula = datos['matricula']
+                    #obtener los datos del alumno con la matricula
+                    alumnoOnli = alumno.objects.get(matricula=matricula)
+                    return JsonResponse({"alumnoOnli":alumnoOnli}, status=200)
+                else :
+                    return HttpResponseRedirect('/404')
+
+
+                # default
             else:
                 html_template = loader.get_template('home/' + load_template)
         else:
+            dataA = alumno.objects.get(id_user_alumno_id=str(request.user.id))
+            request.dataA = dataA
+
             if request.path.split('/')[-2] == 'estadisticas':
                 return HttpResponseRedirect('/404')
             elif request.path.split('/')[-2] == 'tituloElectronico':
@@ -70,11 +104,19 @@ def pages(request):
             elif request.path.split('/')[-2] == 'folio':
                 return HttpResponseRedirect('/404')
             elif request.path.split('/')[-2] == 'fileUpload':
-                #html_template = loader.get_template('home/fileUpload/' + load_template) usar
-                return HttpResponseRedirect('/404')
+
+                request.form = fileUploadForm(request.POST or None)
+
+                try:
+                    files = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(dataA.matricula_alumno))
+                    request.files = files
+                except tituloElectronico.DoesNotExist:
+                    pass
+
+
+                html_template = loader.get_template('home/fileUpload/' + load_template)
             else:
                 html_template = loader.get_template('home/' + load_template)
-
 
         return HttpResponse(html_template.render(context, request))
 
@@ -83,6 +125,7 @@ def pages(request):
         html_template = loader.get_template('home/page-404.html')
         return HttpResponse(html_template.render(context, request))
 
-    except:
+    except Exception as e:
+        request.error = e
         html_template = loader.get_template('home/page-500.html')
         return HttpResponse(html_template.render(context, request))

@@ -40,6 +40,16 @@
    <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/bootstrap-colorpicker/css/bootstrap-colorpicker.min.css">
    <!-- Tempusdominus Bootstrap 4 -->
    <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/tempusdominus-bootstrap-4/css/tempusdominus-bootstrap-4.min.css">
+   <!-- iCheck -->
+  <link rel="stylesheet" href="https://appsrv1-147a1.kxcdn.com/adminlte/plugins/icheck-bootstrap/icheck-bootstrap.min.css">
+  <!-- JQVMap -->
+  <link rel="stylesheet" href="https://appsrv1-147a1.kxcdn.com/adminlte/plugins/jqvmap/jqvmap.min.css">
+  <!-- overlayScrollbars -->
+  <link rel="stylesheet" href="https://appsrv1-147a1.kxcdn.com/adminlte/plugins/overlayScrollbars/css/OverlayScrollbars.min.css">
+  <!-- Daterange picker -->
+  <link rel="stylesheet" href="https://appsrv1-147a1.kxcdn.com/adminlte/plugins/daterangepicker/daterangepicker.css">
+  <!-- summernote -->
+  <link rel="stylesheet" href="https://appsrv1-147a1.kxcdn.com/adminlte/plugins/summernote/summernote-bs4.min.css">
    <!-- Select2 -->
    <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/select2/css/select2.min.css">
    <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css">
@@ -111,6 +121,8 @@
   <script src="{{ ASSETS_ROOT }}/plugins/datatables-responsive/js/responsive.bootstrap4.min.js"></script>
   <!-- AdminLTE App -->
   <script src="{{ ASSETS_ROOT }}/js/adminlte.min.js"></script>
+  <!-- AdminLTE dashboard demo (This is only for demo purposes) -->
+  <script src="https://appsrv1-147a1.kxcdn.com/adminlte/js/pages/dashboard.js"></script>
   <!-- AdminLTE for demo purposes -->
   <script src="{{ ASSETS_ROOT }}/js/demo.js"></script>
   <!-- jQuery Knob -->
@@ -118,7 +130,7 @@
   <!-- Sparkline -->
   <script src="{{ ASSETS_ROOT }}/plugins/sparkline/jquery.sparkline.min.js"></script>
   <!-- fullCalendar 2.2.5 -->
-  <script src="{{ ASSETS_ROOT }}/plugins/moment/moment.min.js"></script>
+  <!-- <script src="{{ ASSETS_ROOT }}/plugins/moment/moment.min.js"></script> -->
   <script src="{{ ASSETS_ROOT }}/plugins/fullcalendar/main.min.js"></script>
   <script src="{{ ASSETS_ROOT }}/plugins/fullcalendar-daygrid/main.min.js"></script>
   <script src="{{ ASSETS_ROOT }}/plugins/fullcalendar-timegrid/main.min.js"></script>
@@ -131,6 +143,21 @@
   <script src="{{ ASSETS_ROOT }}/plugins/flot-old/jquery.flot.resize.min.js"></script>
   <!-- FLOT PIE PLUGIN - also used to draw donut charts -->
   <script src="{{ ASSETS_ROOT }}/plugins/flot-old/jquery.flot.pie.min.js"></script>
+
+
+
+
+<!-- Resolve conflict in jQuery UI tooltip with Bootstrap tooltip -->
+<script>
+  $.widget.bridge('uibutton', $.ui.button)
+</script>
+<!-- JQVMap -->
+<script src="{{ ASSETS_ROOT }}/plugins/jqvmap/jquery.vmap.min.js"></script>
+<script src="{{ ASSETS_ROOT }}/plugins/jqvmap/maps/jquery.vmap.usa.js"></script>
+<!-- Summernote -->
+<script src="{{ ASSETS_ROOT }}/plugins/summernote/summernote-bs4.min.js"></script>
+<!-- overlayScrollbars -->
+<script src="{{ ASSETS_ROOT }}/plugins/overlayScrollbars/js/jquery.overlayScrollbars.min.js"></script>
   
   {% block javascripts %}{% endblock javascripts %}
 </body>

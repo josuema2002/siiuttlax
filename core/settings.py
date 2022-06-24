@@ -5,6 +5,10 @@ Copyright (c) 2019 - present AppSeed.us
 
 import os, environ
 
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, True)
@@ -158,3 +162,9 @@ STATICFILES_DIRS = (
 
 #############################################################
 #############################################################
+
+cloudinary.config( 
+  cloud_name = "dbqioig0y", 
+  api_key = "219698394732672", 
+  api_secret = "wTXyYgmCAmPKCxY5_HYpr3NQXUQ" 
+)

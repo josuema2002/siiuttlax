@@ -68,17 +68,30 @@
           </li>
 
           {% if request.user.is_superuser %}
-          <li class="nav-item">
-            <a href="{{ request.PATHPROJECT }}/certificado/allC.html" class="nav-link {% if 'allC' in segment %} active {% endif %}">
-              <i class="nav-icon fas fa-file"></i>
+          <li class="nav-item has-treeview {% if 'certificado' in segment %} menu-open {% endif %}">
+            <a href="#" class="nav-link {% if 'certificado' in segment %} active {% endif %}">
+              <i class="nav-icon fa-solid fa-file-certificate"></i>
               <p>
-                Certificado
-                <span class="right badge badge-warning">
-                  <i class="fas fa-file-pdf m-0"></i>
-                </span>
+                Certificados
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ request.PATHPROJECT }}/certificado/certificado-allC.html" class="nav-link {% if 'allC' in segment %} active {% endif %}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Todos</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ request.PATHPROJECT }}/certificado/certificado-form.html" class="nav-link {% if 'form' in segment %} active {% endif %}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Nuevo</p>
+                </a>
+              </li>
+            </ul>
           </li>
+
           <li class="nav-item has-treeview {% if 'charts' in segment %} menu-open {% endif %}">
             <a href="#" class="nav-link {% if 'charts' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-chart-pie"></i>
@@ -163,17 +176,29 @@
           </li>
           {% endif %}
 
-          {% if request.user.is_superuser == True %}
-          <li class="nav-item">
-            <a href="{{ request.PATHPROJECT }}/fileUpload/formF.html" class="nav-link {% if 'formF' in segment %} active {% endif %}">
+          {% if request.user.is_superuser == False %}
+          <li class="nav-item has-treeview {% if 'file' in segment %} menu-open {% endif %}">
+            <a href="#" class="nav-link {% if 'file' in segment %} active {% endif %}">
               <i class="nav-icon fas fa-folder-open"></i>
               <p>
                 Subir archivos
-                <span class="right badge badge-warning">
-                  <i class="fas fa-file m-0"></i>
-                </span>
+                <i class="right fas fa-angle-left"></i>
               </p>
             </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{{ request.PATHPROJECT }}/fileUpload/file-allF.html" class="nav-link {% if 'allF' in segment %} active {% endif %}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Ver</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{{ request.PATHPROJECT }}/fileUpload/file-formF.html" class="nav-link {% if 'formF' in segment %} active {% endif %}">
+                  <i class="far fa-circle nav-icon"></i>
+                  <p>Nuevo</p>
+                </a>
+              </li>
+            </ul>
           </li>
           {% endif %}
 
