@@ -2,7 +2,6 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
-
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -93,26 +92,31 @@ def pages(request):
                 html_template = loader.get_template('home/' + load_template)
         else:
             dataA = alumno.objects.get(id_user_alumno_id=str(request.user.id))
+            matricula_alumno = dataA.matricula_alumno
             request.dataA = dataA
 
-            if request.path.split('/')[-2] == 'estadisticas':
-                return HttpResponseRedirect('/404')
-            elif request.path.split('/')[-2] == 'tituloElectronico':
-                return HttpResponseRedirect('/404')
-            elif request.path.split('/')[-2] == 'certificado':
-                return HttpResponseRedirect('/404')
-            elif request.path.split('/')[-2] == 'folio':
+            if request.path.split('/')[-2] == 'estadisticas' or request.path.split('/')[-2] == 'tituloElectronico' or request.path.split('/')[-2] == 'certificado' or request.path.split('/')[-2] == 'folio':
                 return HttpResponseRedirect('/404')
             elif request.path.split('/')[-2] == 'fileUpload':
-
-                request.form = fileUploadForm(request.POST or None)
-
+                
+                request.titleFormTituloElectronico = 'Subir'
                 try:
-                    files = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(dataA.matricula_alumno))
+                    files = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(matricula_alumno))
                     request.files = files
+                    request.titleFormTituloElectronico = 'Editar'
                 except tituloElectronico.DoesNotExist:
                     pass
 
+                if load_template == 'file-formF.html':
+                    request.form = fileUploadForm(request.POST or None, request.FILES or None)
+                    if request.method == 'POST':
+                        if request.form.is_valid():
+                            form = request.form
+                            form.id_alumno_titulo_electronico_id = matricula_alumno
+                            form.save()
+                            return HttpResponseRedirect(PATHPROJECT+'/fileUpload/file-allF.html')
+                        else:
+                            return HttpResponse(request.form.errors.as_json())
 
                 html_template = loader.get_template('home/fileUpload/' + load_template)
             else:
@@ -120,10 +124,10 @@ def pages(request):
 
         return HttpResponse(html_template.render(context, request))
 
-    except template.TemplateDoesNotExist:
+    # except template.TemplateDoesNotExist:
 
-        html_template = loader.get_template('home/page-404.html')
-        return HttpResponse(html_template.render(context, request))
+    #     html_template = loader.get_template('home/page-404.html')
+    #     return HttpResponse(html_template.render(context, request))
 
     except Exception as e:
         request.error = e

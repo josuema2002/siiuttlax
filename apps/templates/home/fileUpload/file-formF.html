@@ -35,10 +35,10 @@
     <section class="content">
       <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
-        <form action="" class="card card-default" method="POST">
+        <form action="" class="card card-default" method="POST" enctype="multipart/form-data">
           {% csrf_token %}
           <div class="card-header">
-            <h3 class="card-title">Subir documentos</h3>
+            <h3 class="card-title">{{request.titleFormTituloElectronico}} documentos</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -56,30 +56,44 @@
             <!-- general form elements disabled -->
             <div class="card card-warning">
               <div class="card-header">
-                <h3 class="card-title">Suba los documentos que pide el formulario</h3>
+                <h3 class="card-title">Suba los documentos que pide el formulario, no es necesario subir todos al mismo tiempo</h3>
               </div>
-              {% if request.form.errors %}
-                <div class="alert alert-danger">
-                  <ul>
-                    {% for error in request.form.errors %}
-                      <li>{{ error }}</li>
-                    {% endfor %}
-                  </ul>
-                </div>
-              {% endif %}
               <!-- /.card-header -->
               <div class="card-body">
                 {% for field in request.form %}
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <div class="form-group">
-                        <label>
+                  {% if field.field.widget.input_type == 'file' %}
+                    {% if field.name == 'TSU' %}
+                      {% if request.dataA.estadiasIngLic_alumno == True %}
+                        <div class="mb-3">
+                            <label for="{{ field.name }}" class="form-label">
+                                {{ field.label }}
+                            </label>
+                            <input class="form-control border-0" type="file" id="{{ field.name }}"
+                            name="{{ field.name }}" accept="apication/pdf">
+                        </div>
+                        {% endif %}
+                    {% else %}
+                    <div class="mb-3">
+                        <label for="{{ field.name }}" class="form-label">
                             {{ field.label }}
                         </label>
-                        <input type="number" min="2000" class="form-control" placeholder="2022">
-                      </div>
+                        <input class="form-control border-0" type="file" id="{{ field.name }}"
+                        name="{{ field.name }}" 
+                          {% if field.name == 'foto_infantil_bn_titulo_electronico' %}
+                            accept="image/jpeg, image/png, image/jpg"
+                          {% elif field.name == 'foto_infantil_color_titulo_electronico' %}
+                            accept="image/jpeg, image/png, image/jpg"
+                          {% else %}
+                            accept="application/pdf"
+                          {% endif %}>
+                        </div>
+                    {% endif %}
+                  {% elif field.name == 'id_alumno_titulo_electronico' %}
+                    <div class="mb-3">
+                        <input class="form-control border-0" type="hidden" id="{{ field.name }}"
+                        name="{{ field.name }}" value="{{ request.dataA.matricula_alumno }}" readonly>
                     </div>
-                  </div>
+                  {% endif %}
                 {% endfor %}
               </div>
               <!-- /.card-body -->
@@ -90,8 +104,8 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button class="btn btn-success btn-block" id="btnGenerar" type="submit">
-              Generar
+            <button class="btn btn-success btn-block" type="submit">
+              Enviar
             </button>
           </div>
         </form>

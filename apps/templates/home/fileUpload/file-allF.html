@@ -58,7 +58,8 @@
                   <td>Foto infantil b/n</td>
                   <td>
                     {% if request.files.foto_infantil_bn_titulo_electronico %}
-                      <a href="https://res.cloudinary.com/dbqioig0y/{{ request.files.foto_infantil_bn_titulo_electronico }}" target="_blank">Foto b/n</a>
+                      <a href="{{ request.files.foto_infantil_bn_titulo_electronico.url }}" target="_blank">Foto b/n</a>
+                      <img src="{{ request.files.foto_infantil_bn_titulo_electronico.url }}" alt="Foto b/n" width="100">  
                     {% else %}
                       <span>No hay archivo cargado</span>
                     {% endif %}

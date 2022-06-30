@@ -7,6 +7,7 @@ from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import User
 from cloudinary.models import CloudinaryField
+import uuid
 
 
 
@@ -52,23 +53,42 @@ class certificadoTitulacion(models.Model):
     periodo_escolar_init_certificado_titulacion = models.CharField(max_length=50, null=True)
     periodo_escolar_end_certificado_titulacion = models.CharField(max_length=50, null=True)
 
+idFileUser = uuid.uuid4()
 class tituloElectronico(models.Model):
     id_titulo_electronico = models.AutoField(primary_key=True)
-    id_alumno_titulo_electronico = models.ForeignKey(alumno, on_delete=models.CASCADE)
-    foto_infantil_bn_titulo_electronico = CloudinaryField('foto_infantil_bn_titulo_electronico')
-    foto_infantil_color_titulo_electronico = CloudinaryField('foto_infantil_color_titulo_electronico')
-    curp_titulo_electronico = CloudinaryField('curp_titulo_electronico')
-    acta_nacimiento_titulo_electronico = CloudinaryField('acta_nacimiento_titulo_electronico')
-    certificado_bachiller_titulo_electronico = CloudinaryField('certificado_bachiller_titulo_electronico')
-    tsu_titulo_electronico = CloudinaryField('tsu_titulo_electronico', null=True)
-    status_foto_infantil_bn_titulo_electronico = models.BooleanField(default=False, null=True)
-    status_foto_infantil_color_titulo_electronico = models.BooleanField(default=False, null=True)
-    status_curp_titulo_electronico = models.BooleanField(default=False, null=True)
-    status_acta_nacimiento_titulo_electronico = models.BooleanField(default=False, null=True)
-    status_certificado_bachiller_titulo_electronico = models.BooleanField(default=False, null=True)
-    status_tsu_titulo_electronico = models.BooleanField(default=False, null=True)
+    id_alumno_titulo_electronico = models.ForeignKey(alumno, on_delete=models.CASCADE, default='')
+    foto_infantil_bn_titulo_electronico = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Foto Infantil B/N')
+    foto_infantil_color_titulo_electronico = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Foto Infantil Color')
+    curp_titulo_electronico = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='CURP')
+    acta_nacimiento_titulo_electronico =  models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Acta de Nacimiento')
+    certificado_bachiller_titulo_electronico = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Certificado de Bachiller')
+    tsu_titulo_electronico = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='TSU')
+    status_foto_infantil_bn_titulo_electronico = models.BooleanField(blank=True, null=True)
+    status_foto_infantil_color_titulo_electronico = models.BooleanField(blank=True, null=True)
+    status_curp_titulo_electronico = models.BooleanField(blank=True, null=True)
+    status_acta_nacimiento_titulo_electronico = models.BooleanField(blank=True, null=True)
+    status_certificado_bachiller_titulo_electronico = models.BooleanField(blank=True, null=True)
+    status_tsu_titulo_electronico = models.BooleanField(blank=True, null=True)
+    comentarios_foto_infantil_bn_titulo_electronico = models.TextField(default='Sin comemtarios', blank=True, verbose_name='Comentarios Foto Infantil B/N')
+    comentarios_foto_infantil_color_titulo_electronico = models.TextField(default='Sin comemtarios', blank=True, verbose_name='Comentarios Foto Infantil Color')
+    comentarios_curp_titulo_electronico = models.TextField(default='Sin comemtarios', blank=True, verbose_name='Comentarios CURP')
+    comentarios_acta_nacimiento_titulo_electronico = models.TextField(default='Sin comemtarios', blank=True, verbose_name='Comentarios Acta de Nacimiento')
+    comentarios_certificado_bachiller_titulo_electronico = models.TextField(default='Sin comemtarios', blank=True, verbose_name='Comentarios Certificado de Bachiller')
+    comentarios_tsu_titulo_electronico = models.TextField(default='Sin comemtarios', blank=True, verbose_name='Comentarios TSU')
     created_at_titulo_electronico = models.DateTimeField(auto_now_add=True)
     updated_at_titulo_electronico = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        fila = 'ID_alumno: ' + str(self.id_alumno_titulo_electronico) + '\n'
+        return fila
+    def delete(self, using= None, keep_parents= False):
+        self.foto_infantil_bn_titulo_electronico.storage.delete(self.foto_infantil_bn_titulo_electronico.name)
+        self.foto_infantil_color_titulo_electronico.storage.delete(self.foto_infantil_color_titulo_electronico.name)
+        self.curp_titulo_electronico.storage.delete(self.curp_titulo_electronico.name)
+        self.acta_nacimiento_titulo_electronico.storage.delete(self.acta_nacimiento_titulo_electronico.name)
+        self.certificado_bachiller_titulo_electronico.storage.delete(self.certificado_bachiller_titulo_electronico.name)
+        self.tsu_titulo_electronico.storage.delete(self.tsu_titulo_electronico.name)
+        super().delete()
 
 class estadisticasTitulacion(models.Model):
     id_estadisticas_titulacion = models.AutoField(primary_key=True)

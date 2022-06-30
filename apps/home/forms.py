@@ -1,5 +1,6 @@
 from django import forms
 from .models import tituloElectronico
+from cloudinary.forms import CloudinaryJsFileField
 
 # class FormularioCertificado(forms.Form):
 
@@ -8,7 +9,7 @@ from .models import tituloElectronico
 #     periodo_escolar_end = forms.CharField(required=True, max_length=10)
 #     check = forms.BooleanField(required=True)
 
-class fileUploadForm(forms.Form):
+class fileUploadForm(forms.ModelForm):
     class Meta:
         model = tituloElectronico
         fields = '__all__'

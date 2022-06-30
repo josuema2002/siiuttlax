@@ -9,6 +9,9 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 
+from unipath import Path
+
+
 env = environ.Env(
     # set casting, default value
     DEBUG=(bool, True)
@@ -43,7 +46,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'apps.home'  # Enable the inner home (home)
+    'apps.home',  # Enable the inner home (home)
+    'cloudinary',
 ]
 
 MIDDLEWARE = [
@@ -74,6 +78,7 @@ TEMPLATES = [
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'apps.context_processors.cfg_assets_root',
+                'django.template.context_processors.media',
             ],
         },
     },
@@ -159,12 +164,14 @@ STATICFILES_DIRS = (
     os.path.join(CORE_DIR, 'apps/static'),
 )
 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media/')
+MEDIA_URL='/media/'
 
 #############################################################
 #############################################################
 
 cloudinary.config( 
-  cloud_name = "dbqioig0y", 
-  api_key = "219698394732672", 
-  api_secret = "wTXyYgmCAmPKCxY5_HYpr3NQXUQ" 
+  cloud_name = "appseed", 
+  api_key = "111222333",
+  api_secret = "TaDaaACsHgfhjGF" 
 )
