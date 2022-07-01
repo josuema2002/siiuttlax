@@ -2,6 +2,8 @@
 """
 Copyright (c) 2019 - present AppSeed.us
 """
+from asyncio.windows_events import NULL
+from codecs import register
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -53,6 +55,66 @@ def pages(request):
             if request.path.split('/')[-2] == 'estadisticas':
                 html_template = loader.get_template('home/estadisticas/' + load_template)
             elif request.path.split('/')[-2] == 'tituloElectronico':
+
+                i = 0
+                for alumnoD in alumnos:
+                    i += 1
+                    # obtener los documentos recibidos
+                    try:
+                        tituloED = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(alumnoD.matricula_alumno))
+                        count = 0
+                        if tituloED.acta_nacimiento_titulo_electronico:
+                            count += 1
+                        if tituloED.certificado_bachiller_titulo_electronico:
+                            count += 1
+                        if tituloED.curp_titulo_electronico:
+                            count += 1
+                        if tituloED.foto_infantil_bn_titulo_electronico:
+                            count += 1
+                        if tituloED.foto_infantil_color_titulo_electronico:
+                            count += 1
+                        request.alumnos[i-1].dr = count
+                    except:
+                        request.alumnos[i-1].dr = 0
+                    
+                    # obtener los documentos aceptados
+                    try:
+                        tituloED = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(alumnoD.matricula_alumno))
+                        count = 0
+                        if tituloED.status_acta_nacimiento_titulo_electronico:
+                            count += 1
+                        if tituloED.status_certificado_bachiller_titulo_electronico:
+                            count += 1
+                        if tituloED.status_curp_titulo_electronico:
+                            count += 1
+                        if tituloED.status_foto_infantil_bn_titulo_electronico:
+                            count += 1
+                        if tituloED.status_foto_infantil_color_titulo_electronico:
+                            count += 1
+                        request.alumnos[i-1].da = count
+                        request.alumnos[i-1].dporcentage = int((count * 100) / 6)
+                    except:
+                        request.alumnos[i-1].da = 0
+                        request.alumnos[i-1].dporcentage = int((0 * 100) / 6)
+
+                    # obtener los documentos pendientes
+                    try:
+                        tituloED = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(alumnoD.matricula_alumno))
+                        count = 0
+                        if tituloED.status_acta_nacimiento_titulo_electronico == None:
+                            count += 1
+                        if tituloED.status_certificado_bachiller_titulo_electronico == None:
+                            count += 1
+                        if tituloED.status_curp_titulo_electronico == None:
+                            count += 1
+                        if tituloED.status_foto_infantil_bn_titulo_electronico == None:
+                            count += 1
+                        if tituloED.status_foto_infantil_color_titulo_electronico == None:
+                            count += 1
+                        request.alumnos[i-1].dp = count
+                    except:
+                        request.alumnos[i-1].dp = 0
+
                 html_template = loader.get_template('home/tituloElectronico/' + load_template)
             elif request.path.split('/')[-2] == 'certificado':
                 
