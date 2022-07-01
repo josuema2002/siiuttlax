@@ -14,7 +14,7 @@ import uuid
 # Create your models here.
 
 class alumno(models.Model):
-    matricula_alumno = models.AutoField(primary_key=True)
+    matricula_alumno = models.CharField(primary_key=True, max_length=15)
     id_user_alumno = models.ForeignKey(User, on_delete=models.CASCADE)
     nombre_alumno = models.CharField(max_length=50)
     apellidop_alumno = models.CharField(max_length=50, default='')
@@ -31,7 +31,7 @@ class alumno(models.Model):
     estadiasIngLic_alumno = models.BooleanField(default=False)
 
 class empleado(models.Model):
-    matricula_empleado = models.AutoField(primary_key=True)
+    matricula_empleado = models.CharField(primary_key=True, max_length=15)
     id_user_empleado = models.ForeignKey(User, on_delete=models.CASCADE)
     nombre_empleado = models.CharField(max_length=50)
     apellido_empleado = models.CharField(max_length=50)

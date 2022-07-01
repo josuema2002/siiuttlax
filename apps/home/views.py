@@ -132,19 +132,17 @@ def pages(request):
                         dataA = alumno.objects.get(matricula_alumno=str(request.GET['matricula']))
                         request.dataA = dataA
                         request.dataA = dataA
-                    except tituloElectronico.DoesNotExist:
-                        #redireccionar a la pagina anterior
+
+                        request.form = fileUploadForm(request.POST or None, instance=files)
+                        if request.method == 'POST':
+                            if request.form.is_valid():
+                                form = request.form
+                                form.save()
+                                return HttpResponseRedirect(PATHPROJECT+'/tituloElectronico/titulo-allT.html')
+                            else:
+                                return HttpResponse(request.form.errors.as_json())
+                    except:
                         load_template = 'titulo-allT.html'
-                    
-                    request.form = fileUploadForm(request.POST or None, instance=files)
-                    if request.method == 'POST':
-                        if request.form.is_valid():
-                            form = request.form
-                            form.id_alumno_titulo_electronico_id = str(request.GET['matricula'])
-                            form.save()
-                            return HttpResponseRedirect(PATHPROJECT+'/tituloElectronico/titulo-allT.html')
-                        else:
-                            return HttpResponse(request.form.errors.as_json())
 
                 html_template = loader.get_template('home/tituloElectronico/' + load_template)
             elif request.path.split('/')[-2] == 'certificado':
@@ -205,7 +203,6 @@ def pages(request):
                     if request.method == 'POST':
                         if request.form.is_valid():
                             form = request.form
-                            form.id_alumno_titulo_electronico_id = matricula_alumno
                             form.save()
                             return HttpResponseRedirect(PATHPROJECT+'/fileUpload/file-allF.html')
                         else:

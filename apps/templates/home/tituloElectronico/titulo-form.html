@@ -60,6 +60,9 @@
               </div>
               <!-- /.card-header -->
               <div class="card-body">
+                <h2>
+                  {{ request.dataA.matricula_alumno }} - {{ request.dataA.nombre_alumno }}
+                </h2>
                 {% for field in request.form %}
                   {% if field.field.widget.input_type == 'file' %}
                     {% if field.name == 'tsu_titulo_electronico' %}
