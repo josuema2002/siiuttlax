@@ -68,12 +68,12 @@
                         {% else %}
                           Femenino
                         {% endif %}
-                      <td class="text-center">{{ alumno.dr }} / 6</td>
-                      <td class="text-center">{{ alumno.da }} / 6</td>
+                      <td class="text-center">{{ alumno.dr }} / {% if alumno.estadiasIngLic_alumno %}6{% else %}5{% endif %}</td>
+                      <td class="text-center">{{ alumno.da }} / {% if alumno.estadiasIngLic_alumno %}6{% else %}5{% endif %}</td>
                       <td class="text-center">{{ alumno.dp }}</td>
                       <td class="text-center">{{ alumno.dporcentage }} %</td>
                       <td class="text-center">
-                        <a href="{{ request.BASE }}/tituloElectronico/{{ alumno.matricula_alumno }}" class="btn btn-primary btn-sm">Ver documentos</a>
+                        <a href="{{ request.PATHPROJECT }}/tituloElectronico/titulo-form.html?matricula={{ alumno.matricula_alumno }}" class="btn btn-primary btn-sm">Ver documentos</a>
                       </td>
                     </tr>
                   {% endfor %}

@@ -62,7 +62,7 @@
               <div class="card-body">
                 {% for field in request.form %}
                   {% if field.field.widget.input_type == 'file' %}
-                    {% if field.name == 'TSU' %}
+                    {% if field.name == 'tsu_titulo_electronico' %}
                       {% if request.dataA.estadiasIngLic_alumno == True %}
                         <div class="mb-3">
                             <label for="{{ field.name }}" class="form-label">

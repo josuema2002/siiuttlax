@@ -73,6 +73,8 @@ def pages(request):
                             count += 1
                         if tituloED.foto_infantil_color_titulo_electronico:
                             count += 1
+                        if tituloED.tsu_titulo_electronico:
+                            count += 1
                         request.alumnos[i-1].dr = count
                     except:
                         request.alumnos[i-1].dr = 0
@@ -91,8 +93,13 @@ def pages(request):
                             count += 1
                         if tituloED.status_foto_infantil_color_titulo_electronico:
                             count += 1
+                        if tituloED.status_tsu_titulo_electronico:
+                            count += 1
                         request.alumnos[i-1].da = count
-                        request.alumnos[i-1].dporcentage = int((count * 100) / 6)
+                        if alumnoD.estadiasIngLic_alumno:
+                            request.alumnos[i-1].dporcentage = int((count * 100) / 6)
+                        else:
+                            request.alumnos[i-1].dporcentage = int((count * 100) / 5)
                     except:
                         request.alumnos[i-1].da = 0
                         request.alumnos[i-1].dporcentage = int((0 * 100) / 6)
@@ -111,9 +118,33 @@ def pages(request):
                             count += 1
                         if tituloED.status_foto_infantil_color_titulo_electronico == None:
                             count += 1
+                        if tituloED.status_tsu_titulo_electronico == None:
+                            count += 1
                         request.alumnos[i-1].dp = count
                     except:
-                        request.alumnos[i-1].dp = 0
+                        request.alumnos[i-1].dp = 'Todos'
+
+                
+                if load_template == 'titulo-form.html':
+                    try:
+                        files = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(request.GET['matricula']))
+                        request.files = files
+                        dataA = alumno.objects.get(matricula_alumno=str(request.GET['matricula']))
+                        request.dataA = dataA
+                        request.dataA = dataA
+                    except tituloElectronico.DoesNotExist:
+                        #redireccionar a la pagina anterior
+                        load_template = 'titulo-allT.html'
+                    
+                    request.form = fileUploadForm(request.POST or None, instance=files)
+                    if request.method == 'POST':
+                        if request.form.is_valid():
+                            form = request.form
+                            form.id_alumno_titulo_electronico_id = str(request.GET['matricula'])
+                            form.save()
+                            return HttpResponseRedirect(PATHPROJECT+'/tituloElectronico/titulo-allT.html')
+                        else:
+                            return HttpResponse(request.form.errors.as_json())
 
                 html_template = loader.get_template('home/tituloElectronico/' + load_template)
             elif request.path.split('/')[-2] == 'certificado':
