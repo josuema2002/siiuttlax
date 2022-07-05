@@ -1,5 +1,12 @@
 # Change Log
 
+
+## [1.0.7.1] - 2022-07-05
+### Improvements
+- Crud a archivos para titulo electronico
+- Crud de datos para titulo electronico
+- Mejora en migraciones
+
 ## [1.0.7.0] - 2022-06-16
 #### Improvements
 - Primeras adaptaciones para el sistema de titulaciones.

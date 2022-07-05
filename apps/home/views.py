@@ -186,20 +186,24 @@ def pages(request):
             matricula_alumno = dataA.matricula_alumno
             request.dataA = dataA
 
+            request.titleFormTituloElectronico = 'Subir'
+            try:
+                files = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(matricula_alumno))
+                request.files = files
+                request.titleFormTituloElectronico = 'Editar'
+            except tituloElectronico.DoesNotExist:
+                pass
+
             if request.path.split('/')[-2] == 'estadisticas' or request.path.split('/')[-2] == 'tituloElectronico' or request.path.split('/')[-2] == 'certificado' or request.path.split('/')[-2] == 'folio':
                 return HttpResponseRedirect('/404')
             elif request.path.split('/')[-2] == 'fileUpload':
                 
-                request.titleFormTituloElectronico = 'Subir'
-                try:
-                    files = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(matricula_alumno))
-                    request.files = files
-                    request.titleFormTituloElectronico = 'Editar'
-                except tituloElectronico.DoesNotExist:
-                    pass
 
                 if load_template == 'file-formF.html':
-                    request.form = fileUploadForm(request.POST or None, request.FILES or None)
+                    if request.titleFormTituloElectronico == 'Subir':
+                        request.form = fileUploadForm(request.POST or None, request.FILES or None)
+                    else:
+                        request.form = fileUploadForm(request.POST or None, request.FILES or None, instance=files)
                     if request.method == 'POST':
                         if request.form.is_valid():
                             form = request.form
@@ -214,10 +218,10 @@ def pages(request):
 
         return HttpResponse(html_template.render(context, request))
 
-    # except template.TemplateDoesNotExist:
+    except template.TemplateDoesNotExist:
 
-    #     html_template = loader.get_template('home/page-404.html')
-    #     return HttpResponse(html_template.render(context, request))
+        html_template = loader.get_template('home/page-404.html')
+        return HttpResponse(html_template.render(context, request))
 
     except Exception as e:
         request.error = e

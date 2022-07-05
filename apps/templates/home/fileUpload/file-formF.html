@@ -70,23 +70,33 @@
                             </label>
                             <input class="form-control border-0" type="file" id="{{ field.name }}"
                             name="{{ field.name }}" accept="apication/pdf">
+                            {% if field.value %}
+                              <a href="/media/{{ field.value }}" target="_blank">Ver archivo</a>
+                            {% else %}
+                              <a href="#" class="text-dark">No hay archivo</a>
+                            {% endif %}
                         </div>
                         {% endif %}
                     {% else %}
                     <div class="mb-3">
-                        <label for="{{ field.name }}" class="form-label">
-                            {{ field.label }}
-                        </label>
-                        <input class="form-control border-0" type="file" id="{{ field.name }}"
-                        name="{{ field.name }}" 
-                          {% if field.name == 'foto_infantil_bn_titulo_electronico' %}
-                            accept="image/jpeg, image/png, image/jpg"
-                          {% elif field.name == 'foto_infantil_color_titulo_electronico' %}
-                            accept="image/jpeg, image/png, image/jpg"
-                          {% else %}
-                            accept="application/pdf"
-                          {% endif %}>
-                        </div>
+                      <label for="{{ field.name }}" class="form-label">
+                          {{ field.label }}
+                      </label>
+                      <input class="form-control border-0" type="file" id="{{ field.name }}"
+                      name="{{ field.name }}" 
+                        {% if field.name == 'foto_infantil_bn_titulo_electronico' %}
+                          accept="image/jpeg, image/png, image/jpg"
+                        {% elif field.name == 'foto_infantil_color_titulo_electronico' %}
+                          accept="image/jpeg, image/png, image/jpg"
+                        {% else %}
+                          accept="application/pdf"
+                        {% endif %}>
+                        {% if field.value %}
+                          <a href="/media/{{ field.value }}" target="_blank">Ver archivo</a>
+                        {% else %}
+                          <a href="#" class="text-dark">No hay archivo</a>
+                        {% endif %}
+                    </div>
                     {% endif %}
                   {% elif field.name == 'id_alumno_titulo_electronico' %}
                     <div class="mb-3">
