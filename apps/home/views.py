@@ -17,7 +17,7 @@ from apps.home.models import alumno, empleado, certificadoTitulacion, tituloElec
 from django.contrib.auth.models import User
 
 #importar los forms
-from apps.home.forms import fileUploadForm
+from apps.home.forms import fileUploadForm, certificadoTitulacionForm
 
 
 PATHPROJECT = config.PATHPROJECT
@@ -131,7 +131,6 @@ def pages(request):
                         request.files = files
                         dataA = alumno.objects.get(matricula_alumno=str(request.GET['matricula']))
                         request.dataA = dataA
-                        request.dataA = dataA
 
                         request.form = fileUploadForm(request.POST or None, instance=files)
                         if request.method == 'POST':
@@ -147,14 +146,12 @@ def pages(request):
                 html_template = loader.get_template('home/tituloElectronico/' + load_template)
             elif request.path.split('/')[-2] == 'certificado':
                 
-                #     form = FormularioCertificado(request.POST)
-                #     if form.is_valid():
-                #         plan_estudios = form.cleaned_data['plan_estudios']
-                #         periodo_escolar_init = form.cleaned_data['periodo_escolar_init']
-                #         periodo_escolar_end = form.cleaned_data['periodo_escolar_end']
-                # else:
-                #     form = FormularioCertificado()
-                # request.form = form
+                if load_template == 'certificado-form.html':
+                    try:
+                        request.form = certificadoTitulacionForm(request.POST or None)
+                    except:
+                        load_template = 'certificado-allC.html'
+                
                 html_template = loader.get_template('home/certificado/' + load_template)
             elif request.path.split('/')[-2] == 'folio':
                 html_template = loader.get_template('home/folio/' + load_template)
@@ -164,18 +161,31 @@ def pages(request):
 
                 
                 # peticiones de ajax
-            elif request.path.split('/')[-2] == 'alumno':
-                #obtener los datos POST de alumnos
-                if request.method == 'POST':
+            elif request.path.split('/')[-1] == 'alumno1':
+                # obtener los datos POST de alumnos
+                if request.method == 'POST' and request.is_ajax():
                     #obtener los datos POST
                     datos = request.POST
                     #obtener la matricula
                     matricula = datos['matricula']
                     #obtener los datos del alumno con la matricula
-                    alumnoOnli = alumno.objects.get(matricula=matricula)
-                    return JsonResponse({"alumnoOnli":alumnoOnli}, status=200)
+                    alumnoOnli = alumno.objects.get(matricula_alumno=matricula)
+                    return JsonResponse({
+                        'matricula_alumno_titulacion': alumnoOnli.matricula_alumno, 
+                        'nombre_alumno_titulacion': alumnoOnli.nombre_alumno, 
+                        'apellidop_alumno_titulacion': alumnoOnli.apellidop_alumno, 
+                        'apellidom_alumno_titulacion': alumnoOnli.apellidom_alumno,
+                        'anio_plan_estudios_titulacion': 0,
+                        'periodo_escolar_init_titulacion': 0,
+                        'periodo_escolar_end_titulacion': 0,
+                        'carrera_titulacion': 0,
+                        'area_carrera_titulacion': 0,
+                        'tipo_carrera_titulacion': 0,
+                        'jefe_area_servicios_escolares_titulacion': 0,
+                        'director_carrera_titulacion': 0,
+                    })
                 else :
-                    return HttpResponseRedirect('/404')
+                    return HttpResponseRedirect('/404/')
 
 
                 # default

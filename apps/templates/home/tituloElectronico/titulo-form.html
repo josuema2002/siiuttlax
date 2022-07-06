@@ -72,7 +72,13 @@
                           <hr>
                           <div class="mb-1 row">
                               <div class="col-2">
-                                  <a href="">Ver</a>
+                                  {% if field.value %}
+                                    <a href="{{ field.value.url }}" target="_blank">Ver</a>
+                                  {% else %}
+                                  <p>
+                                    No se ha subido el documento
+                                  </p>
+                                  {% endif %}
                               </div>
                               <div class="col-3">
                                 {% for range in request.form %}
@@ -121,7 +127,13 @@
                         <hr>
                         <div class="mb-1 row">
                             <div class="col-2">
-                                <a href="">Ver</a>
+                              {% if field.value %}
+                                <a href="{{ field.value.url }}" target="_blank">Ver</a>
+                              {% else %}
+                              <p>
+                                No se ha subido el documento
+                              </p>
+                              {% endif %}
                             </div>
                             <div class="col-3">
                               {% for range in request.form %}

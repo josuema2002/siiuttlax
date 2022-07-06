@@ -51,10 +51,18 @@ class empleado(models.Model):
 
 class certificadoTitulacion(models.Model):
     id_certificado_titulacion = models.AutoField(primary_key=True)
-    id_alumno_certificado_titulacion = models.ForeignKey(alumno, on_delete=models.CASCADE)
-    plan_estudio_certificado_titulacion = models.CharField(max_length=50)
-    periodo_escolar_init_certificado_titulacion = models.CharField(max_length=50, null=True)
-    periodo_escolar_end_certificado_titulacion = models.CharField(max_length=50, null=True)
+    matricula_alumno_titulacion = models.CharField(max_length=15, default='')
+    nombre_alumno_titulacion = models.CharField(max_length=50, default='')
+    apellidop_alumno_titulacion = models.CharField(max_length=50, default='')
+    apellidom_alumno_titulacion = models.CharField(max_length=50, default='')
+    anio_plan_estudios_titulacion = models.IntegerField(default=0)
+    periodo_escolar_init_titulacion = models.CharField(max_length=50, default='')
+    periodo_escolar_end_titulacion = models.CharField(max_length=50, default='')
+    carrera_titulacion = models.CharField(max_length=50, default='')
+    area_carrera_titulacion = models.CharField(max_length=50, default='')
+    tipo_carrera_titulacion = models.CharField(max_length=50, default='')
+    jefe_area_servicios_escolares_titulacion = models.CharField(max_length=50, default='')
+    director_carrera_titulacion = models.CharField(max_length=50, default='')
 
 idFileUser = uuid.uuid4()
 class tituloElectronico(models.Model):

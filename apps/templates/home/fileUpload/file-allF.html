@@ -37,13 +37,19 @@
           <div class="card-header d-flex flex-column">
             <h3 class="card-title">Tabla de gestión de los documentos</h3>
             <div class="d-flex align-items-center justify-content-around mb-3 mt-3 border-bottom p-3 bg-light shadow-sm">
-              <i class="fas fa-check text-success"></i> Archivo aceptado
-              <i class="fas fa-times text-danger"></i> Archivo rechazado
-              <i class="fas fa-clock text-warning"></i> Archivo en revisión o en espera
+              <div>
+                <i class="fas fa-check text-success"></i> Archivo aceptado
+              </div>
+              <div>
+                <i class="fas fa-times text-danger"></i> Archivo rechazado
+              </div>
+              <div>
+                <i class="fas fa-clock text-warning"></i> Archivo en revisión o en espera
+              </div>
             </div>
           </div>
           <!-- /.card-header -->
-          <div class="card-body table-responsive p-0">
+          <div class="card-body table-responsive">
             <table class="table table-head-fixed text-nowrap">
               <thead>
                 <tr>
@@ -75,7 +81,7 @@
                     <i class="fas fa-clock text-warning"></i>
                     {% endif %}
                   </td>
-                  <td>No hay comentarios</td>
+                  <td>{{ request.files.comentarios_foto_infantil_bn_titulo_electronico }}</td>
                 </tr>
                 <tr>
                   <td>Foto infantil color</td>
@@ -97,7 +103,9 @@
                     <i class="fas fa-clock text-warning"></i>
                     {% endif %}
                   </td>
-                  <td>No hay comentarios</td>
+                  <td>
+                    {{ request.files.comentarios_foto_infantil_color_titulo_electronico }}
+                  </td>
                 </tr>
                 <tr>
                   <td>Curp</td>
@@ -119,7 +127,9 @@
                     <i class="fas fa-clock text-warning"></i>
                     {% endif %}
                   </td>
-                  <td>No hay comentarios</td>
+                  <td>
+                    {{ request.files.comentarios_curp_titulo_electronico }}
+                  </td>
                 </tr>
                 <tr>
                   <td>Acta de nacimiento</td>
@@ -141,7 +151,9 @@
                     <i class="fas fa-clock text-warning"></i>
                     {% endif %}
                   </td>
-                  <td>No hay comentarios</td>
+                  <td>
+                    {{ request.files.comentarios_acta_nacimiento_titulo_electronico }}
+                  </td>
                 </tr>
                 <tr>
                   <td>Certificado de bachillerato</td>
@@ -163,7 +175,9 @@
                     <i class="fas fa-clock text-warning"></i>
                     {% endif %}
                   </td>
-                  <td>No hay comentarios</td>
+                  <td>
+                    {{ request.files.comentarios_certificado_bachiller_titulo_electronico }}
+                  </td>
                 </tr>
                 <tr>
                   <td>Certificado de titulación TSU</td>
@@ -185,7 +199,9 @@
                     <i class="fas fa-clock text-warning"></i>
                     {% endif %}
                   </td>
-                  <td>No hay comentarios</td>
+                  <td>
+                    {{ request.files.comentarios_tsu_titulo_electronico }}
+                  </td>
                 </tr>
               </tbody>
             </table>

@@ -10,7 +10,9 @@
 {% endblock stylesheets %}
 
 {% block content %} 
-
+<script>
+  var dataA = '';
+</script>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
     <!-- Content Header (Page header) -->
@@ -74,7 +76,7 @@
             <!-- general form elements disabled -->
             <div class="card card-warning">
               <div class="card-header">
-                <h3 class="card-title">Verifique que los datos del alumno</h3>
+                <h3 class="card-title">Verifique los datos del alumno</h3>
               </div>
               {% if request.form.errors %}
                 <div class="alert alert-danger">
@@ -88,45 +90,30 @@
               <!-- /.card-header -->
               <div class="card-body">
                 <form>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Numbre</label>
-                        <p class="fs-1">
-                          Luis
-                        </p>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Apellido paterno</label>
-                        <p class="fs-1">
-                          Pérez
-                        </p>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Apellido materno</label>
-                        <p class="fs-1">
-                          García
-                        </p>
-                      </div>
-                    </div>
-                  </div>
+                  {% for field in request.form %}
                   <div class="row">
                     <div class="col-sm-12">
                       <div class="form-group">
-                        <label>Plan de estudios</label>
-                        <input type="number" min="2000" class="form-control" placeholder="2022">
+                        <label id="{{ field.name }}L">
+                          <script>
+                            setTimeout(()=>{
+                              $('#{{ field.name }}L').html('{{ field.label }}'.split(" ").slice(0, -1).join(" "));
+                              $('#{{ field.name }}').attr('placeholder', '{{ field.label }}'.split(" ").slice(0, -1).join(" "));
+
+                              setInterval(() => {
+                                dataA  &&
+                                $('#{{ field.name }}').val(dataA['{{ field.name }}'])
+                              }, 500);
+                              
+                            }, 300);
+                          </script>
+                        </label>
+                        <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.name }}" name="{{ field.name }}" placeholder="{{ field.label }}" value="{{ field.value }}">
                       </div>
                     </div>
                   </div>
+                  {% endfor %}
+                  
                   <h5>Periodo escolar</h5>
                   <div class="row">
                     <div class="col-sm-6">
@@ -234,9 +221,7 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button class="btn btn-success d-none btn-block" id="btnGenerar" type="submit">
-              Generar
-            </button>
+            <input class="btn btn-success d-none btn-block" id="btnGenerar" type="submit" value="Generar"/>
           </div>
         </form>
         <!-- /.card -->
@@ -264,21 +249,23 @@
           format: 'MM/YYYY'
       });
       $('#selectA').on('change', function() {
-        $('#btnGenerar').removeClass('d-none');
-
         //peticion ajax para obtener los datos del alumno en python
-        $('#formNewCertificado').removeClass('d-none');
         $.ajax({
-          url: '{{ request.PATHPROJECT }}/alumno/index.html',
+          url: '{{ request.PATHPROJECT }}/alumno1',
           type: 'POST',
+          dataType: 'json',
           data: {
+            'csrfmiddlewaretoken': '{{ csrf_token }}',
             'matricula': $('#selectA').val()
           },
-          success: function(data) {
-            console.log(data);
+          success: function(resp) {
+            $('#formNewCertificado').removeClass('d-none');
+            $('#btnGenerar').removeClass('d-none');
+            console.log(resp);
+            dataA = resp;
           },
-          error: function(data) {
-            console.log(data);
+          error: function(err) {
+            console.log(err);
           }
         });
 
