@@ -12,6 +12,7 @@
 {% block content %} 
 <script>
   var dataA = '';
+  var state = 0;
 </script>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -37,7 +38,7 @@
     <section class="content">
       <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
-        <form action="" class="card card-default" method="POST">
+        <form action="" class="card card-default" id="form" method="POST">
           {% csrf_token %}
           <div class="card-header">
             <h3 class="card-title">Generar certificado de titulación</h3>
@@ -69,15 +70,6 @@
                 <!-- /.form-group -->
               </div>
               <!-- /.col -->
-            </div>
-            <!-- /.row -->
-            <!-- right column -->
-          <div class="col-md-12 d-none" id="formNewCertificado">
-            <!-- general form elements disabled -->
-            <div class="card card-warning">
-              <div class="card-header">
-                <h3 class="card-title">Verifique los datos del alumno</h3>
-              </div>
               {% if request.form.errors %}
                 <div class="alert alert-danger">
                   <ul>
@@ -85,133 +77,150 @@
                       <li>{{ error }}</li>
                     {% endfor %}
                   </ul>
+                  <p>
+                    Intente de nuevo, pero con datos correctos.
+                  </p>
                 </div>
               {% endif %}
+            </div>
+            <!-- /.row -->
+            <!-- right column -->
+          <div class="col-md-12 d-none" id="fieldsNewCertificado">
+            <!-- general form elements disabled -->
+            <div class="card card-warning">
+              <div class="card-header">
+                <h3 class="card-title">Verifique los datos del alumno</h3>
+              </div>
               <!-- /.card-header -->
               <div class="card-body">
-                <form>
-                  {% for field in request.form %}
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <div class="form-group">
-                        <label id="{{ field.name }}L">
-                          <script>
-                            setTimeout(()=>{
-                              $('#{{ field.name }}L').html('{{ field.label }}'.split(" ").slice(0, -1).join(" "));
-                              $('#{{ field.name }}').attr('placeholder', '{{ field.label }}'.split(" ").slice(0, -1).join(" "));
-
-                              setInterval(() => {
-                                dataA  &&
-                                $('#{{ field.name }}').val(dataA['{{ field.name }}'])
-                              }, 500);
-                              
-                            }, 300);
-                          </script>
-                        </label>
-                        <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.name }}" name="{{ field.name }}" placeholder="{{ field.label }}" value="{{ field.value }}">
-                      </div>
-                    </div>
-                  </div>
-                  {% endfor %}
-                  
-                  <h5>Periodo escolar</h5>
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Inicio:</label>
-                        <div class="input-group date" id="init" data-target-input="nearest">
-                          <input type="text" placeholder="09/2020" class="form-control datetimepicker-input" data-target="#init"/>
-                            <div class="input-group-append" data-target="#init" data-toggle="datetimepicker">
-                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
-                            </div>
-                        </div>
-                      </div>
-                    </div>
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <label>Fin:</label>
-                        <div class="input-group date" id="end" data-target-input="nearest">
-                          <input type="text" placeholder="08/2022" class="form-control datetimepicker-input" data-target="#end"/>
-                          <div class="input-group-append" data-target="#end" data-toggle="datetimepicker">
-                              <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                {% for field in request.form %}
+                  {% if field.name == 'periodo_escolar_init_titulacion' %}
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label id="{{ field.name }}L">
+                            <script>
+                              setTimeout(()=>{
+                                $('#{{ field.name }}L').html('{{ field.label }}'.split(" ").slice(0, -1).join(" "));
+                                $('#{{ field.name }}').attr('placeholder', '{{ field.label }}'.split(" ").slice(0, -1).join(" "));
+  
+                                setInterval(() => {
+                                  dataA && state == 1 &&
+                                  $('#{{ field.name }}').val(dataA['{{ field.name }}'])
+                                }, 500);
+                                
+                              }, 300);
+                            </script>
+                          </label>
+                          <div class="input-group date" id="init" data-target-input="nearest">
+                            <input type="text" placeholder="09/2020" class="form-control datetimepicker-input" data-target="#init" id="{{ field.name }}" name="{{ field.name }}"/>
+                              <div class="input-group-append" data-target="#init" data-toggle="datetimepicker">
+                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                              </div>
                           </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                  <div class="row">
-                    {% if alumno.estadiasTSU_alumno == False %}
-                    <div class="col-sm-6">
-                      <!-- text input -->
-                      <div class="form-group">
-                        <label>Carrera</label>
-                        <input type="text" class="form-control" placeholder="Tecnologias de Información">
-                      </div>
-                    </div>
-                    {% else %}
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <label>Area de la carrera</label>
-                        <input type="text" class="form-control" placeholder="Desarrollo de Software Multiplataforma">
-                      </div>
-                    </div>
-                    {% endif %}
-                    <div class="col-sm-6">
-                      <div class="form-group">
-                        <label>Tipo de carrera</label>
-                        <input type="text" class="form-control" placeholder="Tecnico Superior Universitario">
-                      </div>
-                    </div>
-                  </div>
-
-                  <h5>Calificaciones</h5>
-
-                  <table class="table table-bordered mb-3">
-                    <thead class="thead-dark">
-                      <tr>
-                        <th>Materia</th>
-                        <th>Calificación</th>
-                      </tr>
-                    </thead>
-                    <tbody class="table-striped">
-                      <tr>
-                        <td>Matematicas</td>
-                        <td>10</td>
-                      </tr>
-                      <tr>
-                        <td>Español</td>
-                        <td>10</td>
-                      </tr>
-                    </tbody>
-                  </table>
-
-                  <div class="row">
-                    <div class="col-sm-6">
-                      <!-- checkbox -->
-                      <div class="form-group">
-                        <div class="form-check">
-                          <input class="form-check-input" type="checkbox" id="check">
-                          <label class="form-check-label">Acepto que los datos estan bien.</label>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div class="row">
-                    <div class="col-sm-12">
-                      <!-- checkbox -->
-                      <div class="form-group">
-                        <div class="form-check bg-warning rounded">
-                          <label class="form-check-label">
-                            Si los datos no son correctos, comunicarse con el area indicada.
+                  {% elif field.name == 'periodo_escolar_end_titulacion' %}
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <!-- text input -->
+                        <div class="form-group">
+                          <label id="{{ field.name }}L">
+                            <script>
+                              setTimeout(()=>{
+                                $('#{{ field.name }}L').html('{{ field.label }}'.split(" ").slice(0, -1).join(" "));
+                                $('#{{ field.name }}').attr('placeholder', '{{ field.label }}'.split(" ").slice(0, -1).join(" "));
+  
+                                setInterval(() => {
+                                  dataA && state == 1 &&
+                                  $('#{{ field.name }}').val(dataA['{{ field.name }}'])
+                                }, 500);
+                                
+                              }, 300);
+                            </script>
                           </label>
+                          <div class="input-group date" id="end" data-target-input="nearest">
+                            <input type="text" placeholder="09/2020" class="form-control datetimepicker-input" data-target="#end" id="{{ field.name }}" name="{{ field.name }}"/>
+                              <div class="input-group-append" data-target="#end" data-toggle="datetimepicker">
+                                  <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                              </div>
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
+                  {% else %}
+                    <div class="row">
+                      <div class="col-sm-12">
+                        <div class="form-group">
+                          <label id="{{ field.name }}L">
+                            <script>
+                              setTimeout(()=>{
+                                $('#{{ field.name }}L').html('{{ field.label }}'.split(" ").slice(0, -1).join(" "));
+                                $('#{{ field.name }}').attr('placeholder', '{{ field.label }}'.split(" ").slice(0, -1).join(" "));
+  
+                                setInterval(() => {
+                                  dataA && state == 1 &&
+                                  $('#{{ field.name }}').val(dataA['{{ field.name }}'])
+                                }, 500);
+                                
+                              }, 300);
+                            </script>
+                          </label>
+                          <input type="{{ field.field.widget.input_type }}" class="form-control" id="{{ field.name }}" name="{{ field.name }}" placeholder="{{ field.label }}" value="{{ field.value }}">
+                        </div>
+                      </div>
+                    </div>
+                  {% endif %}
+                {% endfor %}
+                
+                <h5>Calificaciones</h5>
 
-                </form>
+                <table class="table table-bordered mb-3">
+                  <thead class="thead-dark">
+                    <tr>
+                      <th>Materia</th>
+                      <th>Calificación</th>
+                    </tr>
+                  </thead>
+                  <tbody class="table-striped">
+                    <tr>
+                      <td>Matematicas</td>
+                      <td>10</td>
+                    </tr>
+                    <tr>
+                      <td>Español</td>
+                      <td>10</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="row">
+                  <div class="col-sm-6">
+                    <!-- checkbox -->
+                    <div class="form-group">
+                      <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="check">
+                        <label class="form-check-label">Acepto que los datos estan bien.</label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <div class="row">
+                  <div class="col-sm-12">
+                    <!-- checkbox -->
+                    <div class="form-group">
+                      <div class="form-check bg-warning rounded">
+                        <label class="form-check-label">
+                          Si los datos no son correctos, comunicarse con el area indicada.
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
               </div>
               <!-- /.card-body -->
             </div>
@@ -221,7 +230,9 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <input class="btn btn-success d-none btn-block" id="btnGenerar" type="submit" value="Generar"/>
+            <button class="btn btn-success btn-block d-none" id="btnGenerar" type="submit">
+            Generar
+          </button>
           </div>
         </form>
         <!-- /.card -->
@@ -259,10 +270,14 @@
             'matricula': $('#selectA').val()
           },
           success: function(resp) {
-            $('#formNewCertificado').removeClass('d-none');
+            $('#fieldsNewCertificado').removeClass('d-none');
             $('#btnGenerar').removeClass('d-none');
             console.log(resp);
             dataA = resp;
+            state = 1;
+            setTimeout(function(){
+              state = 0;
+            }, 2000);
             
             try {
               // jsPdf
@@ -562,14 +577,12 @@
               doc.text(margins.left + 56, 3 + margins.top, 'CERTIFICADO DE ESTUDIOS');
               doc.setFontSize(9);
               doc.setFont('avantgarde', 'normal');
-              doc.text(margins.left + 40, 8 + margins.top,
-                `La Universidad Tecnológica certifica que según constancias existentes en el archivo escolar, el C. ${dataA.nombre_alumno_titulacion} ${dataA.apellidop_alumno_titulacion} ${dataA.apellidom_alumno_titulacion} con matrícula ${dataA.matricula_alumno_titulacion} cursó y aprobó las asignaturas que integran el plan de estudios ${dataA.anio_plan_estudios_titulacion} en el periodo escolar ${dataA.periodo_escolar_init_titulacion} - ${dataA.periodo_escolar_end_titulacion} de la carrera de ${dataA.tipo_carrera_titulacion} en ${dataA.carrera_titulacion} Area ${dataA.area_carrera_titulacion} obteniendo las calificaciones finales que a continuación se anotan:`,
-                { 
-                  align: 'justify',
-                  maxWidth: 100,
-                });
-              doc.line(margins.left, margins.top + 34.85, margins.left + 146, margins.top + 34.85, 'FD');
+              const textInit = `La Universidad Tecnológica certifica que según constancias existentes en el archivo escolar, el C. ${dataA.nombre_alumno_titulacion} ${dataA.apellidop_alumno_titulacion} ${dataA.apellidom_alumno_titulacion} con matrícula ${dataA.matricula_alumno_titulacion} cursó y aprobó las asignaturas que integran el plan de estudios ${dataA.anio_plan_estudios_titulacion} en el periodo escolar ${dataA.periodo_escolar_init_titulacion} - ${dataA.periodo_escolar_end_titulacion} de la carrera de ${dataA.tipo_carrera_titulacion} en ${dataA.carrera_titulacion} Area ${dataA.area_carrera_titulacion} obteniendo las calificaciones finales que a continuación se anotan:`
+              doc.text(margins.left + 40, 8 + margins.top, textInit,{ align: 'justify', maxWidth: 105});
+              
+              doc.setLineWidth(0.5);
               doc.line(margins.left, margins.top + 35, margins.left + 146, margins.top + 35, 'FD');
+              doc.setLineWidth(0.3);
               
               // tabla de calificaciones
               doc.line(margins.left, margins.top + 40, margins.left + 146, margins.top + 40, 'FD'); // - 1
@@ -1041,10 +1054,61 @@
               doc.line(margins.left, alturaNew + 20, margins.left + 65, alturaNew + 20, 'FD'); // - 1
               doc.line(margins.left + 85, alturaNew + 20, margins.left + 146, alturaNew + 20, 'FD'); // - 2
 
-              doc.text(margins.left + 5, alturaNew + 24, 'Arq. Alfredo Ajuria Huerta', { align: 'center', maxWidth: 55 });
-              doc.text(margins.left + 90, alturaNew + 24, 'M. en C. Yesenia Ricón Enríquez', { align: 'center', maxWidth: 135 });
+              doc.text(margins.left + 32.5, alturaNew + 24, 'Arq. Alfredo Ajuria Huerta', { align: 'center', maxWidth: 55 });
+              doc.text(margins.left + 117.5, alturaNew + 24, 'M. en C. Yesenia Ricón Enríquez', { align: 'center', maxWidth: 135 });
+
+              doc.text(margins.left + 32.5, alturaNew + 29, 'Jefe del Departamento de Servicios Escolares', { align: 'center', maxWidth: 55 });
+              doc.text(margins.left + 117.5, alturaNew + 29, `Directora de la Carrera de ${dataA.carrera_titulacion} Area ${dataA.area_carrera_titulacion}`, { align: 'center', maxWidth: 135 });
               
 
+              //Ultima tabla
+              const newMargins = {
+                left: margins.left - 10,
+                right: margins.left + 146 + 10,
+              }
+              doc.line(newMargins.left, alturaNew + 50, newMargins.right, alturaNew + 50, 'FD'); // - 1
+              doc.line(newMargins.left, alturaNew + 50, newMargins.left, alturaNew + 50 + 10, 'FD'); // | 2
+              doc.line(newMargins.right, alturaNew + 50, newMargins.right, alturaNew + 50 + 10, 'FD'); // | 3
+              doc.line(newMargins.left, alturaNew + 54, newMargins.right, alturaNew + 54, 'FD'); // - 4
+              doc.line(newMargins.left, alturaNew + 57, newMargins.right, alturaNew + 57, 'FD'); // - 5
+              doc.line(newMargins.left, alturaNew + 60, newMargins.right, alturaNew + 60, 'FD'); // - 6
+
+              doc.line(newMargins.left + 30, alturaNew + 54, newMargins.left + 30, alturaNew + 60, 'FD'); // | 7
+              doc.line(newMargins.left + 60, alturaNew + 54, newMargins.left + 60, alturaNew + 60, 'FD'); // | 8
+              doc.line(newMargins.left + 68, alturaNew + 54, newMargins.left + 68, alturaNew + 60, 'FD'); // | 9
+              doc.line(newMargins.left + 98, alturaNew + 54, newMargins.left + 98, alturaNew + 60, 'FD'); // | 10
+              doc.line(newMargins.left + 102, alturaNew + 54, newMargins.left + 102, alturaNew + 60, 'FD'); // | 11
+              doc.line(newMargins.left + 132, alturaNew + 54, newMargins.left + 132, alturaNew + 60, 'FD'); // | 12
+              doc.line(newMargins.left + 136, alturaNew + 54, newMargins.left + 136, alturaNew + 60, 'FD'); // | 13
+              
+              doc.setFontSize(5);
+              doc.setFont('arial', 'bold');
+              doc.text(newMargins.left + 75, alturaNew + 53, 'DESCRIPCIÓN DE LA ESCALA ALFANUMÉRICA', { align: 'center', maxWidth: newMargins.right }); // T 1
+
+              doc.setFont('arial', 'normal');
+              doc.text(newMargins.left + 2, alturaNew + 56.5, 'Asignaturas No integradoras', { align: 'left' }); // T 2
+              doc.text(newMargins.left + 2, alturaNew + 59.5, 'Asignaturas Integradoras', { align: 'left' }); // T 3
+
+              doc.text(newMargins.left + 30 + 2, alturaNew + 56.5, 'AU = Autónomo', { align: 'left' }); // T 4
+              doc.text(newMargins.left + 30 + 2, alturaNew + 59.5, 'CA = Competente Autónomo', { align: 'left' }); // T 5
+
+              doc.text(newMargins.left + 60 + 3, alturaNew + 56.5, '10', { align: 'left' }); // T 6
+              doc.text(newMargins.left + 60 + 3, alturaNew + 59.5, '10', { align: 'left' }); // T 7
+
+              doc.text(newMargins.left + 68 + 2, alturaNew + 56.5, 'DE = Destacado', { align: 'left' }); // T 8
+              doc.text(newMargins.left + 68 + 2, alturaNew + 59.5, 'CD = Competente Destacado', { align: 'left' }); // T 9
+
+              doc.text(newMargins.left + 98 + 1.5, alturaNew + 56.5, '9', { align: 'left' }); // T 10
+              doc.text(newMargins.left + 98 + 1.5, alturaNew + 59.5, '9', { align: 'left' }); // T 11
+
+              doc.text(newMargins.left + 102 + 2, alturaNew + 56.5, 'SA = Satisfactorio', { align: 'left' }); // T 12
+              doc.text(newMargins.left + 102 + 2, alturaNew + 59.5, 'CO = Competente', { align: 'left' }); // T 13
+
+              doc.text(newMargins.left + 132 + 1.5, alturaNew + 56.5, '8', { align: 'left' }); // T 14
+              doc.text(newMargins.left + 132 + 1.5, alturaNew + 59.5, '8', { align: 'left' }); // T 15
+
+              doc.text(newMargins.left + 136 + 2, alturaNew + 56.5, 'NA = No Acreditado', { align: 'left' }); // T 16
+              doc.text(newMargins.left + 136 + 2, alturaNew + 59.5, 'NA = No Acreditado', { align: 'left' }); // T 17
 
 
 
@@ -1060,6 +1124,23 @@
         });
 
       });
+    
+      //evento a boton generar
+      $('#form').on('submit', (e)=> {
+        e.preventDefault();
+
+        //recorrer cada input del formulario
+        errors = 0
+        $('#form input').each(function(index, value) {
+          var input
+          if(($(this).val() == '' || $(this).val() == undefined || $(this).val() == null) && $(this).attr('name')) {
+            //input[$(this).attr('name')] = $(this).val();
+
+            errors++;
+          }
+        });
+        errors > 0 ? alert('Faltan datos') : alert('Generando...');
+      })
     }
   )
 </script>
