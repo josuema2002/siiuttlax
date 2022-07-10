@@ -147,10 +147,12 @@ def pages(request):
             elif request.path.split('/')[-2] == 'certificado':
                 
                 if load_template == 'certificado-form.html':
-                    try:
-                        request.form = certificadoTitulacionForm(request.POST or None)
-                    except:
-                        load_template = 'certificado-allC.html'
+                    request.form = certificadoTitulacionForm(request.POST or None)
+                    if request.method == 'POST' and request.is_ajax():
+                        if request.form.is_valid():
+                            form = request.form
+                            form.save()
+                    
                 
                 html_template = loader.get_template('home/certificado/' + load_template)
             elif request.path.split('/')[-2] == 'folio':
@@ -160,7 +162,7 @@ def pages(request):
                 html_template = loader.get_template('home/fileUpload/' + load_template)
 
                 
-                # peticiones de ajax
+                # peticiones de ajax externas
             elif request.path.split('/')[-1] == 'alumno1':
                 # obtener los datos POST de alumnos
                 if request.method == 'POST' and request.is_ajax():
@@ -183,6 +185,7 @@ def pages(request):
                         'tipo_carrera_titulacion': 0,
                         'jefe_area_servicios_escolares_titulacion': 0,
                         'director_carrera_titulacion': 0,
+                        'calificaciones_titulacion': '[{"materia": "Matematicas", "calificacion": 10},{"materia": "Español", "calificacion": 9},{"materia": "Historia", "calificacion": 8}]'
                     })
                 else :
                     return HttpResponseRedirect('/404/')

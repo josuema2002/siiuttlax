@@ -63,6 +63,7 @@ class certificadoTitulacion(models.Model):
     tipo_carrera_titulacion = models.CharField(max_length=50, default='')
     jefe_area_servicios_escolares_titulacion = models.CharField(max_length=50, default='')
     director_carrera_titulacion = models.CharField(max_length=50, default='')
+    calificaciones_titulacion = models.TextField(default='')
 
 idFileUser = uuid.uuid4()
 class tituloElectronico(models.Model):

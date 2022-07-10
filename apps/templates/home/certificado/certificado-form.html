@@ -38,7 +38,7 @@
     <section class="content">
       <div class="container-fluid">
         <!-- SELECT2 EXAMPLE -->
-        <form action="" class="card card-default" id="form" method="POST">
+        <form action="" class="card card-default" id="form" method="GET">
           {% csrf_token %}
           <div class="card-header">
             <h3 class="card-title">Generar certificado de titulación</h3>
@@ -150,6 +150,14 @@
                         </div>
                       </div>
                     </div>
+                  {% elif field.name == 'calificaciones_titulacion' %}
+                    <script>
+                      setInterval(() => {
+                        $('#{{ field.name }}').val(JSON.stringify(calificaciones))
+                      }, 500);
+                    </script>
+                    <!-- <input type="text" placeholder="-" class="w-100" id="{{ field.name }}" name="{{ field.name }}"/> -->
+                    <textarea name="" id="{{ field.name }}" class="w-100" rows="5"></textarea>
                   {% else %}
                     <div class="row">
                       <div class="col-sm-12">
@@ -177,22 +185,107 @@
                 
                 <h5>Calificaciones</h5>
 
+                <div class="btn btn-success" onclick="addCali()">
+                  <i class="fas fa-plus px-1"></i> Agregar materia
+                </div>
+                <script>
+                  function addCali() {
+                    var cali = {
+                      'materia': '',
+                      'calificacion': 0
+                    }
+                    calificaciones.push(cali)
+
+                    $('#tableCali').append(
+                      '<tr>' +
+                        '<td>' +
+                          '<input type="text" class="form-control materia" name="materia[]" placeholder="Materia">' +
+                        '</td>' +
+                        '<td>' +
+                          '<input type="text" class="form-control calificacion" name="calificacion[]" placeholder="Calificacion">' +
+                        '</td>' +
+                        '<td>' +
+                          '<div class="btn btn-danger" onclick="deleteCali(this)" mat=""><i class="fas fa-trash"></i></div>' +
+                        '</td>' +
+                      '</tr>'
+                    )
+
+                    $('.materia').each(function(index, el) {
+                      //cada vez que se agrega una materia se edite el array de calificaciones
+                      el.onkeyup = function(event) {
+                        calificaciones[index].materia = $(this).val().toString();
+                        el.parentElement.parentElement.children[2].children[0].setAttribute('mat', $(this).val().toString());
+                      }
+                    });
+                    $('.calificacion').each(function(index, el) {
+                      //cada vez que se agrega una materia se edite el array de calificaciones
+                      el.onkeyup = function(event) {
+                        calificaciones[index].calificacion = parseInt($(this).val());
+                      }
+                    });
+                  }
+                </script>
                 <table class="table table-bordered mb-3">
                   <thead class="thead-dark">
                     <tr>
                       <th>Materia</th>
                       <th>Calificación</th>
+                      <th>Eliminar</th>
                     </tr>
                   </thead>
-                  <tbody class="table-striped">
-                    <tr>
-                      <td>Matematicas</td>
-                      <td>10</td>
-                    </tr>
-                    <tr>
-                      <td>Español</td>
-                      <td>10</td>
-                    </tr>
+                  <tbody class="table-striped" id="tableCali">
+                    <script>
+                      var calificaciones = [];
+                      setInterval(() => {
+                        if(dataA && state == 1){
+                          arrayCalificaciones = JSON.parse(dataA['calificaciones_titulacion']);
+                            arrayCalificaciones.forEach((calificacion) => {
+                              if (calificaciones.length < arrayCalificaciones.length){
+                                calificaciones.push(calificacion);
+                                $('#tableCali').append(
+                                  '<tr>' +
+                                    '<td>' +
+                                      '<input type="text" class="form-control materia" name="materia[]" placeholder="Materia" value="'+calificacion['materia']+'">' +
+                                    '</td>' +
+                                    '<td>' +
+                                      '<input type="text" class="form-control calificacion" name="calificacion[]" placeholder="Calificacion" value="'+calificacion['calificacion']+'">' +
+                                    '</td>' +
+                                    '<td>' +
+                                      '<div class="btn btn-danger" onclick="deleteCali(this)" mat="' + calificacion['materia'] +'"><i class="fas fa-trash"></i></div>' +
+                                    '</td>' +
+                                  '</tr>'
+                                );
+                                }
+                            });
+
+                          $('.materia').each(function(index, el) {
+                            //cada vez que se agrega una materia se edite el array de calificaciones
+                            el.onkeyup = function(event) {
+                              calificaciones[index].materia = $(this).val().toString();
+                            }
+                          });
+                          $('.calificacion').each(function(index, el) {
+                            //cada vez que se agrega una materia se edite el array de calificaciones
+                            el.onkeyup = function(event) {
+                              calificaciones[index].calificacion = parseInt($(this).val());
+                            }
+                          });
+                        }
+                      }, 500);
+                      function deleteCali(e){
+                        console.log(e);
+                        calificaciones = calificaciones.filter((calificacion) => {
+                          console.log(calificacion);
+                          //minuscculas calificacion.materia
+                          return calificacion.materia.toLowerCase() != e.getAttribute('mat').toLowerCase();
+                        });
+
+                        setTimeout(() => {
+                          e.parentNode.parentNode.remove();
+                        }, 500);
+
+                      }
+                    </script>
                   </tbody>
                 </table>
 
