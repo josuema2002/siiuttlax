@@ -51,7 +51,7 @@ class empleado(models.Model):
 
 class certificadoTitulacion(models.Model):
     id_certificado_titulacion = models.AutoField(primary_key=True)
-    matricula_alumno_titulacion = models.CharField(max_length=15, default='')
+    matricula_alumno_titulacion = models.ForeignKey(alumno, on_delete=models.CASCADE)
     nombre_alumno_titulacion = models.CharField(max_length=50, default='')
     apellidop_alumno_titulacion = models.CharField(max_length=50, default='')
     apellidom_alumno_titulacion = models.CharField(max_length=50, default='')

@@ -145,6 +145,12 @@ def pages(request):
 
                 html_template = loader.get_template('home/tituloElectronico/' + load_template)
             elif request.path.split('/')[-2] == 'certificado':
+
+                try:
+                    certificados = certificadoTitulacion.objects.all()
+                    request.certificados = certificados
+                except:
+                    request.certificados = None
                 
                 if load_template == 'certificado-form.html':
                     request.form = certificadoTitulacionForm(request.POST or None)
@@ -152,6 +158,9 @@ def pages(request):
                         if request.form.is_valid():
                             form = request.form
                             form.save()
+                            return JsonResponse({'status': '201', 'message': 'Certificado guardado'})
+                        else:
+                            return HttpResponse(request.POST)
                     
                 
                 html_template = loader.get_template('home/certificado/' + load_template)
