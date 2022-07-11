@@ -13,6 +13,7 @@
 <script>
   var dataA = '';
   var state = 0;
+  var calificaciones = [];
 </script>
   <!-- Content Wrapper. Contains page content -->
   <div class="content-wrapper">
@@ -27,7 +28,7 @@
             <ol class="breadcrumb float-sm-right">
               <li class="breadcrumb-item"><a href="{{ request.PATHPROJECT }}">Home</a></li>
               <li class="breadcrumb-item"><a href="{{ request.PATHPROJECT }}/certificado/certificado-allC.html">Certificado</a></li>
-              <li class="breadcrumb-item active">Form</li>
+              <li class="breadcrumb-item active">Form Edit</li>
             </ol>
           </div>
         </div>
@@ -41,7 +42,7 @@
         <form action="" class="card card-default" id="form" method="GET">
           {% csrf_token %}
           <div class="card-header">
-            <h3 class="card-title">Generar certificado de titulación</h3>
+            <h3 class="card-title">Editar certificado de titulación</h3>
 
             <div class="card-tools">
               <button type="button" class="btn btn-tool" data-card-widget="collapse">
@@ -58,58 +59,17 @@
               <div class="col-md-12">
                 <div class="form-group">
                   <label>Matricula</label>
-                  <select class="select2"style="width: 100%;" id="selectA">
-                    <option selected disabled="disabled">Ingrese la matricula del alumno</option>
-                    <script>
-                      certificados = []
-                    </script>
-                    {% for alumno in request.alumnos %}
-                      {% if alumno.estadiasTSU_alumno == True or alumno.estadiasIngLic_alumno == True %}
-                        {% if request.certificados %}
-                          {% for certificado in request.certificados %}
-                            <script>
-                              certificados.push(
-                                '{{ certificado.matricula_alumno_titulacion_id }}',
-                              )
-                            </script>
-                          {% endfor %}
-                          <script>
-                            certificados.includes('{{ alumno.matricula_alumno }}') == false &&
-                            setTimeout(function(){
-                              $('#selectA').append(
-                              '<option value="{{ alumno.matricula_alumno }}">{{ alumno.matricula_alumno }}</option>'
-                              )
-                            }, 100);
-                          </script>
-                        {% else %}
-                          <option value="{{ alumno.matricula_alumno }}">{{ alumno.matricula_alumno }}</option>
-                        {% endif %}
-                      {% endif %}
-                    {% endfor %}
-                  </select>
-                  <p class="fs-6 text-light bg-warning mt-1 px-1 rounded">
-                    Si no encuentra la matricula del alumno en el listado, es porque no es apto para generar el certificado de titulación o ya se ha generado el certificado.
+                  <p class="px-2">
+                    {{ request.dataAlumno.matricula_alumno_titulacion_id }}
                   </p>
                 </div>
                 <!-- /.form-group -->
               </div>
               <!-- /.col -->
-              {% if request.form.errors %}
-                <div class="alert alert-danger">
-                  <ul>
-                    {% for error in request.form.errors %}
-                      <li>{{ error }}</li>
-                    {% endfor %}
-                  </ul>
-                  <p>
-                    Intente de nuevo, pero con datos correctos.
-                  </p>
-                </div>
-              {% endif %}
             </div>
             <!-- /.row -->
             <!-- right column -->
-          <div class="col-md-12 d-none" id="fieldsNewCertificado">
+          <div class="col-md-12" id="fieldsNewCertificado">
             <!-- general form elements disabled -->
             <div class="card card-warning">
               <div class="card-header">
@@ -128,17 +88,12 @@
                               setTimeout(()=>{
                                 $('#{{ field.name }}L').html('{{ field.label }}'.split(" ").slice(0, -1).join(" "));
                                 $('#{{ field.name }}').attr('placeholder', '{{ field.label }}'.split(" ").slice(0, -1).join(" "));
-  
-                                setInterval(() => {
-                                  dataA && state == 1 &&
-                                  $('#{{ field.name }}').val(dataA['{{ field.name }}'])
-                                }, 500);
                                 
                               }, 300);
                             </script>
                           </label>
                           <div class="input-group date" id="init" data-target-input="nearest">
-                            <input type="text" placeholder="09/2020" class="form-control datetimepicker-input" data-target="#init" id="{{ field.name }}" name="{{ field.name }}"/>
+                            <input type="text" placeholder="09/2020" class="form-control datetimepicker-input" data-target="#init" id="{{ field.name }}" name="{{ field.name }}" value="{{ field.value }}" />
                               <div class="input-group-append" data-target="#init" data-toggle="datetimepicker">
                                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                               </div>
@@ -156,17 +111,12 @@
                               setTimeout(()=>{
                                 $('#{{ field.name }}L').html('{{ field.label }}'.split(" ").slice(0, -1).join(" "));
                                 $('#{{ field.name }}').attr('placeholder', '{{ field.label }}'.split(" ").slice(0, -1).join(" "));
-  
-                                setInterval(() => {
-                                  dataA && state == 1 &&
-                                  $('#{{ field.name }}').val(dataA['{{ field.name }}'])
-                                }, 500);
                                 
                               }, 300);
                             </script>
                           </label>
                           <div class="input-group date" id="end" data-target-input="nearest">
-                            <input type="text" placeholder="09/2020" class="form-control datetimepicker-input" data-target="#end" id="{{ field.name }}" name="{{ field.name }}"/>
+                            <input type="text" placeholder="09/2020" class="form-control datetimepicker-input" data-target="#end" id="{{ field.name }}" name="{{ field.name }}" value="{{ field.value }}" />
                               <div class="input-group-append" data-target="#end" data-toggle="datetimepicker">
                                   <div class="input-group-text"><i class="fa fa-calendar"></i></div>
                               </div>
@@ -180,14 +130,9 @@
                         $('#{{ field.name }}').val(JSON.stringify(calificaciones))
                       }, 500);
                     </script>
-                    <input type="text" placeholder="-" class="d-none" id="{{ field.name }}" name="{{ field.name }}"/>
+                    <input type="text" placeholder="-" class="d-none" id="{{ field.name }}" name="{{ field.name }}" value="{{ field.value }}" />
                   {% elif field.name == 'matricula_alumno_titulacion' %}
-                    <script>
-                      setInterval(() => {
-                        $('#{{ field.name }}').val(dataA['{{ field.name }}'])
-                      }, 500);
-                    </script>
-                    <input type="hidden" placeholder="-" class="" id="{{ field.name }}" name="{{ field.name }}"/>
+                    <input type="hidden" placeholder="-" class="" id="{{ field.name }}" name="{{ field.name }}" value="{{ field.value }}"/>
                   
                   {% else %}
                     <div class="row">
@@ -198,11 +143,6 @@
                               setTimeout(()=>{
                                 $('#{{ field.name }}L').html('{{ field.label }}'.split(" ").slice(0, -1).join(" "));
                                 $('#{{ field.name }}').attr('placeholder', '{{ field.label }}'.split(" ").slice(0, -1).join(" "));
-  
-                                setInterval(() => {
-                                  dataA && state == 1 &&
-                                  $('#{{ field.name }}').val(dataA['{{ field.name }}'])
-                                }, 500);
                                 
                               }, 300);
                             </script>
@@ -266,43 +206,42 @@
                   </thead>
                   <tbody class="table-striped" id="tableCali">
                     <script>
-                      var calificaciones = [];
-                      setInterval(() => {
-                        if(dataA && state == 1){
-                          arrayCalificaciones = JSON.parse(dataA['calificaciones_titulacion']);
+                        setTimeout(() => {
+                            arrayCalificacionesString = '{{request.dataAlumno.calificaciones_titulacion}}'
+                            arrayCalificacionesString = arrayCalificacionesString.replace(/&quot;/g, '"');
+                            arrayCalificaciones = JSON.parse(arrayCalificacionesString);
                             arrayCalificaciones.forEach((calificacion) => {
-                              if (calificaciones.length < arrayCalificaciones.length){
+                            if (calificaciones.length < arrayCalificaciones.length){
                                 calificaciones.push(calificacion);
                                 $('#tableCali').append(
-                                  '<tr>' +
+                                    '<tr>' +
                                     '<td>' +
-                                      '<input type="text" class="form-control materia" name="materia[]" placeholder="Materia" value="'+calificacion['materia']+'">' +
+                                        '<input type="text" class="form-control materia" name="materia[]" placeholder="Materia" value="'+calificacion['materia']+'">' +
                                     '</td>' +
                                     '<td>' +
-                                      '<input type="number" max="10" class="form-control calificacion" name="calificacion[]" placeholder="Calificacion" value="'+calificacion['calificacion']+'">' +
+                                        '<input type="number" max="10" class="form-control calificacion" name="calificacion[]" placeholder="Calificacion" value="'+calificacion['calificacion']+'">' +
                                     '</td>' +
                                     '<td>' +
-                                      '<div class="btn btn-danger" onclick="deleteCali(this)" mat="' + calificacion['materia'] +'"><i class="fas fa-trash"></i></div>' +
+                                        '<div class="btn btn-danger" onclick="deleteCali(this)" mat="' + calificacion['materia'] +'"><i class="fas fa-trash"></i></div>' +
                                     '</td>' +
-                                  '</tr>'
+                                    '</tr>'
                                 );
                                 }
                             });
+                        }, 500);
 
-                          $('.materia').each(function(index, el) {
-                            //cada vez que se agrega una materia se edite el array de calificaciones
-                            el.onkeyup = function(event) {
-                              calificaciones[index].materia = $(this).val().toString();
-                            }
-                          });
-                          $('.calificacion').each(function(index, el) {
-                            //cada vez que se agrega una materia se edite el array de calificaciones
-                            el.onkeyup = function(event) {
-                              calificaciones[index].calificacion = parseInt($(this).val());
-                            }
-                          });
+                        $('.materia').each(function(index, el) {
+                        //cada vez que se agrega una materia se edite el array de calificaciones
+                        el.onkeyup = function(event) {
+                            calificaciones[index].materia = $(this).val().toString();
                         }
-                      }, 500);
+                        });
+                        $('.calificacion').each(function(index, el) {
+                        //cada vez que se agrega una materia se edite el array de calificaciones
+                        el.onkeyup = function(event) {
+                            calificaciones[index].calificacion = parseInt($(this).val());
+                        }
+                        });
                       function deleteCali(e){
                         console.log(e);
                         calificaciones = calificaciones.filter((calificacion) => {
@@ -314,36 +253,12 @@
                         setTimeout(() => {
                           e.parentNode.parentNode.remove();
                         }, 500);
+                        console.log(calificaciones);
 
                       }
                     </script>
                   </tbody>
                 </table>
-
-                <div class="row">
-                  <div class="col-sm-10">
-                    <!-- checkbox -->
-                    <div class="form-group">
-                      <div class="form-check">
-                        <input class="form-check-input" type="checkbox" id="check">
-                        <label class="form-check-label" for="check">Acepto que los datos estan bien.</label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
-                <div class="row">
-                  <div class="col-sm-12">
-                    <!-- checkbox -->
-                    <div class="form-group">
-                      <div class="form-check bg-warning rounded">
-                        <label class="form-check-label">
-                          Si los datos no son correctos, comunicarse con el area indicada.
-                        </label>
-                      </div>
-                    </div>
-                  </div>
-                </div>
 
               </div>
               <!-- /.card-body -->
@@ -354,8 +269,8 @@
           </div>
           <!-- /.card-body -->
           <div class="card-footer">
-            <button class="btn btn-success btn-block d-none" id="btnGenerar" type="submit">
-            Generar
+            <button class="btn btn-success btn-block" id="btnGenerar" type="submit">
+            Actualizar
           </button>
           </div>
         </form>
@@ -389,34 +304,7 @@
           viewMode: 'years',
           format: 'MM/YYYY'
       });
-      $('#selectA').on('change', function() {
-        //peticion ajax para obtener los datos del alumno en python
-        $.ajax({
-          url: '{{ request.PATHPROJECT }}/alumno1',
-          type: 'POST',
-          dataType: 'json',
-          data: {
-            'csrfmiddlewaretoken': '{{ csrf_token }}',
-            'matricula': $('#selectA').val()
-          },
-          success: function(resp) {
-            $('#fieldsNewCertificado').removeClass('d-none');
-            $('#btnGenerar').removeClass('d-none');
-            dataA = resp;
-            state = 1;
-            setTimeout(function(){
-              state = 0;
-            }, 2000);
-            
-            
-          },
-          error: function(err) {
-            console.log(err);
-          }
-        });
-
-      });
-    
+      
       //evento a boton generar
       $('#form').on('submit', (e)=> {
         e.preventDefault();
@@ -437,7 +325,6 @@
             title: 'Faltan datos por llenar'
           });
         }else{
-          if($('#check').is(':checked')){
           
             Toast.fire({
               icon: 'info',
@@ -453,7 +340,7 @@
                 console.log(resp);
                 Toast.fire({
                   icon: 'success',
-                  title: 'Certificado generado'
+                  title: 'Datos actualizados'
                 });
 
                 //crear pdf
@@ -474,17 +361,6 @@
                 }
                 console.log(data);
                 crearCertificado(data)
-
-                $('#fieldsNewCertificado').addClass('d-none');
-                $('#btnGenerar').addClass('d-none');
-                $('option', $('#selectA')).each(function() {
-                  this.getAttribute('value') == $('#selectA').val() && $(this).remove();
-                })
-                setTimeout(() => {
-                  $('#form')[0].reset();
-                  $('#selectA').val('');
-                  $('#select2-selectA-container').text('Ingrese la matricula del alumno');
-                }, 500);
                 $('html, body').animate({ scrollTop: 0 }, 'slow');
               },
               error: function(err) {
@@ -495,12 +371,6 @@
                 console.log(err);
               }
             })
-          }else{
-            Toast.fire({
-              icon: 'error',
-              title: ' Acepte que los datos esten correctos'
-            });
-          }
         }
                     
       })

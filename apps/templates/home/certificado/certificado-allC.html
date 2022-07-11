@@ -46,44 +46,57 @@
                   <tr>
                     <th>Matricula</th>
                     <th>Nombre</th>
-                    <th>Apellido</th>
                     <th>Carrera</th>
-                    <th>Correo</th>
-                    <th>Telefono</th>
-                    <th>created</th>
-                    <th>updated</th>
-                    <th>titularse</th>
-                    <th>id user</th>
+                    <th>Area
+                    <th>Generar PDF</th>
+                    <th>Acciones</th>
                   </tr>
                   </thead>
                   <tbody>
-                  {% for alumno in request.alumnos %}
+                  {% for certificado in request.certificados %}
                   <tr>
-                    <td>{{ alumno.matricula_alumno }}</td>
-                    <td>{{ alumno.nombre_alumno }}</td>
-                    <td>{{ alumno.apellido_alumno }}</td>
-                    <td>{{ alumno.carrera_alumno }}</td>
-                    <td>{{ alumno.correo_alumno }}</td>
-                    <td>{{ alumno.telefono_alumno }}</td>
-                    <td>{{ alumno.created_at_alumno }}</td>
-                    <td>{{ alumno.updated_at_alumno }}</td>
-                    <td>{{ alumno.titularse_alumno }}</td>
-                    <td>{{ alumno.id_user_alumno }}</td>
-                  </tr>
+                    <td>{{ certificado.matricula_alumno_titulacion_id }}</td>
+                    <td>{{ certificado.nombre_alumno_titulacion }} {{ certificado.apellidop_alumno_titulacion }} {{ certificado.apellidom_alumno_titulacion }}</td>
+                    <td>{{ certificado.carrera_titulacion }}</td>
+                    <td>{{ certificado.area_carrera_titulacion }}</td>
+                    <td>
+                      <button type="button" class="btn btn-primary" onclick="crearCertificado(
+                        {
+                          matricula: '{{ certificado.matricula_alumno_titulacion_id }}',
+                          nombre: '{{ certificado.nombre_alumno_titulacion }}',
+                          apellidoP: '{{ certificado.apellidop_alumno_titulacion }}',
+                          apellidoM: '{{ certificado.apellidom_alumno_titulacion }}',
+                          planE: '{{ certificado.anio_plan_estudios_titulacion }}',
+                          periodoInit: '{{ certificado.periodo_escolar_init_titulacion }}',
+                          periodoEnd: '{{ certificado.periodo_escolar_end_titulacion }}',
+                          tipoC: '{{ certificado.tipo_carrera_titulacion }}',
+                          nombreC: '{{ certificado.carrera_titulacion }}',
+                          areaC: '{{ certificado.area_carrera_titulacion }}',
+
+                          calificaciones: '{{ certificado.calificaciones_titulacion }}',
+                        }
+                      )">
+                        Generar
+                      </button>
+                    </td>
+                    <td class="d-flex justify-content-around">
+                      <a href="{{ request.PATHPROJECT }}/certificado/certificado-formE.html?matricula={{ certificado.matricula_alumno_titulacion_id }}" class="btn btn-primary">
+                        <i class="fa fa-edit"></i>
+                      </a>
+                      <a href="{{ request.PATHPROJECT }}/certificado/delete?matricula={{ certificado.matricula_alumno_titulacion_id }}" class="btn btn-danger">
+                        <i class="fa fa-trash"></i>
+                      </a>
+                    </td>
                   {% endfor %}
                   </tbody>
                   <tfoot>
                     <tr>
                       <th>Matricula</th>
                       <th>Nombre</th>
-                      <th>Apellido</th>
                       <th>Carrera</th>
-                      <th>Correo</th>
-                      <th>Telefono</th>
-                      <th>created</th>
-                      <th>updated</th>
-                      <th>titularse</th>
-                      <th>id user</th>
+                      <th>Area
+                      <th>Generar PDF</th>
+                      <th>Acciones</th>
                     </tr>
                   </tfoot>
                 </table>

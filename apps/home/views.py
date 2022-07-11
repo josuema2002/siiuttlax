@@ -161,6 +161,22 @@ def pages(request):
                             return JsonResponse({'status': '201', 'message': 'Certificado guardado'})
                         else:
                             return HttpResponse(request.POST)
+
+                if load_template == 'certificado-formE.html':
+                    try:
+                        matricula = request.GET['matricula']
+                        dataAlumno = certificadoTitulacion.objects.get(matricula_alumno_titulacion_id=matricula)
+                        request.form = certificadoTitulacionForm(request.POST or None, instance=dataAlumno)
+                        request.dataAlumno = dataAlumno
+                        if request.method == 'POST' and request.is_ajax():
+                            if request.form.is_valid():
+                                form = request.form
+                                form.save()
+                                return JsonResponse({'status': '201', 'message': 'Certificado guardado'})
+                            else:
+                                return HttpResponse(request.POST)
+                    except:
+                        return HttpResponseRedirect(PATHPROJECT+'/certificado/certificado-allC.html')
                     
                 
                 html_template = loader.get_template('home/certificado/' + load_template)
