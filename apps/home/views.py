@@ -178,7 +178,15 @@ def pages(request):
                     except:
                         return HttpResponseRedirect(PATHPROJECT+'/certificado/certificado-allC.html')
                     
-                
+                if load_template == 'delete':
+                    try:
+                        matricula = request.GET['matricula']
+                        dataAlumno = certificadoTitulacion.objects.get(matricula_alumno_titulacion_id=matricula)
+                        dataAlumno.delete()
+                        return HttpResponseRedirect(PATHPROJECT+'/certificado/certificado-allC.html')
+                    except:
+                        return HttpResponseRedirect(PATHPROJECT+'/certificado/certificado-allC.html')
+
                 html_template = loader.get_template('home/certificado/' + load_template)
             elif request.path.split('/')[-2] == 'folio':
                 html_template = loader.get_template('home/folio/' + load_template)
