@@ -1,13 +1,13 @@
 from django import forms
-from .models import tituloElectronico, certificadoTitulacion
+from .models import electronicDegree, degreeCertificate
 from cloudinary.forms import CloudinaryJsFileField
 
 class certificadoTitulacionForm(forms.ModelForm):
     class Meta:
-        model = certificadoTitulacion
+        model = degreeCertificate
         fields = '__all__'
         
 class fileUploadForm(forms.ModelForm):
     class Meta:
-        model = tituloElectronico
+        model = electronicDegree
         fields = '__all__'

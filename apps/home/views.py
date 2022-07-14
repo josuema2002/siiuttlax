@@ -14,7 +14,7 @@ from requests import request
 from apps import config
 
 #importar los modelos
-from apps.home.models import alumno, empleado, certificadoTitulacion, tituloElectronico, estadisticasTitulacion
+from apps.home.models import student, degreeCertificate, electronicDegree, estadisticasTitulacion
 from django.contrib.auth.models import User
 
 #importar los forms
@@ -50,7 +50,7 @@ def pages(request):
 
         if request.user.is_superuser:
             # obtener los datos de alumnos
-            alumnos = alumno.objects.all()
+            alumnos = student.objects.all()
             request.alumnos = alumnos
 
             if request.path.split('/')[-2] == 'estadisticas':
@@ -62,19 +62,19 @@ def pages(request):
                     i += 1
                     # obtener los documentos recibidos
                     try:
-                        tituloED = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(alumnoD.matricula_alumno))
+                        tituloED = electronicDegree.objects.get(id_alumno_electronic_degree_id=str(alumnoD.matricula_alumno))
                         count = 0
-                        if tituloED.acta_nacimiento_titulo_electronico:
+                        if tituloED.birth_certificate_electronic_degree:
                             count += 1
-                        if tituloED.certificado_bachiller_titulo_electronico:
+                        if tituloED.high_school_certificate_electronic_degree:
                             count += 1
-                        if tituloED.curp_titulo_electronico:
+                        if tituloED.curp_electronic_degree:
                             count += 1
-                        if tituloED.foto_infantil_bn_titulo_electronico:
+                        if tituloED.small_photo_bw_electronic_degree:
                             count += 1
-                        if tituloED.foto_infantil_color_titulo_electronico:
+                        if tituloED.small_photo_color_electronic_degree:
                             count += 1
-                        if tituloED.tsu_titulo_electronico:
+                        if tituloED.tsu_electronic_degree:
                             count += 1
                         request.alumnos[i-1].dr = count
                     except:
@@ -82,22 +82,22 @@ def pages(request):
                     
                     # obtener los documentos aceptados
                     try:
-                        tituloED = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(alumnoD.matricula_alumno))
+                        tituloED = electronicDegree.objects.get(id_alumno_electronic_degree_id=str(alumnoD.matricula_alumno))
                         count = 0
-                        if tituloED.status_acta_nacimiento_titulo_electronico:
+                        if tituloED.status_birth_certificate_electronic_degree:
                             count += 1
-                        if tituloED.status_certificado_bachiller_titulo_electronico:
+                        if tituloED.status_high_school_certificate_electronic_degree:
                             count += 1
-                        if tituloED.status_curp_titulo_electronico:
+                        if tituloED.status_curp_electronic_degree:
                             count += 1
-                        if tituloED.status_foto_infantil_bn_titulo_electronico:
+                        if tituloED.status_small_photo_bw_electronic_degree:
                             count += 1
-                        if tituloED.status_foto_infantil_color_titulo_electronico:
+                        if tituloED.status_small_photo_color_electronic_degree:
                             count += 1
-                        if tituloED.status_tsu_titulo_electronico:
+                        if tituloED.status_tsu_electronic_degree:
                             count += 1
                         request.alumnos[i-1].da = count
-                        if alumnoD.estadiasIngLic_alumno:
+                        if alumnoD.estadiasIngLic_student:
                             request.alumnos[i-1].dporcentage = int((count * 100) / 6)
                         else:
                             request.alumnos[i-1].dporcentage = int((count * 100) / 5)
@@ -107,19 +107,19 @@ def pages(request):
 
                     # obtener los documentos pendientes
                     try:
-                        tituloED = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(alumnoD.matricula_alumno))
+                        tituloED = electronicDegree.objects.get(id_alumno_titulo_electronico_id=str(alumnoD.matricula_alumno))
                         count = 0
-                        if tituloED.status_acta_nacimiento_titulo_electronico == None:
+                        if tituloED.status_birth_certificate_electronic_degree == None:
                             count += 1
-                        if tituloED.status_certificado_bachiller_titulo_electronico == None:
+                        if tituloED.status_high_school_certificate_electronic_degree == None:
                             count += 1
-                        if tituloED.status_curp_titulo_electronico == None:
+                        if tituloED.status_curp_electronic_degree == None:
                             count += 1
-                        if tituloED.status_foto_infantil_bn_titulo_electronico == None:
+                        if tituloED.status_small_photo_bw_electronic_degree == None:
                             count += 1
-                        if tituloED.status_foto_infantil_color_titulo_electronico == None:
+                        if tituloED.status_small_photo_color_electronic_degree == None:
                             count += 1
-                        if tituloED.status_tsu_titulo_electronico == None:
+                        if tituloED.status_tsu_electronic_degree == None:
                             count += 1
                         request.alumnos[i-1].dp = count
                     except:
@@ -128,9 +128,9 @@ def pages(request):
                 
                 if load_template == 'titulo-form.html':
                     try:
-                        files = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(request.GET['matricula']))
+                        files = electronicDegree.objects.get(id_alumno_electronic_degree_id=str(request.GET['matricula']))
                         request.files = files
-                        dataA = alumno.objects.get(matricula_alumno=str(request.GET['matricula']))
+                        dataA = student.objects.get(enrollment_student=str(request.GET['matricula']))
                         request.dataA = dataA
 
                         request.form = fileUploadForm(request.POST or None, instance=files)
@@ -148,7 +148,7 @@ def pages(request):
             elif request.path.split('/')[-2] == 'certificado':
 
                 try:
-                    certificados = certificadoTitulacion.objects.all()
+                    certificados = degreeCertificate.objects.all()
                     request.certificados = certificados
                 except:
                     request.certificados = None
@@ -166,7 +166,7 @@ def pages(request):
                 if load_template == 'certificado-formE.html':
                     try:
                         matricula = request.GET['matricula']
-                        dataAlumno = certificadoTitulacion.objects.get(matricula_alumno_titulacion_id=matricula)
+                        dataAlumno = degreeCertificate.objects.get(matricula_alumno_titulacion_id=matricula)
                         request.form = certificadoTitulacionForm(request.POST or None, instance=dataAlumno)
                         request.dataAlumno = dataAlumno
                         if request.method == 'POST' and request.is_ajax():
@@ -182,7 +182,7 @@ def pages(request):
                 if load_template == 'delete':
                     try:
                         matricula = request.GET['matricula']
-                        dataAlumno = certificadoTitulacion.objects.get(matricula_alumno_titulacion_id=matricula)
+                        dataAlumno = degreeCertificate.objects.get(matricula_alumno_titulacion_id=matricula)
                         dataAlumno.delete()
                         return HttpResponseRedirect(PATHPROJECT+'/certificado/certificado-allC.html')
                     except:
@@ -205,7 +205,7 @@ def pages(request):
                     #obtener la matricula
                     matricula = datos['matricula']
                     #obtener los datos del alumno con la matricula
-                    alumnoOnli = alumno.objects.get(matricula_alumno=matricula)
+                    alumnoOnli = student.objects.get(matricula_alumno=matricula)
                     return JsonResponse({
                         'matricula_alumno_titulacion': alumnoOnli.matricula_alumno, 
                         'nombre_alumno_titulacion': alumnoOnli.nombre_alumno, 
@@ -229,16 +229,16 @@ def pages(request):
             else:
                 html_template = loader.get_template('home/' + load_template)
         else:
-            dataA = alumno.objects.get(id_user_alumno_id=str(request.user.id))
+            dataA = student.objects.get(id_user_alumno_id=str(request.user.id))
             matricula_alumno = dataA.matricula_alumno
             request.dataA = dataA
 
             request.titleFormTituloElectronico = 'Subir'
             try:
-                files = tituloElectronico.objects.get(id_alumno_titulo_electronico_id=str(matricula_alumno))
+                files = electronicDegree.objects.get(id_alumno_titulo_electronico_id=str(matricula_alumno))
                 request.files = files
                 request.titleFormTituloElectronico = 'Editar'
-            except tituloElectronico.DoesNotExist:
+            except electronicDegree.DoesNotExist:
                 pass
 
             if request.path.split('/')[-2] == 'estadisticas' or request.path.split('/')[-2] == 'tituloElectronico' or request.path.split('/')[-2] == 'certificado' or request.path.split('/')[-2] == 'folio':

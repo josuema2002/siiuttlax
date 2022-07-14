@@ -13,109 +13,81 @@ import uuid
 
 # Create your models here.
 
-class alumno(models.Model):
-    matricula_alumno = models.CharField(primary_key=True, max_length=15)
-    id_user_alumno = models.ForeignKey(User, on_delete=models.CASCADE)
-    nombre_alumno = models.CharField(max_length=50)
-    apellidop_alumno = models.CharField(max_length=50, default='')
-    apellidom_alumno = models.CharField(max_length=50, default='')
-    carrera_alumno = models.CharField(max_length=50)
-    area_carrera_alumno = models.CharField(max_length=50, default='')
-    genero_alumno = models.CharField(max_length=50, default='')
-    correo_alumno = models.EmailField(max_length=50)
-    telefono_alumno = models.CharField(max_length=50)
-    created_at_alumno = models.DateTimeField(auto_now_add=True)
-    updated_at_alumno = models.DateTimeField(auto_now=True)
+class student(models.Model):
+    enrollment_student = models.CharField(primary_key=True, max_length=15)#matricula del estudiante
+    id_user_student = models.ForeignKey(User, on_delete=models.CASCADE)#id del usuario del estudiante
+    name_student = models.CharField(max_length=50)#nombre del estudiante
+    last_name_student = models.CharField(max_length=50, default='')#apellido del estudiante
+    second_last_name_student = models.CharField(max_length=50, default='')#segundo apellido del estudiante
+    career_student = models.CharField(max_length=50)#carrera del estudiante
+    area_career_student = models.CharField(max_length=50, default='')#area de la carrera del estudiante
+    gender_student = models.CharField(max_length=50, default='')#genero del estudiante
+    email_student = models.EmailField(max_length=50)#email
+    phone_student = models.CharField(max_length=50)#tel
+    created_at_student = models.DateTimeField(auto_now_add=True)
+    updated_at_student = models.DateTimeField(auto_now=True)
     
-    estadiasTSU_alumno = models.BooleanField(default=False)
-    estadiasIngLic_alumno = models.BooleanField(default=False)
+    estadiasTSU_student = models.BooleanField(default=False)
+    estadiasIngLic_student = models.BooleanField(default=False)
 
-class empleado(models.Model):
-    matricula_empleado = models.CharField(primary_key=True, max_length=15)
-    id_user_empleado = models.ForeignKey(User, on_delete=models.CASCADE)
-    nombre_empleado = models.CharField(max_length=50)
-    apellido_empleado = models.CharField(max_length=50)
-    correo_empleado = models.EmailField(max_length=50)
-    telefono_empleado = models.CharField(max_length=50)
-    created_at_empleado = models.DateTimeField(auto_now_add=True)
-    updated_at_empleado = models.DateTimeField(auto_now=True)
-    puesto_empleado = models.CharField(max_length=50)
-    nivel_academico_empleado = models.CharField(max_length=50)
-    #1 = docente
-    #2 = asistente
-    #3 = administrativo
-    #4 = jefe de area
-    #5 = director de carrera
-    #6 = director de academico
-    #7 = rector
+    def __str__(self):
+        return self.enrollment_student + ' - ' + self.name_student 
 
-class certificadoTitulacion(models.Model):
-    id_certificado_titulacion = models.AutoField(primary_key=True)
-    matricula_alumno_titulacion = models.ForeignKey(alumno, on_delete=models.CASCADE)
-    nombre_alumno_titulacion = models.CharField(max_length=50, default='')
-    apellidop_alumno_titulacion = models.CharField(max_length=50, default='')
-    apellidom_alumno_titulacion = models.CharField(max_length=50, default='')
-    anio_plan_estudios_titulacion = models.IntegerField(default=0)
-    periodo_escolar_init_titulacion = models.CharField(max_length=50, default='')
-    periodo_escolar_end_titulacion = models.CharField(max_length=50, default='')
-    carrera_titulacion = models.CharField(max_length=50, default='')
-    area_carrera_titulacion = models.CharField(max_length=50, default='')
-    tipo_carrera_titulacion = models.CharField(max_length=50, default='')
-    jefe_area_servicios_escolares_titulacion = models.CharField(max_length=50, default='')
-    director_carrera_titulacion = models.CharField(max_length=50, default='')
-    calificaciones_titulacion = models.TextField(default='')
+
+class degreeCertificate(models.Model):
+    id_degree_certificate = models.AutoField(primary_key=True)#id del certificado de grado
+    enrollment_student_degree_id = models.ForeignKey(student, on_delete=models.CASCADE)#id del estudiante
+    name_student_degree = models.CharField(max_length=50, default='')#nombre del estudiante
+    last_name_degree = models.CharField(max_length=50, default='')
+    second_last_name_degree = models.CharField(max_length=50, default='')
+    syllabus_year_degree = models.IntegerField(default=0)#año de plan de estudios
+    start_school_term_degree = models.CharField(max_length=50, default='')#inicioo del periodo escolar
+    end_school_term_degree = models.CharField(max_length=50, default='')#fin del periodo escolar
+    career_degree = models.CharField(max_length=50, default='')#carrera
+    area_career_degree = models.CharField(max_length=50, default='')
+    type_career_degree = models.CharField(max_length=50, default='')#tipo de carrera
+    head_school_services_area_degree = models.CharField(max_length=50, default='')#encargado de area de servicios escolares
+    director_career_degree = models.CharField(max_length=50, default='')
+    ratings_degree = models.TextField(default='')#calificaciones
+
+    created_at_degree = models.DateTimeField(auto_now_add=True)
+    updated_at_degree = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        fila = self.enrollment_student_degree_id + ' ' + self.name_student_degree
+        return fila
 
 idFileUser = uuid.uuid4()
-class tituloElectronico(models.Model):
-    id_titulo_electronico = models.AutoField(primary_key=True)
-    id_alumno_titulo_electronico = models.ForeignKey(alumno, on_delete=models.CASCADE, default='')
-    foto_infantil_bn_titulo_electronico = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Foto Infantil B/N')
-    foto_infantil_color_titulo_electronico = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Foto Infantil Color')
-    curp_titulo_electronico = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='CURP')
-    acta_nacimiento_titulo_electronico =  models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Acta de Nacimiento')
-    certificado_bachiller_titulo_electronico = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Certificado de Bachiller')
-    tsu_titulo_electronico = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='TSU')
-    status_foto_infantil_bn_titulo_electronico = models.BooleanField(blank=True, null=True)
-    status_foto_infantil_color_titulo_electronico = models.BooleanField(blank=True, null=True)
-    status_curp_titulo_electronico = models.BooleanField(blank=True, null=True)
-    status_acta_nacimiento_titulo_electronico = models.BooleanField(blank=True, null=True)
-    status_certificado_bachiller_titulo_electronico = models.BooleanField(blank=True, null=True)
-    status_tsu_titulo_electronico = models.BooleanField(blank=True, null=True)
-    comentarios_foto_infantil_bn_titulo_electronico = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios Foto Infantil B/N')
-    comentarios_foto_infantil_color_titulo_electronico = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios Foto Infantil Color')
-    comentarios_curp_titulo_electronico = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios CURP')
-    comentarios_acta_nacimiento_titulo_electronico = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios Acta de Nacimiento')
-    comentarios_certificado_bachiller_titulo_electronico = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios Certificado de Bachiller')
-    comentarios_tsu_titulo_electronico = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios TSU')
-    created_at_titulo_electronico = models.DateTimeField(auto_now_add=True)
-    updated_at_titulo_electronico = models.DateTimeField(auto_now=True)
+class electronicDegree(models.Model):
+    id_electronic_degree = models.AutoField(primary_key=True)#id del titulo electronico
+    id_alumno_electronic_degree_id = models.ForeignKey(student, on_delete=models.CASCADE, default='')#id del estudiante
+    small_photo_bw_electronic_degree = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Foto Infantil B/N')
+    small_photo_color_electronic_degree = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Foto Infantil Color')
+    curp_electronic_degree = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='CURP')
+    birth_certificate_electronic_degree =  models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Acta de Nacimiento')
+    high_school_certificate_electronic_degree = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Certificado de Bachiller')
+    tsu_electronic_degree = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='TSU')
+    status_small_photo_bw_electronic_degree = models.BooleanField(blank=True, null=True)
+    status_small_photo_color_electronic_degree = models.BooleanField(blank=True, null=True)
+    status_curp_electronic_degree = models.BooleanField(blank=True, null=True)
+    status_birth_certificate_electronic_degree = models.BooleanField(blank=True, null=True)
+    status_high_school_certificate_electronic_degree = models.BooleanField(blank=True, null=True)
+    status_tsu_electronic_degree = models.BooleanField(blank=True, null=True)
+    comments_small_photo_bw_electronic_degree = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios Foto Infantil B/N')
+    comments_small_photo_color_electronic_degree = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios Foto Infantil Color')
+    comments_curp_electronic_degree = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios CURP')
+    comments_birth_certificate_electronic_degree = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios Acta de Nacimiento')
+    comments_high_school_certificate_electronic_degree = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios Certificado de Bachiller')
+    comments_tsu_electronic_degree = models.TextField(default='Sin comentarios', blank=True, verbose_name='Comentarios TSU')
+    
+    created_at_electronic_degree = models.DateTimeField(auto_now_add=True)
+    updated_at_electronic_degree = models.DateTimeField(auto_now=True)
 
     def __str__(self):
         fila = 'ID_alumno: ' + str(self.id_alumno_titulo_electronico) + '\n'
         return fila
-    def delete(self, using= None, keep_parents= False):
-        self.foto_infantil_bn_titulo_electronico.storage.delete(self.foto_infantil_bn_titulo_electronico.name)
-        self.foto_infantil_color_titulo_electronico.storage.delete(self.foto_infantil_color_titulo_electronico.name)
-        self.curp_titulo_electronico.storage.delete(self.curp_titulo_electronico.name)
-        self.acta_nacimiento_titulo_electronico.storage.delete(self.acta_nacimiento_titulo_electronico.name)
-        self.certificado_bachiller_titulo_electronico.storage.delete(self.certificado_bachiller_titulo_electronico.name)
-        self.tsu_titulo_electronico.storage.delete(self.tsu_titulo_electronico.name)
-        super().delete()
-    #eliminar el archivo antiguo al actualizar
-    # def save(self, *args, **kwargs):
-    #     if self.foto_infantil_bn_titulo_electronico:
-    #         self.foto_infantil_bn_titulo_electronico.storage.delete(self.foto_infantil_bn_titulo_electronico.name)
-    #     if self.foto_infantil_color_titulo_electronico:
-    #         self.foto_infantil_color_titulo_electronico.storage.delete(self.foto_infantil_color_titulo_electronico.name)
-    #     if self.curp_titulo_electronico:
-    #         self.curp_titulo_electronico.storage.delete(self.curp_titulo_electronico.name)
-    #     if self.acta_nacimiento_titulo_electronico:
-    #         self.acta_nacimiento_titulo_electronico.storage.delete(self.acta_nacimiento_titulo_electronico.name)
-    #     if self.certificado_bachiller_titulo_electronico:
-    #         self.certificado_bachiller_titulo_electronico.storage.delete(self.certificado_bachiller_titulo_electronico.name)
-    #     if self.tsu_titulo_electronico:
-    #         self.tsu_titulo_electronico.storage.delete(self.tsu_titulo_electronico.name)
-    #     super().save(*args, **kwargs)
+    
+    
     
 class estadisticasTitulacion(models.Model):
     id_estadisticas_titulacion = models.AutoField(primary_key=True)
