@@ -101,7 +101,22 @@ class tituloElectronico(models.Model):
         self.certificado_bachiller_titulo_electronico.storage.delete(self.certificado_bachiller_titulo_electronico.name)
         self.tsu_titulo_electronico.storage.delete(self.tsu_titulo_electronico.name)
         super().delete()
-
+    #eliminar el archivo antiguo al actualizar
+    # def save(self, *args, **kwargs):
+    #     if self.foto_infantil_bn_titulo_electronico:
+    #         self.foto_infantil_bn_titulo_electronico.storage.delete(self.foto_infantil_bn_titulo_electronico.name)
+    #     if self.foto_infantil_color_titulo_electronico:
+    #         self.foto_infantil_color_titulo_electronico.storage.delete(self.foto_infantil_color_titulo_electronico.name)
+    #     if self.curp_titulo_electronico:
+    #         self.curp_titulo_electronico.storage.delete(self.curp_titulo_electronico.name)
+    #     if self.acta_nacimiento_titulo_electronico:
+    #         self.acta_nacimiento_titulo_electronico.storage.delete(self.acta_nacimiento_titulo_electronico.name)
+    #     if self.certificado_bachiller_titulo_electronico:
+    #         self.certificado_bachiller_titulo_electronico.storage.delete(self.certificado_bachiller_titulo_electronico.name)
+    #     if self.tsu_titulo_electronico:
+    #         self.tsu_titulo_electronico.storage.delete(self.tsu_titulo_electronico.name)
+    #     super().save(*args, **kwargs)
+    
 class estadisticasTitulacion(models.Model):
     id_estadisticas_titulacion = models.AutoField(primary_key=True)
     genero_estadisticas_titulacion = models.CharField(max_length=50)

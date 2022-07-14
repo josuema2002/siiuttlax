@@ -33,12 +33,11 @@ function crearCertificado(values){
         
         doc.setFontSize(14);
         doc.setFont('avantgarde', 'bold');
-        doc.text(margins.left + 56, 3 + margins.top, 'CERTIFICADO DE ESTUDIOS');
+        doc.text(margins.left + 60, 3 + margins.top, 'CERTIFICADO DE ESTUDIOS');
         doc.setFontSize(9);
         doc.setFont('avantgarde', 'normal');
         const textInit = `La Universidad Tecnológica certifica que según constancias existentes en el archivo escolar, el C. ${values.nombre} ${values.apellidoP} ${values.apellidoM} con matrícula ${values.matricula} cursó y aprobó las asignaturas que integran el plan de estudios ${values.planE} en el periodo escolar ${values.periodoInit} - ${values.periodoEnd} de la carrera de ${values.tipoC} en ${values.nombreC} Area ${values.areaC} obteniendo las calificaciones finales que a continuación se anotan:`
-        doc.text(margins.left + 40, 8 + margins.top, textInit,{ align: 'justify', maxWidth: 105});
-        
+        doc.text(textInit, margins.left + 40, 8 + margins.top,{ maxWidth: 105, align: "justify"});
         doc.setLineWidth(0.5);
         doc.line(margins.left, margins.top + 35, margins.left + 146, margins.top + 35, 'FD');
         doc.setLineWidth(0.3);
@@ -54,360 +53,445 @@ function crearCertificado(values){
         doc.line(margins.left, margins.top + 50, margins.left + 146, margins.top + 50, 'FD'); // - 3
         doc.setFontSize(7);
         doc.setFont('avantgarde', 'bold');
-        doc.text(margins.left + 45, margins.top + 45, 'ASIGNATURAS'); // T 1
-        doc.text(margins.left + 112, margins.top + 45, 'HORAS'); // T 2
-        doc.text(margins.left + 125, margins.top + 42.5, 'CALIFICACIÓN'); // T 3
-        doc.text(margins.left + 122.5, margins.top + 47.5, 'NUMERO'); // T 4
-        doc.text(margins.left + 134.5, margins.top + 46.8, 'CALIFI-CACIÓN', {maxWidth: 11}); // T 5
+        doc.text(margins.left + 46, margins.top + 45, 'ASIGNATURAS'); // T 1
+        doc.text(margins.left + 112.2, margins.top + 45, 'HORAS'); // T 2
+        doc.text(margins.left + 126.5, margins.top + 42.5, 'CALIFICACIÓN'); // T 3
+        doc.text(margins.left + 123.3, margins.top + 47.5, 'NUMERO'); // T 4
+        doc.text(margins.left + 139.9, margins.top + 46.8, 'CALIFICACIÓN', {align: 'center', maxWidth: 11}); // T 5
         
         // 52 asignaturas
-        const calificacionesM = [
-          {
-            'asignatura': 'Matemáticas',
-            'horas': '50',
-            'calificacion': 'AU',
-            'numero': '10'
-          },{
-            'asignatura': 'Lenguaje',
-            'horas': '75',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Ciencias',
-            'horas': '35',
-            'calificacion': 'SA',
-            'numero': '8'
-          },
-          {
-            'asignatura': 'Historia',
-            'horas': '91',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Geografía',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Arte',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Educación Física',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Inglés',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Religión',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Tecnología',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Cultura',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Deportes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Artes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Educación',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Deportes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Artes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Educación',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Deportes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Artes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Educación',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Deportes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Artes',
-            'horas': '50',
-            'calificacion': 'AU',
-            'numero': '10'
-          },
-          {
-            'asignatura': 'Educación',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Deportes',
-            'horas': '50',
-            'calificacion': 'SA',
-            'numero': '8'
-          },
-          {
-            'asignatura': 'Artes',
-            'horas': '446',
-            'calificacion': 'SA',
-            'numero': '8'
-          },
-          {
-            'asignatura': 'Educación',
-            'horas': '50',
-            'calificacion': 'SA',
-            'numero': '8'
-          },
-          {
-            'asignatura': 'Matemáticas',
-            'horas': '50',
-            'calificacion': 'AU',
-            'numero': '10'
-          },{
-            'asignatura': 'Lenguaje',
-            'horas': '75',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Ciencias',
-            'horas': '35',
-            'calificacion': 'SA',
-            'numero': '8'
-          },
-          {
-            'asignatura': 'Historia',
-            'horas': '91',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Geografía',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Arte',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Educación Física',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Inglés',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Religión',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Tecnología',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Cultura',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Deportes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Artes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Educación',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Deportes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Artes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Educación',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Deportes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Artes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Educación',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Deportes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Artes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Educación',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Deportes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Artes',
-            'horas': '50',
-            'calificacion': 'DE',
-            'numero': '9'
-          },
-          {
-            'asignatura': 'Educación',
-            'horas': '50',
-            'calificacion': 'SA',
-            'numero': '8'
-          },
-        ];
-        doc.setFont('avantgarde', 'normal');
+        // const calificacionesM = [
+        //   {
+        //     'asignatura': 'Matemáticas',
+        //     'horas': '50',
+        //     'calificacion': 'AU',
+        //     'numero': '10'
+        //   },{
+        //     'asignatura': 'Lenguaje',
+        //     'horas': '75',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Ciencias',
+        //     'horas': '35',
+        //     'calificacion': 'SA',
+        //     'numero': '8'
+        //   },
+        //   {
+        //     'asignatura': 'Historia',
+        //     'horas': '91',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Geografía',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Arte',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Educación Física',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Inglés',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Religión',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Tecnología',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Cultura',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Deportes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Artes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Educación',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Deportes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Artes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Educación',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Deportes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Artes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Educación',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Deportes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Artes',
+        //     'horas': '50',
+        //     'calificacion': 'AU',
+        //     'numero': '10'
+        //   },
+        //   {
+        //     'asignatura': 'Educación',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Deportes',
+        //     'horas': '50',
+        //     'calificacion': 'SA',
+        //     'numero': '8'
+        //   },
+        //   {
+        //     'asignatura': 'Artes',
+        //     'horas': '446',
+        //     'calificacion': 'SA',
+        //     'numero': '8'
+        //   },
+        //   {
+        //     'asignatura': 'Educación',
+        //     'horas': '50',
+        //     'calificacion': 'SA',
+        //     'numero': '8'
+        //   },
+        //   {
+        //     'asignatura': 'Matemáticas',
+        //     'horas': '50',
+        //     'calificacion': 'AU',
+        //     'numero': '10'
+        //   },{
+        //     'asignatura': 'Lenguaje',
+        //     'horas': '75',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Ciencias',
+        //     'horas': '35',
+        //     'calificacion': 'SA',
+        //     'numero': '8'
+        //   },
+        //   {
+        //     'asignatura': 'Historia',
+        //     'horas': '91',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Geografía',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Arte',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Educación Física',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Inglés',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Religión',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Tecnología',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Cultura',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Deportes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Artes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Educación',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Deportes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Artes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Educación',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Deportes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Artes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Educación',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Deportes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Artes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Educación',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Deportes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Artes',
+        //     'horas': '50',
+        //     'calificacion': 'DE',
+        //     'numero': '9'
+        //   },
+        //   {
+        //     'asignatura': 'Educación',
+        //     'horas': '50',
+        //     'calificacion': 'SA',
+        //     'numero': '8'
+        //   },
+        // ];
+
         var countCalificacion = 0;
-        var countAsignatura = 0;
+        var countMateria = 0;
         var alturaNew = 0;
-        calificacionesM.forEach((asig,i) =>{
-          doc.line(margins.left, margins.top + 50 + (i*3), margins.left, margins.top + 53 + (i*3), 'FD'); // | 1
-          doc.line(margins.left, margins.top + 53 + (i*3), margins.left + 146, margins.top + 53 + (i*3), 'FD') // - 2
-          doc.line(margins.left + 110, margins.top + 50 + (i*3), margins.left + 110, margins.top + 53 + (i*3), 'FD'); // | 3
-          doc.line(margins.left + 122, margins.top + 50 + (i*3), margins.left + 122, margins.top + 53 + (i*3), 'FD'); // | 4
-          doc.line(margins.left + 134, margins.top + 50 + (i*3), margins.left + 134, margins.top + 53 + (i*3), 'FD'); // | 5
-          doc.line(margins.left + 146, margins.top + 50 + (i*3), margins.left + 146, margins.top + 53 + (i*3), 'FD'); // | 6
-          doc.setFontSize(8);
-          doc.text(asig.asignatura, margins.left + 5, margins.top + 52.4 + (i*3), { align: 'left' }); // T 1
-          doc.setFontSize(7);
-          doc.text(asig.horas, margins.left + 116, margins.top + 52.4 + (i*3), { align: 'center' }); // T 2
-          doc.text(asig.numero, margins.left + 128, margins.top + 52.4 + (i*3), { align: 'center' }); // T 4
-          doc.text(asig.calificacion, margins.left + 138.3, margins.top + 52.4 + (i*3), { align: 'left' }); // T 3
-          
-          countCalificacion += parseInt(asig.numero);
-          countAsignatura = i + 1;
-          alturaNew = margins.top + 53 + (i*3);
+        var cabeEnHoja1 = true;
+        if (typeof values.calificaciones == 'string') {
+          values.calificaciones = JSON.parse(values.calificaciones);
+        }
+
+        values.calificaciones.forEach((asig,i) =>{
+          if (i < 50){
+            doc.setFont('avantgarde', 'normal');
+            doc.line(margins.left, margins.top + 50 + (i*3), margins.left, margins.top + 53 + (i*3), 'FD'); // | 1
+            doc.line(margins.left, margins.top + 53 + (i*3), margins.left + 146, margins.top + 53 + (i*3), 'FD') // - 2
+            doc.line(margins.left + 110, margins.top + 50 + (i*3), margins.left + 110, margins.top + 53 + (i*3), 'FD'); // | 3
+            doc.line(margins.left + 122, margins.top + 50 + (i*3), margins.left + 122, margins.top + 53 + (i*3), 'FD'); // | 4
+            doc.line(margins.left + 134, margins.top + 50 + (i*3), margins.left + 134, margins.top + 53 + (i*3), 'FD'); // | 5
+            doc.line(margins.left + 146, margins.top + 50 + (i*3), margins.left + 146, margins.top + 53 + (i*3), 'FD'); // | 6
+            doc.setFontSize(8);
+            doc.text(asig.materia, margins.left + 5, margins.top + 52.4 + (i*3), { align: 'left' }); // T 1
+            doc.setFontSize(7);
+            doc.text(asig.horas.toString(), margins.left + 116, margins.top + 52.4 + (i*3), { align: 'center' }); // T 2
+            doc.text(asig.calificacion.toString(), margins.left + 128, margins.top + 52.4 + (i*3), { align: 'center' }); // T 4
+            
+            switch (asig.calificacion) {
+              case 10:
+                asig.calificacionStr = 'AU'
+                break;
+              case 9:
+                asig.calificacionStr = 'DE'
+                break;
+              case 8:
+                asig.calificacionStr = 'SA'
+                break;
+              default:
+                asig.calificacionStr = 'NA'
+                break;
+            }
+
+            doc.text(asig.calificacionStr, margins.left + 138.3, margins.top + 52.4 + (i*3), { align: 'left' }); // T 3
+            
+            countCalificacion += parseInt(asig.calificacion);
+            countMateria = i + 1;
+            alturaNew = margins.top + 53 + (i*3);
+            
+          }else{
+            cabeEnHoja1 = false;
+          }
         })
         //altura actual  = alturaNew;
 
-        doc.line(margins.left, alturaNew, margins.left, alturaNew + 3, 'FD'); // | 1
-        doc.line(margins.left, alturaNew + 3, margins.left + 146, alturaNew + 3, 'FD') // - 2
-        doc.line(margins.left + 122, alturaNew, margins.left + 122, alturaNew + 3, 'FD'); // | 3
-        doc.line(margins.left + 146, alturaNew, margins.left + 146, alturaNew + 3, 'FD'); // | 4
-        doc.setFont('avantgarde', 'bold');
-        doc.text(margins.left + 48, alturaNew + 2.3, 'Promedio Final'); 
-        doc.setFont('avantgarde', 'normal');
-        doc.text(margins.left + 132.5, alturaNew + 2.3, (countCalificacion/countAsignatura).toFixed(1).toString()); 
-
+        if (cabeEnHoja1) {
+          doc.line(margins.left, alturaNew, margins.left, alturaNew + 3, 'FD'); // | 1
+          doc.line(margins.left, alturaNew + 3, margins.left + 146, alturaNew + 3, 'FD') // - 2
+          doc.line(margins.left + 122, alturaNew, margins.left + 122, alturaNew + 3, 'FD'); // | 3
+          doc.line(margins.left + 146, alturaNew, margins.left + 146, alturaNew + 3, 'FD'); // | 4
+          doc.setFont('avantgarde', 'bold');
+          doc.text(margins.left + 48, alturaNew + 2.3, 'Promedio Final'); 
+          doc.setFont('avantgarde', 'normal');
+          doc.text(margins.left + 132.5, alturaNew + 2.3, (countCalificacion/countMateria).toFixed(1).toString()); 
+        }
+        
         
         doc.addPage();
+
+        if (cabeEnHoja1 == false) {
+
+          values.calificaciones.slice(50).forEach((asig,i) =>{
+
+            doc.setFont('avantgarde', 'normal');
+            doc.line(margins.left, margins.top + 0 + (i*3), margins.left + 146, margins.top + 0 + (i*3), 'FD') // - 0
+            doc.line(margins.left, margins.top + 0 + (i*3), margins.left, margins.top + 3 + (i*3), 'FD'); // | 1
+            doc.line(margins.left, margins.top + 3 + (i*3), margins.left + 146, margins.top + 3 + (i*3), 'FD') // - 2
+            doc.line(margins.left + 110, margins.top + 0 + (i*3), margins.left + 110, margins.top + 3 + (i*3), 'FD'); // | 3
+            doc.line(margins.left + 122, margins.top + 0 + (i*3), margins.left + 122, margins.top + 3 + (i*3), 'FD'); // | 4
+            doc.line(margins.left + 134, margins.top + 0 + (i*3), margins.left + 134, margins.top + 3 + (i*3), 'FD'); // | 5
+            doc.line(margins.left + 146, margins.top + 0 + (i*3), margins.left + 146, margins.top + 3 + (i*3), 'FD'); // | 6
+            doc.setFontSize(8);
+            doc.text(asig.materia, margins.left + 5, margins.top + 2.4 + (i*3), { align: 'left' }); // T 1
+            doc.setFontSize(7);
+            doc.text(asig.horas.toString(), margins.left + 116, margins.top + 2.4 + (i*3), { align: 'center' }); // T 2
+            doc.text(asig.calificacion.toString(), margins.left + 128, margins.top + 2.4 + (i*3), { align: 'center' }); // T 4
+            
+            switch (asig.calificacion) {
+              case 10:
+                asig.calificacionStr = 'AU'
+                break;
+              case 9:
+                asig.calificacionStr = 'DE'
+                break;
+              case 8:
+                asig.calificacionStr = 'SA'
+                break;
+              default:
+                asig.calificacionStr = 'NA'
+                break;
+            }
+
+            doc.text(asig.calificacionStr, margins.left + 138.3, margins.top + 2.4 + (i*3), { align: 'left' }); // T 3
+            
+            countCalificacion += parseInt(asig.calificacion);
+            countMateria +=  1;
+            alturaNew = margins.top + 3 + (i*3);
+            
+          })
+
+          doc.line(margins.left, alturaNew, margins.left, alturaNew + 3, 'FD'); // | 1
+          doc.line(margins.left, alturaNew + 3, margins.left + 146, alturaNew + 3, 'FD') // - 2
+          doc.line(margins.left + 122, alturaNew, margins.left + 122, alturaNew + 3, 'FD'); // | 3
+          doc.line(margins.left + 146, alturaNew, margins.left + 146, alturaNew + 3, 'FD'); // | 4
+          doc.setFont('avantgarde', 'bold');
+          doc.text(margins.left + 48, alturaNew + 2.3, 'Promedio Final'); 
+          doc.setFont('avantgarde', 'normal');
+          doc.text(margins.left + 132.5, alturaNew + 2.3, (countCalificacion/countMateria).toFixed(1).toString()); 
+        
+          margins.top = alturaNew + 3 + 10;
+        }
+
+
+
 
         //competencias
         const competenciasEspecificas = [
@@ -427,6 +511,9 @@ function crearCertificado(values){
           },
           {
             'competencia': 'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem. ',
+          },
+          {
+            'competencia': 'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.',
           },
           {
             'competencia': 'lorem ipsum dolor sit amet consectetur adipisicing elit. Quisquam, quidem.',
@@ -467,7 +554,7 @@ function crearCertificado(values){
         doc.text(margins.left + 5, margins.top + 5.4, 'Competencias Especificas ');
 
         doc.setFont('arial', 'normal');
-        doc.text(competenciasESentencia, margins.left + 5, margins.top + 9 , { align: 'left', maxWidth: 140 });
+        doc.text(competenciasESentencia, margins.left + 5, margins.top + 9 , { align: 'justify', maxWidth: 140 });
         
         doc.line(margins.left, margins.top + 6, margins.left, margins.top + (alturaESentencia * 5), 'FD'); // | 1
         doc.line(margins.left + 146, margins.top + 6, margins.left + 146, margins.top + (alturaESentencia * 5), 'FD'); // | 2
@@ -482,7 +569,7 @@ function crearCertificado(values){
         doc.text(margins.left + 5, alturaNew + 2.4, 'Competencias Genéricas');
 
         doc.setFont('arial', 'normal');
-        doc.text(competenciasGSentencia, margins.left + 5, alturaNew + 6 , { align: 'left', maxWidth: 140 });
+        doc.text(competenciasGSentencia, margins.left + 5, alturaNew + 6 , { align: 'justify', maxWidth: 140 });
         
         doc.line(margins.left, alturaNew + 3, margins.left, alturaNew + (alturaGSentencia * 5), 'FD'); // | 1
         doc.line(margins.left + 146, alturaNew + 3, margins.left + 146, alturaNew + (alturaGSentencia * 5), 'FD'); // | 2
@@ -496,7 +583,20 @@ function crearCertificado(values){
         const meses = ['enero', 'febrero', 'marzo', 'abril', 'mayo', 'junio', 'julio', 'agosto', 'septiembre', 'octubre', 'noviembre', 'diciembre'];
         mes = meses[new Date().getMonth()]
         anio = new Date().getFullYear().toString();
-        const text1 = `El presente certificado ampara ${countAsignatura} asignaturas de un total de ${countAsignatura} y ${countCompetencias} competencias profesionales de un total de ${countCompetencias}.`
+        switch (countCompetencias.toString().length) {
+          case 1:
+            countCompetencias = Unidades(countCompetencias).toLocaleLowerCase();
+            break;
+          case 2:
+            countCompetencias = Decenas(countCompetencias).toLocaleLowerCase();
+            break;
+          case 3:
+            countCompetencias = Centenas(countCompetencias).toLocaleLowerCase();
+        
+          default:
+            break;
+        }
+        const text1 = `El presente certificado ampara ${countMateria} asignaturas de un total de ${countMateria} y ${countCompetencias} competencias profesionales de un total de ${countCompetencias}.`
         const text2 = `Expedido en El Carmen Xalpatlahuaya de Huamantla, Tlaxcala., a los ${dia} dias del mes de ${mes} del año ${anio}`
 
         const alturaText1 = parseInt(Math.ceil(text1.length/115)) * 4;

@@ -64,7 +64,6 @@
                   <td>Foto infantil b/n</td>
                   <td>
                     {% if request.files.foto_infantil_bn_titulo_electronico %}
-                      <a href="{{ request.files.foto_infantil_bn_titulo_electronico.url }}" target="_blank">Foto b/n</a>
                       <img src="{{ request.files.foto_infantil_bn_titulo_electronico.url }}" alt="Foto b/n" width="100">  
                     {% else %}
                       <span>No hay archivo cargado</span>
@@ -87,7 +86,7 @@
                   <td>Foto infantil color</td>
                   <td>
                     {% if request.files.foto_infantil_color_titulo_electronico %}
-                      <a href="https://res.cloudinary.com/dbqioig0y/{{ request.files.foto_infantil_color_titulo_electronico }}" target="_blank">Foto color</a>
+                      <img src="{{ request.files.foto_infantil_color_titulo_electronico.url }}" alt="Foto color" width="100">
                     {% else %}
                       <span>No hay archivo cargado</span>
                     {% endif %}
@@ -111,7 +110,7 @@
                   <td>Curp</td>
                   <td>
                     {% if request.files.curp_titulo_electronico %}
-                      <a href="https://res.cloudinary.com/dbqioig0y/{{ request.files.curp_titulo_electronico }}" target="_blank">Curp</a>
+                      <a href="{{ request.files.curp_titulo_electronico.url }}" target="_blank">Curp</a>
                     {% else %}
                       <span>No hay archivo cargado</span>
                     {% endif %}
@@ -135,7 +134,7 @@
                   <td>Acta de nacimiento</td>
                   <td>
                     {% if request.files.acta_nacimiento_titulo_electronico %}
-                      <a href="https://res.cloudinary.com/dbqioig0y/{{ request.files.acta_nacimiento_titulo_electronico }}" target="_blank">Acta de nacimiento</a>
+                      <a href="{{ request.files.acta_nacimiento_titulo_electronico.url }}" target="_blank">Acta de nacimiento</a>
                     {% else %}
                       <span>No hay archivo cargado</span>
                     {% endif %}
@@ -159,7 +158,7 @@
                   <td>Certificado de bachillerato</td>
                   <td>
                     {% if request.files.certificado_bachiller_titulo_electronico %}
-                      <a href="https://res.cloudinary.com/dbqioig0y/{{ request.files.certificado_bachiller_titulo_electronico }}" target="_blank">Certificado de bachillerato</a>
+                      <a href="{{ request.files.certificado_bachiller_titulo_electronico.url }}" target="_blank">Certificado de bachillerato</a>
                     {% else %}
                       <span>No hay archivo cargado</span>
                     {% endif %}
@@ -183,7 +182,7 @@
                   <td>Certificado de titulación TSU</td>
                   <td>
                     {% if request.files.tsu_titulo_electronico %}
-                      <a href="https://res.cloudinary.com/dbqioig0y/{{ request.files.tsu_titulo_electronico }}" target="_blank">Certificado de titulación TSU</a>
+                      <a href="{{ request.files.tsu_titulo_electronico.url }}" target="_blank">Certificado de titulación TSU</a>
                     {% else %}
                       <span>No hay archivo cargado</span>
                     {% endif %}

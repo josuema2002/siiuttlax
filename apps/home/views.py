@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from django.template import loader
 from django.urls import reverse
+from requests import request
 
 from apps import config
 
@@ -211,14 +212,14 @@ def pages(request):
                         'apellidop_alumno_titulacion': alumnoOnli.apellidop_alumno, 
                         'apellidom_alumno_titulacion': alumnoOnli.apellidom_alumno,
                         'anio_plan_estudios_titulacion': 0,
-                        'periodo_escolar_init_titulacion': 0,
-                        'periodo_escolar_end_titulacion': 0,
+                        'periodo_escolar_init_titulacion': '01/2022',
+                        'periodo_escolar_end_titulacion': '01/2022',
                         'carrera_titulacion': 0,
                         'area_carrera_titulacion': 0,
                         'tipo_carrera_titulacion': 0,
                         'jefe_area_servicios_escolares_titulacion': 0,
                         'director_carrera_titulacion': 0,
-                        'calificaciones_titulacion': '[{"materia": "Matematicas", "calificacion": 10},{"materia": "Español", "calificacion": 9},{"materia": "Historia", "calificacion": 8}]'
+                        'calificaciones_titulacion': '[{"materia": "Matematicas", "horas": 50,"calificacion": 10},{"materia": "Español", "horas": 100, "calificacion": 9},{"materia": "Historia", "horas": 79, "calificacion": 8}]'
                     })
                 else :
                     return HttpResponseRedirect('/404/')
@@ -271,5 +272,9 @@ def pages(request):
 
     except Exception as e:
         request.error = e
-        html_template = loader.get_template('home/page-500.html')
-        return HttpResponse(html_template.render(context, request))
+        if e.errno == 13:
+            html_template = loader.get_template('home/page-404.html')
+            return HttpResponse(html_template.render(context, request))
+        else:
+            html_template = loader.get_template('home/page-500.html')
+            return HttpResponse(html_template.render(context, request))

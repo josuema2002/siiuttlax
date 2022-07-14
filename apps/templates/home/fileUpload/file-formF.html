@@ -92,7 +92,13 @@
                           accept="application/pdf"
                         {% endif %}>
                         {% if field.value %}
-                          <a href="/media/{{ field.value }}" target="_blank">Ver archivo</a>
+                          {% if field.name == 'foto_infantil_bn_titulo_electronico' %}
+                            <img src="{{ field.value.url }}" alt="Foto b/n" width="100">
+                          {% elif field.name == 'foto_infantil_color_titulo_electronico' %}
+                            <img src="{{ field.value.url }}" alt="Foto b/n" width="100">
+                          {% else %}
+                            <a href="/media/{{ field.value }}" target="_blank">Ver archivo</a>
+                          {% endif %}
                         {% else %}
                           <a href="#" class="text-dark">No hay archivo</a>
                         {% endif %}

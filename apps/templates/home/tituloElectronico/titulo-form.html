@@ -128,7 +128,13 @@
                         <div class="mb-1 row">
                             <div class="col-2">
                               {% if field.value %}
-                                <a href="{{ field.value.url }}" target="_blank">Ver</a>
+                                {% if field.name == 'foto_infantil_bn_titulo_electronico' %}
+                                  <img src="{{ field.value.url }}" alt="Foto b/n" width="100">
+                                {% elif field.name == 'foto_infantil_color_titulo_electronico' %}
+                                  <img src="{{ field.value.url }}" alt="Foto b/n" width="100">
+                                {% else %}
+                                  <a href="/media/{{ field.value }}" target="_blank">Ver archivo</a>
+                                {% endif %}
                               {% else %}
                               <p>
                                 No se ha subido el documento

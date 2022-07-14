@@ -15,8 +15,6 @@ urlpatterns = [
     # The home page
     path('', views.index, name='home'),
     path('titulacion', views.index, name='home'),
-
-    # Matches any html file
-    re_path(r'^.*\.*', views.pages, name='pages'),
-
+    re_path(r'^.*\.html', views.pages, name='pages'), #ver si existe una pagina con .html
+    re_path(r'^.[0-9a-zA-Z/]*$', views.pages, name='pages'), #ver si existe una pagina sin extension (carpeta)
 ]

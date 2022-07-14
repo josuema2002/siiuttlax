@@ -236,6 +236,9 @@
                           '<input type="number" max="10" class="form-control calificacion" name="calificacion[]" placeholder="Calificacion">' +
                         '</td>' +
                         '<td>' +
+                          '<input type="number" class="form-control horas" name="horas[]" placeholder="horas">' +
+                        '</td>' +
+                        '<td>' +
                           '<div class="btn btn-danger" onclick="deleteCali(this)" mat=""><i class="fas fa-trash"></i></div>' +
                         '</td>' +
                       '</tr>'
@@ -254,6 +257,12 @@
                         calificaciones[index].calificacion = parseInt($(this).val());
                       }
                     });
+                    $('.horas').each(function(index, el) {
+                      //cada vez que se agrega una materia se edite el array de calificaciones
+                      el.onkeyup = function(event) {
+                        calificaciones[index].horas = parseInt($(this).val());
+                      }
+                    });
                   }
                 </script>
                 <table class="table table-bordered mb-3">
@@ -261,6 +270,7 @@
                     <tr>
                       <th>Materia</th>
                       <th>Calificación</th>
+                      <th>Horas</th>
                       <th>Eliminar</th>
                     </tr>
                   </thead>
@@ -282,6 +292,9 @@
                                       '<input type="number" max="10" class="form-control calificacion" name="calificacion[]" placeholder="Calificacion" value="'+calificacion['calificacion']+'">' +
                                     '</td>' +
                                     '<td>' +
+                                      '<input type="number" class="form-control horas" name="horas[]" placeholder="horas" value="'+calificacion['horas']+'">' +
+                                    '</td>' +
+                                    '<td>' +
                                       '<div class="btn btn-danger" onclick="deleteCali(this)" mat="' + calificacion['materia'] +'"><i class="fas fa-trash"></i></div>' +
                                     '</td>' +
                                   '</tr>'
@@ -299,6 +312,12 @@
                             //cada vez que se agrega una materia se edite el array de calificaciones
                             el.onkeyup = function(event) {
                               calificaciones[index].calificacion = parseInt($(this).val());
+                            }
+                          });
+                          $('.horas').each(function(index, el) {
+                            //cada vez que se agrega una materia se edite el array de calificaciones
+                            el.onkeyup = function(event) {
+                              calificaciones[index].horas = parseInt($(this).val());
                             }
                           });
                         }
@@ -412,6 +431,10 @@
           },
           error: function(err) {
             console.log(err);
+            Toast.fire({
+            icon: 'warning',
+            title: 'Error al obtener los datos del alumno, intente de nuevo'
+            });
           }
         });
 
