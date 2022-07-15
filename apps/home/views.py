@@ -4,6 +4,7 @@ Copyright (c) 2019 - present AppSeed.us
 """
 from asyncio.windows_events import NULL
 from codecs import register
+from datetime import datetime
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -41,17 +42,36 @@ def pages(request):
     # All resource paths end in .html.
     # Pick out the html file name from the url. And load that template.
     try:
-
         load_template = request.path.split('/')[-1]
 
         if load_template == 'admin':
             return HttpResponseRedirect(reverse('admin:index'))
         context['segment'] = load_template
 
-        if request.user.is_superuser:
-            # obtener los datos de alumnos
-            alumnos = student.objects.all()
-            request.alumnos = alumnos
+        if request.user.is_superuser:          
+            try:
+                certificados = degreeCertificate.objects.all()
+                request.certificados = certificados
+                alumnos = student.objects.all()
+                request.alumnos = alumnos
+                request.numCertificados = 0
+                for certificado in certificados:
+                    if str(certificado.__dict__['updated_at_degree']).split('-')[0] == str(datetime.now().year):
+                        request.numCertificados += 1
+                titulosElectronicos = electronicDegree.objects.all()
+                request.titulosElectronicos = titulosElectronicos
+                request.numTitulosElectronicos = 0
+                # saber si str(datetime.now().month) tiene una longitud de 1 o 2
+                if len(str(datetime.now().month)) == 1:
+                    mes = '0' + str(datetime.now().month)
+                else:
+                    mes = str(datetime.now().month)
+                for tituloElectronico in titulosElectronicos:
+                    if str(str(tituloElectronico.__dict__['updated_at_electronic_degree'])).split('-')[1] == mes:
+                        request.numTitulosElectronicos += 1
+            except:
+                request.certificados = None
+                request.alumnos = None
 
             if request.path.split('/')[-2] == 'estadisticas':
                 html_template = loader.get_template('home/estadisticas/' + load_template)
@@ -62,7 +82,7 @@ def pages(request):
                     i += 1
                     # obtener los documentos recibidos
                     try:
-                        tituloED = electronicDegree.objects.get(id_alumno_electronic_degree_id=str(alumnoD.matricula_alumno))
+                        tituloED = electronicDegree.objects.get(id_student_electronic_degree=str(alumnoD.enrollment_student))
                         count = 0
                         if tituloED.birth_certificate_electronic_degree:
                             count += 1
@@ -77,12 +97,13 @@ def pages(request):
                         if tituloED.tsu_electronic_degree:
                             count += 1
                         request.alumnos[i-1].dr = count
-                    except:
+                    except Exception as e:
+                        print(e)
                         request.alumnos[i-1].dr = 0
                     
                     # obtener los documentos aceptados
                     try:
-                        tituloED = electronicDegree.objects.get(id_alumno_electronic_degree_id=str(alumnoD.matricula_alumno))
+                        tituloED = electronicDegree.objects.get(id_student_electronic_degree=str(alumnoD.enrollment_student))
                         count = 0
                         if tituloED.status_birth_certificate_electronic_degree:
                             count += 1
@@ -107,7 +128,7 @@ def pages(request):
 
                     # obtener los documentos pendientes
                     try:
-                        tituloED = electronicDegree.objects.get(id_alumno_titulo_electronico_id=str(alumnoD.matricula_alumno))
+                        tituloED = electronicDegree.objects.get(id_student_electronic_degree=str(alumnoD.enrollment_student))
                         count = 0
                         if tituloED.status_birth_certificate_electronic_degree == None:
                             count += 1
@@ -119,8 +140,9 @@ def pages(request):
                             count += 1
                         if tituloED.status_small_photo_color_electronic_degree == None:
                             count += 1
-                        if tituloED.status_tsu_electronic_degree == None:
-                            count += 1
+                        if alumnoD.estadiasIngLic_student:
+                            if tituloED.status_tsu_electronic_degree == None:
+                                count += 1
                         request.alumnos[i-1].dp = count
                     except:
                         request.alumnos[i-1].dp = 'Todos'
@@ -128,7 +150,7 @@ def pages(request):
                 
                 if load_template == 'titulo-form.html':
                     try:
-                        files = electronicDegree.objects.get(id_alumno_electronic_degree_id=str(request.GET['matricula']))
+                        files = electronicDegree.objects.get(id_student_electronic_degree=str(request.GET['matricula']))
                         request.files = files
                         dataA = student.objects.get(enrollment_student=str(request.GET['matricula']))
                         request.dataA = dataA
@@ -147,11 +169,7 @@ def pages(request):
                 html_template = loader.get_template('home/tituloElectronico/' + load_template)
             elif request.path.split('/')[-2] == 'certificado':
 
-                try:
-                    certificados = degreeCertificate.objects.all()
-                    request.certificados = certificados
-                except:
-                    request.certificados = None
+                
                 
                 if load_template == 'certificado-form.html':
                     request.form = certificadoTitulacionForm(request.POST or None)
@@ -166,7 +184,7 @@ def pages(request):
                 if load_template == 'certificado-formE.html':
                     try:
                         matricula = request.GET['matricula']
-                        dataAlumno = degreeCertificate.objects.get(matricula_alumno_titulacion_id=matricula)
+                        dataAlumno = degreeCertificate.objects.get(enrollment_student_degree=matricula)
                         request.form = certificadoTitulacionForm(request.POST or None, instance=dataAlumno)
                         request.dataAlumno = dataAlumno
                         if request.method == 'POST' and request.is_ajax():
@@ -182,7 +200,7 @@ def pages(request):
                 if load_template == 'delete':
                     try:
                         matricula = request.GET['matricula']
-                        dataAlumno = degreeCertificate.objects.get(matricula_alumno_titulacion_id=matricula)
+                        dataAlumno = degreeCertificate.objects.get(enrollment_student_degree=matricula)
                         dataAlumno.delete()
                         return HttpResponseRedirect(PATHPROJECT+'/certificado/certificado-allC.html')
                     except:
@@ -205,21 +223,21 @@ def pages(request):
                     #obtener la matricula
                     matricula = datos['matricula']
                     #obtener los datos del alumno con la matricula
-                    alumnoOnli = student.objects.get(matricula_alumno=matricula)
+                    alumnoOnli = student.objects.get(enrollment_student=matricula)
                     return JsonResponse({
-                        'matricula_alumno_titulacion': alumnoOnli.matricula_alumno, 
-                        'nombre_alumno_titulacion': alumnoOnli.nombre_alumno, 
-                        'apellidop_alumno_titulacion': alumnoOnli.apellidop_alumno, 
-                        'apellidom_alumno_titulacion': alumnoOnli.apellidom_alumno,
-                        'anio_plan_estudios_titulacion': 0,
-                        'periodo_escolar_init_titulacion': '01/2022',
-                        'periodo_escolar_end_titulacion': '01/2022',
-                        'carrera_titulacion': 0,
-                        'area_carrera_titulacion': 0,
-                        'tipo_carrera_titulacion': 0,
-                        'jefe_area_servicios_escolares_titulacion': 0,
-                        'director_carrera_titulacion': 0,
-                        'calificaciones_titulacion': '[{"materia": "Matematicas", "horas": 50,"calificacion": 10},{"materia": "Español", "horas": 100, "calificacion": 9},{"materia": "Historia", "horas": 79, "calificacion": 8}]'
+                        'enrollment_student_degree': alumnoOnli.enrollment_student, 
+                        'name_student_degree': alumnoOnli.name_student, 
+                        'last_name_degree': alumnoOnli.last_name_student, 
+                        'second_last_name_degree': alumnoOnli.second_last_name_student,
+                        'syllabus_year_degree': 2020,
+                        'start_school_term_degree': '01/2022',
+                        'end_school_term_degree': '01/2022',
+                        'career_degree': 'Administracion',
+                        'area_career_degree': 'Recursos Humanos',
+                        'type_career_degree': 'Tecnico Superior Universitario',
+                        'head_school_services_area_degree': 'Arq. Alfredo Ajuria Huerta',
+                        'director_career_degree': 'M. en C. Yesenia Ricón Enríquez',
+                        'ratings_degree': '[{"materia": "Matematicas", "horas": 50,"calificacion": 10},{"materia": "Español", "horas": 100, "calificacion": 9},{"materia": "Historia", "horas": 79, "calificacion": 8}]'
                     })
                 else :
                     return HttpResponseRedirect('/404/')
@@ -229,17 +247,17 @@ def pages(request):
             else:
                 html_template = loader.get_template('home/' + load_template)
         else:
-            dataA = student.objects.get(id_user_alumno_id=str(request.user.id))
-            matricula_alumno = dataA.matricula_alumno
+            dataA = student.objects.get(id_user_student=str(request.user.id))
+            enrollment_student = dataA.enrollment_student
             request.dataA = dataA
 
             request.titleFormTituloElectronico = 'Subir'
             try:
-                files = electronicDegree.objects.get(id_alumno_titulo_electronico_id=str(matricula_alumno))
+                files = electronicDegree.objects.get(id_student_electronic_degree=str(enrollment_student))
                 request.files = files
                 request.titleFormTituloElectronico = 'Editar'
             except electronicDegree.DoesNotExist:
-                pass
+                request.titleFormTituloElectronico = 'Formulario'
 
             if request.path.split('/')[-2] == 'estadisticas' or request.path.split('/')[-2] == 'tituloElectronico' or request.path.split('/')[-2] == 'certificado' or request.path.split('/')[-2] == 'folio':
                 return HttpResponseRedirect('/404')
@@ -272,9 +290,10 @@ def pages(request):
 
     except Exception as e:
         request.error = e
-        if e.errno == 13:
-            html_template = loader.get_template('home/page-404.html')
-            return HttpResponse(html_template.render(context, request))
-        else:
+        try:
+            if e.errno == 13:
+                html_template = loader.get_template('home/page-404.html')
+                return HttpResponse(html_template.render(context, request))
+        except:
             html_template = loader.get_template('home/page-500.html')
             return HttpResponse(html_template.render(context, request))

@@ -177,7 +177,11 @@
               <li class="nav-item">
                 <a href="{{ request.PATHPROJECT }}/fileUpload/file-formF.html" class="nav-link {% if 'formF' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>{{request.titleFormTituloElectronico}}</p>
+                  {% if request.titleFormTituloElectronico %}
+                    <p>{{request.titleFormTituloElectronico }}</p>
+                  {% else %}
+                    <p>Formulario</p>
+                  {% endif %}
                 </a>
               </li>
             </ul>

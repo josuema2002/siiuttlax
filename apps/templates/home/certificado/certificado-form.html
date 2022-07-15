@@ -64,25 +64,25 @@
                       certificados = []
                     </script>
                     {% for alumno in request.alumnos %}
-                      {% if alumno.estadiasTSU_alumno == True or alumno.estadiasIngLic_alumno == True %}
+                      {% if alumno.estadiasTSU_student == True or alumno.estadiasIngLic_student == True %}
                         {% if request.certificados %}
                           {% for certificado in request.certificados %}
                             <script>
                               certificados.push(
-                                '{{ certificado.matricula_alumno_titulacion_id }}',
+                                '{{ certificado.enrollment_student_degree_id }}',
                               )
                             </script>
                           {% endfor %}
                           <script>
-                            certificados.includes('{{ alumno.matricula_alumno }}') == false &&
+                            certificados.includes('{{ alumno.enrollment_student }}') == false &&
                             setTimeout(function(){
                               $('#selectA').append(
-                              '<option value="{{ alumno.matricula_alumno }}">{{ alumno.matricula_alumno }}</option>'
+                              '<option value="{{ alumno.enrollment_student }}">{{ alumno.enrollment_student }}</option>'
                               )
                             }, 100);
                           </script>
                         {% else %}
-                          <option value="{{ alumno.matricula_alumno }}">{{ alumno.matricula_alumno }}</option>
+                          <option value="{{ alumno.enrollment_student }}">{{ alumno.enrollment_student }}</option>
                         {% endif %}
                       {% endif %}
                     {% endfor %}
@@ -118,7 +118,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 {% for field in request.form %}
-                  {% if field.name == 'periodo_escolar_init_titulacion' %}
+                  {% if field.name == 'start_school_term_degree' %}
                     <div class="row">
                       <div class="col-sm-12">
                         <!-- text input -->
@@ -146,7 +146,7 @@
                         </div>
                       </div>
                     </div>
-                  {% elif field.name == 'periodo_escolar_end_titulacion' %}
+                  {% elif field.name == 'end_school_term_degree' %}
                     <div class="row">
                       <div class="col-sm-12">
                         <!-- text input -->
@@ -174,14 +174,14 @@
                         </div>
                       </div>
                     </div>
-                  {% elif field.name == 'calificaciones_titulacion' %}
+                  {% elif field.name == 'ratings_degree' %}
                     <script>
                       setInterval(() => {
                         $('#{{ field.name }}').val(JSON.stringify(calificaciones))
                       }, 500);
                     </script>
-                    <input type="text" placeholder="-" class="d-none" id="{{ field.name }}" name="{{ field.name }}"/>
-                  {% elif field.name == 'matricula_alumno_titulacion' %}
+                    <input type="text" placeholder="-" class="d-non" id="{{ field.name }}" name="{{ field.name }}"/>
+                  {% elif field.name == 'enrollment_student_degree' %}
                     <script>
                       setInterval(() => {
                         $('#{{ field.name }}').val(dataA['{{ field.name }}'])
@@ -279,7 +279,7 @@
                       var calificaciones = [];
                       setInterval(() => {
                         if(dataA && state == 1){
-                          arrayCalificaciones = JSON.parse(dataA['calificaciones_titulacion']);
+                          arrayCalificaciones = JSON.parse(dataA['ratings_degree']);
                             arrayCalificaciones.forEach((calificacion) => {
                               if (calificaciones.length < arrayCalificaciones.length){
                                 calificaciones.push(calificacion);
@@ -482,16 +482,16 @@
                 //crear pdf
                 //para crearlo dever dividir los datos en un array con los mismos nombres de los campos que vienen abajo
                 const data = {
-                  matricula: $('#matricula_alumno_titulacion').val(),
-                  nombre: $('#nombre_alumno_titulacion').val(),
-                  apellidoP: $('#apellidop_alumno_titulacion').val(),
-                  apellidoM: $('#apellidom_alumno_titulacion').val(),
-                  planE: $('#anio_plan_estudios_titulacion').val(),
-                  periodoInit: $('#periodo_escolar_init_titulacion').val(),
-                  periodoEnd: $('#periodo_escolar_end_titulacion').val(),
-                  tipoC: $('#tipo_carrera_titulacion').val(),
-                  nombreC: $('#carrera_titulacion').val(),
-                  areaC: $('#area_carrera_titulacion').val(),
+                  matricula: $('#enrollment_student_degree').val(),
+                  nombre: $('#name_student_degree').val(),
+                  apellidoP: $('#last_name_degree').val(),
+                  apellidoM: $('#second_last_name_degree').val(),
+                  planE: $('#syllabus_year_degree').val(),
+                  periodoInit: $('#start_school_term_degree').val(),
+                  periodoEnd: $('#end_school_term_degree').val(),
+                  tipoC: $('#type_career_degree').val(),
+                  nombreC: $('#career_degree').val(),
+                  areaC: $('#area_career_degree').val(),
 
                   calificaciones: calificaciones,
                 }

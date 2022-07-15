@@ -59,22 +59,22 @@
                   <tbody>
                   {% for alumno in request.alumnos %}
                     <tr class="{% if alumno.dporcentage >= 90 %}table-success{% elif alumno.dporcentage <= 20 %}table-danger{% else %} table-warning{% endif %}">
-                      <td>{{ alumno.matricula_alumno }}</td>
-                      <td>{{ alumno.nombre_alumno }} {{ alumno.apellidop_alumno }}</td>
-                      <td>{{ alumno.carrera_alumno }}</td>
-                      <td>{{ alumno.area_carrera_alumno }}</td>
-                      <td>{% if alumno.genero_alumno == '1' %}
+                      <td>{{ alumno.enrollment_student }}</td>
+                      <td>{{ alumno.name_student }} {{ alumno.last_name_student }}</td>
+                      <td>{{ alumno.career_student }}</td>
+                      <td>{{ alumno.area_career_student }}</td>
+                      <td>{% if alumno.gender_student == '1' %}
                           Masculino
                         {% else %}
                           Femenino
                         {% endif %}
-                      <td class="text-center">{{ alumno.dr }} / {% if alumno.estadiasIngLic_alumno %}6{% else %}5{% endif %}</td>
-                      <td class="text-center">{{ alumno.da }} / {% if alumno.estadiasIngLic_alumno %}6{% else %}5{% endif %}</td>
+                      <td class="text-center">{{ alumno.dr }} / {% if alumno.estadiasIngLic_student %}6{% else %}5{% endif %}</td>
+                      <td class="text-center">{{ alumno.da }} / {% if alumno.estadiasIngLic_student %}6{% else %}5{% endif %}</td>
                       <td class="text-center">{{ alumno.dp }}</td>
                       <td class="text-center">{{ alumno.dporcentage }} %</td>
                       <td class="text-center">
                         {% if alumno.dr > 0 %}
-                          <a href="{{ request.PATHPROJECT }}/tituloElectronico/titulo-form.html?matricula={{ alumno.matricula_alumno }}" class="btn btn-primary btn-sm">Ver documentos</a>
+                          <a href="{{ request.PATHPROJECT }}/tituloElectronico/titulo-form.html?matricula={{ alumno.enrollment_student }}" class="btn btn-primary btn-sm">Ver documentos</a>
                         {% else %}
                           <p class="bg-danger btn-sm">No hay documentos</p>
                         {% endif %}

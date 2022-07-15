@@ -56,46 +56,46 @@
                   <th>Nombre</th>
                   <th>Documento</th>
                   <th>Status</th>
-                  <th>Comentarios</th>
+                  <th>comments</th>
                 </tr>
               </thead>
               <tbody>
                 <tr>
                   <td>Foto infantil b/n</td>
                   <td>
-                    {% if request.files.foto_infantil_bn_titulo_electronico %}
-                      <img src="{{ request.files.foto_infantil_bn_titulo_electronico.url }}" alt="Foto b/n" width="100">  
+                    {% if request.files.small_photo_bw_electronic_degree %}
+                      <img src="{{ request.files.small_photo_bw_electronic_degree.url }}" alt="Foto b/n" width="100">  
                     {% else %}
                       <span>No hay archivo cargado</span>
                     {% endif %}
                   </td>
                   <td class="text-center">
-                    {% if request.files.status_foto_infantil_bn_titulo_electronico != Null %}
-                      {% if request.files.status_foto_infantil_bn_titulo_electronico == True %}
+                    {% if request.files.status_small_photo_bw_electronic_degree != Null %}
+                      {% if request.files.status_small_photo_bw_electronic_degree == True %}
                         <i class="fas fa-check text-success"></i>
-                      {% elif request.files.status_foto_infantil_bn_titulo_electronico == False %}
+                      {% elif request.files.status_small_photo_bw_electronic_degree == False %}
                         <i class="fas fa-times text-danger"></i>
                       {% endif %}
                     {% else %}
                     <i class="fas fa-clock text-warning"></i>
                     {% endif %}
                   </td>
-                  <td>{{ request.files.comentarios_foto_infantil_bn_titulo_electronico }}</td>
+                  <td>{{ request.files.comments_small_photo_bw_electronic_degree }}</td>
                 </tr>
                 <tr>
                   <td>Foto infantil color</td>
                   <td>
-                    {% if request.files.foto_infantil_color_titulo_electronico %}
-                      <img src="{{ request.files.foto_infantil_color_titulo_electronico.url }}" alt="Foto color" width="100">
+                    {% if request.files.small_photo_color_electronic_degree %}
+                      <img src="{{ request.files.small_photo_color_electronic_degree.url }}" alt="Foto color" width="100">
                     {% else %}
                       <span>No hay archivo cargado</span>
                     {% endif %}
                   </td>
                   <td class="text-center">
-                    {% if request.files.status_foto_infantil_color_titulo_electronico != Null %}
-                      {% if request.files.status_foto_infantil_color_titulo_electronico == True %}
+                    {% if request.files.status_small_photo_color_electronic_degree != Null %}
+                      {% if request.files.status_small_photo_color_electronic_degree == True %}
                         <i class="fas fa-check text-success"></i>
-                      {% elif request.files.status_foto_infantil_color_titulo_electronico == False %}
+                      {% elif request.files.status_small_photo_color_electronic_degree == False %}
                         <i class="fas fa-times text-danger"></i>
                       {% endif %}
                     {% else %}
@@ -103,23 +103,23 @@
                     {% endif %}
                   </td>
                   <td>
-                    {{ request.files.comentarios_foto_infantil_color_titulo_electronico }}
+                    {{ request.files.comments_small_photo_color_electronic_degree }}
                   </td>
                 </tr>
                 <tr>
                   <td>Curp</td>
                   <td>
-                    {% if request.files.curp_titulo_electronico %}
-                      <a href="{{ request.files.curp_titulo_electronico.url }}" target="_blank">Curp</a>
+                    {% if request.files.curp_electronic_degree %}
+                      <a href="{{ request.files.curp_electronic_degree.url }}" target="_blank">Curp</a>
                     {% else %}
                       <span>No hay archivo cargado</span>
                     {% endif %}
                   </td>
                   <td class="text-center">
-                    {% if request.files.status_curp_titulo_electronico != Null %}
-                      {% if request.files.status_curp_titulo_electronico == True %}
+                    {% if request.files.status_curp_electronic_degree != Null %}
+                      {% if request.files.status_curp_electronic_degree == True %}
                         <i class="fas fa-check text-success"></i>
-                      {% elif request.files.status_curp_titulo_electronico == False %}
+                      {% elif request.files.status_curp_electronic_degree == False %}
                         <i class="fas fa-times text-danger"></i>
                       {% endif %}
                     {% else %}
@@ -127,23 +127,23 @@
                     {% endif %}
                   </td>
                   <td>
-                    {{ request.files.comentarios_curp_titulo_electronico }}
+                    {{ request.files.comments_curp_electronic_degree }}
                   </td>
                 </tr>
                 <tr>
                   <td>Acta de nacimiento</td>
                   <td>
-                    {% if request.files.acta_nacimiento_titulo_electronico %}
-                      <a href="{{ request.files.acta_nacimiento_titulo_electronico.url }}" target="_blank">Acta de nacimiento</a>
+                    {% if request.files.birth_certificate_electronic_degree %}
+                      <a href="{{ request.files.birth_certificate_electronic_degree.url }}" target="_blank">Acta de nacimiento</a>
                     {% else %}
                       <span>No hay archivo cargado</span>
                     {% endif %}
                   </td>
                   <td class="text-center">
-                    {% if request.files.status_acta_nacimiento_titulo_electronico != Null %}
-                      {% if request.files.status_acta_nacimiento_titulo_electronico == True %}
+                    {% if request.files.status_birth_certificate_electronic_degree != Null %}
+                      {% if request.files.status_birth_certificate_electronic_degree == True %}
                         <i class="fas fa-check text-success"></i>
-                      {% elif request.files.status_acta_nacimiento_titulo_electronico == False %}
+                      {% elif request.files.status_birth_certificate_electronic_degree == False %}
                         <i class="fas fa-times text-danger"></i>
                       {% endif %}
                     {% else %}
@@ -151,23 +151,23 @@
                     {% endif %}
                   </td>
                   <td>
-                    {{ request.files.comentarios_acta_nacimiento_titulo_electronico }}
+                    {{ request.files.comments_birth_certificate_electronic_degree }}
                   </td>
                 </tr>
                 <tr>
                   <td>Certificado de bachillerato</td>
                   <td>
-                    {% if request.files.certificado_bachiller_titulo_electronico %}
-                      <a href="{{ request.files.certificado_bachiller_titulo_electronico.url }}" target="_blank">Certificado de bachillerato</a>
+                    {% if request.files.high_school_certificate_electronic_degree %}
+                      <a href="{{ request.files.high_school_certificate_electronic_degree.url }}" target="_blank">Certificado de bachillerato</a>
                     {% else %}
                       <span>No hay archivo cargado</span>
                     {% endif %}
                   </td>
                   <td class="text-center">
-                    {% if request.files.status_certificado_bachiller_titulo_electronico != Null %}
-                      {% if request.files.status_certificado_bachiller_titulo_electronico == True %}
+                    {% if request.files.status_high_school_certificate_electronic_degree != Null %}
+                      {% if request.files.status_high_school_certificate_electronic_degree == True %}
                         <i class="fas fa-check text-success"></i>
-                      {% elif request.files.status_certificado_bachiller_titulo_electronico == False %}
+                      {% elif request.files.status_high_school_certificate_electronic_degree == False %}
                         <i class="fas fa-times text-danger"></i>
                       {% endif %}
                     {% else %}
@@ -175,34 +175,36 @@
                     {% endif %}
                   </td>
                   <td>
-                    {{ request.files.comentarios_certificado_bachiller_titulo_electronico }}
+                    {{ request.files.comments_high_school_certificate_electronic_degree }}
                   </td>
                 </tr>
-                <tr>
-                  <td>Certificado de titulación TSU</td>
-                  <td>
-                    {% if request.files.tsu_titulo_electronico %}
-                      <a href="{{ request.files.tsu_titulo_electronico.url }}" target="_blank">Certificado de titulación TSU</a>
-                    {% else %}
-                      <span>No hay archivo cargado</span>
-                    {% endif %}
-                  </td>
-                  <td class="text-center">
-                    {% if request.files.status_tsu_titulo_electronico != Null %}
-                      {% if request.files.status_tsu_titulo_electronico == True %}
-                        <i class="fas fa-check text-success"></i>
-                      {% elif request.files.status_tsu_titulo_electronico == False %}
-                        <i class="fas fa-times text-danger"></i>
+                {% if request.dataA.estadiasIngLic_student == True %}
+                  <tr>
+                    <td>Certificado de titulación TSU</td>
+                    <td>
+                      {% if request.files.tsu_electronic_degree %}
+                        <a href="{{ request.files.tsu_electronic_degree.url }}" target="_blank">Certificado de titulación TSU</a>
+                      {% else %}
+                        <span>No hay archivo cargado</span>
                       {% endif %}
-                    {% else %}
-                    <i class="fas fa-clock text-warning"></i>
-                    {% endif %}
-                  </td>
-                  <td>
-                    {{ request.files.comentarios_tsu_titulo_electronico }}
-                  </td>
-                </tr>
-              </tbody>
+                    </td>
+                    <td class="text-center">
+                      {% if request.files.status_tsu_electronic_degree != Null %}
+                        {% if request.files.status_tsu_electronic_degree == True %}
+                          <i class="fas fa-check text-success"></i>
+                        {% elif request.files.status_tsu_electronic_degree == False %}
+                          <i class="fas fa-times text-danger"></i>
+                        {% endif %}
+                      {% else %}
+                      <i class="fas fa-clock text-warning"></i>
+                      {% endif %}
+                    </td>
+                    <td>
+                      {{ request.files.comments_tsu_electronic_degree }}
+                    </td>
+                  </tr>
+                {% endif %}
+                </tbody>
             </table>
           </div>
           <!-- /.card-body -->

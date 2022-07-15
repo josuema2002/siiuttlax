@@ -15,12 +15,12 @@ import uuid
 
 class student(models.Model):
     enrollment_student = models.CharField(primary_key=True, max_length=15)#matricula del estudiante
-    id_user_student = models.ForeignKey(User, on_delete=models.CASCADE)#id del usuario del estudiante
+    id_user_student = models.ForeignKey(User, on_delete=models.CASCADE, default='')#id del usuario del estudiante
     name_student = models.CharField(max_length=50)#nombre del estudiante
     last_name_student = models.CharField(max_length=50, default='')#apellido del estudiante
     second_last_name_student = models.CharField(max_length=50, default='')#segundo apellido del estudiante
     career_student = models.CharField(max_length=50)#carrera del estudiante
-    area_career_student = models.CharField(max_length=50, default='')#area de la carrera del estudiante
+    area_career_student = models.CharField(max_length=50, default='', null=True)#area de la carrera del estudiante
     gender_student = models.CharField(max_length=50, default='')#genero del estudiante
     email_student = models.EmailField(max_length=50)#email
     phone_student = models.CharField(max_length=50)#tel
@@ -29,14 +29,11 @@ class student(models.Model):
     
     estadiasTSU_student = models.BooleanField(default=False)
     estadiasIngLic_student = models.BooleanField(default=False)
-
-    def __str__(self):
-        return self.enrollment_student + ' - ' + self.name_student 
-
+ 
 
 class degreeCertificate(models.Model):
     id_degree_certificate = models.AutoField(primary_key=True)#id del certificado de grado
-    enrollment_student_degree_id = models.ForeignKey(student, on_delete=models.CASCADE)#id del estudiante
+    enrollment_student_degree = models.ForeignKey(student, on_delete=models.CASCADE, default='')#id del estudiante
     name_student_degree = models.CharField(max_length=50, default='')#nombre del estudiante
     last_name_degree = models.CharField(max_length=50, default='')
     second_last_name_degree = models.CharField(max_length=50, default='')
@@ -60,7 +57,7 @@ class degreeCertificate(models.Model):
 idFileUser = uuid.uuid4()
 class electronicDegree(models.Model):
     id_electronic_degree = models.AutoField(primary_key=True)#id del titulo electronico
-    id_alumno_electronic_degree_id = models.ForeignKey(student, on_delete=models.CASCADE, default='')#id del estudiante
+    id_student_electronic_degree = models.ForeignKey(student, on_delete=models.CASCADE, default='')#id del estudiante
     small_photo_bw_electronic_degree = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Foto Infantil B/N')
     small_photo_color_electronic_degree = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='Foto Infantil Color')
     curp_electronic_degree = models.FileField(upload_to='filesT/'+str(idFileUser),  blank=True, verbose_name='CURP')
@@ -84,7 +81,7 @@ class electronicDegree(models.Model):
     updated_at_electronic_degree = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        fila = 'ID_alumno: ' + str(self.id_alumno_titulo_electronico) + '\n'
+        fila = 'ID_alumno: ' + str(self.id_student_electronic_degree) + '\n'
         return fila
     
     

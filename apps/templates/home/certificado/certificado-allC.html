@@ -56,36 +56,36 @@
                   <tbody>
                   {% for certificado in request.certificados %}
                   <tr>
-                    <td>{{ certificado.matricula_alumno_titulacion_id }}</td>
-                    <td>{{ certificado.nombre_alumno_titulacion }} {{ certificado.apellidop_alumno_titulacion }} {{ certificado.apellidom_alumno_titulacion }}</td>
-                    <td>{{ certificado.carrera_titulacion }}</td>
-                    <td>{{ certificado.area_carrera_titulacion }}</td>
-                    <td>{{ certificado.
+                    <td>{{ certificado.enrollment_student_degree_id }}</td>
+                    <td>{{ certificado.name_student_degree }} {{ certificado.last_name_degree }} {{ certificado.second_last_name_degree }}</td>
+                    <td>{{ certificado.career_degree }}</td>
+                    <td>{{ certificado.area_career_degree }}</td>
+                    <td>{{ certificado.updated_at_degree }}</td>
                     <td>
                       <button type="button" class="btn btn-primary" onclick="crearCertificado(
                         {
-                          matricula: '{{ certificado.matricula_alumno_titulacion_id }}',
-                          nombre: '{{ certificado.nombre_alumno_titulacion }}',
-                          apellidoP: '{{ certificado.apellidop_alumno_titulacion }}',
-                          apellidoM: '{{ certificado.apellidom_alumno_titulacion }}',
-                          planE: '{{ certificado.anio_plan_estudios_titulacion }}',
-                          periodoInit: '{{ certificado.periodo_escolar_init_titulacion }}',
-                          periodoEnd: '{{ certificado.periodo_escolar_end_titulacion }}',
-                          tipoC: '{{ certificado.tipo_carrera_titulacion }}',
-                          nombreC: '{{ certificado.carrera_titulacion }}',
-                          areaC: '{{ certificado.area_carrera_titulacion }}',
+                          matricula: '{{ certificado.enrollment_student_degree_id }}',
+                          nombre: '{{ certificado.name_student_degree }}',
+                          apellidoP: '{{ certificado.last_name_degree }}',
+                          apellidoM: '{{ certificado.second_last_name_degree }}',
+                          planE: '{{ certificado.syllabus_year_degree }}',
+                          periodoInit: '{{ certificado.start_school_term_degree }}',
+                          periodoEnd: '{{ certificado.end_school_term_degree }}',
+                          tipoC: '{{ certificado.type_career_degree }}',
+                          nombreC: '{{ certificado.career_degree }}',
+                          areaC: '{{ certificado.area_career_degree }}',
 
-                          calificaciones: '{{ certificado.calificaciones_titulacion }}',
+                          calificaciones: '{{ certificado.ratings_degree }}',
                         }
                       )">
                         Generar
                       </button>
                     </td>
                     <td class="d-flex justify-content-around">
-                      <a href="{{ request.PATHPROJECT }}/certificado/certificado-formE.html?matricula={{ certificado.matricula_alumno_titulacion_id }}" class="btn btn-primary">
+                      <a href="{{ request.PATHPROJECT }}/certificado/certificado-formE.html?matricula={{ certificado.enrollment_student_degree_id }}" class="btn btn-primary">
                         <i class="fa fa-edit"></i>
                       </a>
-                      <a href="{{ request.PATHPROJECT }}/certificado/delete?matricula={{ certificado.matricula_alumno_titulacion_id }}" class="btn btn-danger">
+                      <a href="{{ request.PATHPROJECT }}/certificado/delete?matricula={{ certificado.enrollment_student_degree_id }}" class="btn btn-danger">
                         <i class="fa fa-trash"></i>
                       </a>
                     </td>

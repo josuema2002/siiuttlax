@@ -62,8 +62,8 @@
               <div class="card-body">
                 {% for field in request.form %}
                   {% if field.field.widget.input_type == 'file' %}
-                    {% if field.name == 'tsu_titulo_electronico' %}
-                      {% if request.dataA.estadiasIngLic_alumno == True %}
+                    {% if field.name == 'tsu_electronic_degree' %}
+                      {% if request.dataA.estadiasIngLic_student == True %}
                         <div class="mb-3">
                             <label for="{{ field.name }}" class="form-label">
                                 {{ field.label }}
@@ -76,7 +76,7 @@
                               <a href="#" class="text-dark">No hay archivo</a>
                             {% endif %}
                         </div>
-                        {% endif %}
+                      {% endif %}
                     {% else %}
                     <div class="mb-3">
                       <label for="{{ field.name }}" class="form-label">
@@ -84,17 +84,17 @@
                       </label>
                       <input class="form-control border-0" type="file" id="{{ field.name }}"
                       name="{{ field.name }}" 
-                        {% if field.name == 'foto_infantil_bn_titulo_electronico' %}
+                        {% if field.name == 'small_photo_bw_electronic_degree' %}
                           accept="image/jpeg, image/png, image/jpg"
-                        {% elif field.name == 'foto_infantil_color_titulo_electronico' %}
+                        {% elif field.name == 'small_photo_color_electronic_degree' %}
                           accept="image/jpeg, image/png, image/jpg"
                         {% else %}
                           accept="application/pdf"
                         {% endif %}>
                         {% if field.value %}
-                          {% if field.name == 'foto_infantil_bn_titulo_electronico' %}
+                          {% if field.name == 'small_photo_bw_electronic_degree' %}
                             <img src="{{ field.value.url }}" alt="Foto b/n" width="100">
-                          {% elif field.name == 'foto_infantil_color_titulo_electronico' %}
+                          {% elif field.name == 'small_photo_color_electronic_degree' %}
                             <img src="{{ field.value.url }}" alt="Foto b/n" width="100">
                           {% else %}
                             <a href="/media/{{ field.value }}" target="_blank">Ver archivo</a>
@@ -104,10 +104,10 @@
                         {% endif %}
                     </div>
                     {% endif %}
-                  {% elif field.name == 'id_alumno_titulo_electronico' %}
+                  {% elif field.name == 'id_student_electronic_degree' %}
                     <div class="mb-3">
                         <input class="form-control border-0" type="hidden" id="{{ field.name }}"
-                        name="{{ field.name }}" value="{{ request.dataA.matricula_alumno }}" readonly>
+                        name="{{ field.name }}" value="{{ request.dataA.enrollment_student }}" readonly>
                     </div>
                   {% endif %}
                 {% endfor %}

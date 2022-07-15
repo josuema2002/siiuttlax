@@ -60,7 +60,7 @@
                 <div class="form-group">
                   <label>Matricula</label>
                   <p class="px-2">
-                    {{ request.dataAlumno.matricula_alumno_titulacion_id }}
+                    {{ request.dataAlumno.enrollment_student_degree_id }}
                   </p>
                 </div>
                 <!-- /.form-group -->
@@ -78,7 +78,7 @@
               <!-- /.card-header -->
               <div class="card-body">
                 {% for field in request.form %}
-                  {% if field.name == 'periodo_escolar_init_titulacion' %}
+                  {% if field.name == 'start_school_term_degree' %}
                     <div class="row">
                       <div class="col-sm-12">
                         <!-- text input -->
@@ -101,7 +101,7 @@
                         </div>
                       </div>
                     </div>
-                  {% elif field.name == 'periodo_escolar_end_titulacion' %}
+                  {% elif field.name == 'end_school_term_degree' %}
                     <div class="row">
                       <div class="col-sm-12">
                         <!-- text input -->
@@ -124,14 +124,14 @@
                         </div>
                       </div>
                     </div>
-                  {% elif field.name == 'calificaciones_titulacion' %}
+                  {% elif field.name == 'ratings_degree' %}
                     <script>
                       setInterval(() => {
                         $('#{{ field.name }}').val(JSON.stringify(calificaciones))
                       }, 500);
                     </script>
                     <input type="text" placeholder="-" class="d-none" id="{{ field.name }}" name="{{ field.name }}" value="{{ field.value }}" />
-                  {% elif field.name == 'matricula_alumno_titulacion' %}
+                  {% elif field.name == 'enrollment_student_degree' %}
                     <input type="hidden" placeholder="-" class="" id="{{ field.name }}" name="{{ field.name }}" value="{{ field.value }}"/>
                   
                   {% else %}
@@ -217,7 +217,7 @@
                   <tbody class="table-striped" id="tableCali">
                     <script>
                         setTimeout(() => {
-                            arrayCalificacionesString = '{{request.dataAlumno.calificaciones_titulacion}}'
+                            arrayCalificacionesString = '{{request.dataAlumno.ratings_degree}}'
                             arrayCalificacionesString = arrayCalificacionesString.replace(/&quot;/g, '"');
                             arrayCalificaciones = JSON.parse(arrayCalificacionesString);
                             arrayCalificaciones.forEach((calificacion) => {
@@ -264,9 +264,7 @@
                         }, 1000);      
                         
                         function deleteCali(e){
-                              console.log(e);
                               calificaciones = calificaciones.filter((calificacion) => {
-                                console.log(calificacion);
                                 //minuscculas calificacion.materia
                                 return calificacion.materia.toLowerCase() != e.getAttribute('mat').toLowerCase();
                               });
@@ -368,16 +366,16 @@
                 //crear pdf
                 //para crearlo dever dividir los datos en un array con los mismos nombres de los campos que vienen abajo
                 const data = {
-                  matricula: $('#matricula_alumno_titulacion').val(),
-                  nombre: $('#nombre_alumno_titulacion').val(),
-                  apellidoP: $('#apellidop_alumno_titulacion').val(),
-                  apellidoM: $('#apellidom_alumno_titulacion').val(),
-                  planE: $('#anio_plan_estudios_titulacion').val(),
-                  periodoInit: $('#periodo_escolar_init_titulacion').val(),
-                  periodoEnd: $('#periodo_escolar_end_titulacion').val(),
-                  tipoC: $('#tipo_carrera_titulacion').val(),
-                  nombreC: $('#carrera_titulacion').val(),
-                  areaC: $('#area_carrera_titulacion').val(),
+                  matricula: $('#enrollment_student_degree').val(),
+                  nombre: $('#name_student_degree').val(),
+                  apellidoP: $('#last_name_degree').val(),
+                  apellidoM: $('#second_last_name_degree').val(),
+                  planE: $('#syllabus_year_degree').val(),
+                  periodoInit: $('#start_school_term_degree').val(),
+                  periodoEnd: $('#end_school_term_degree').val(),
+                  tipoC: $('#type_career_degree').val(),
+                  nombreC: $('#career_degree').val(),
+                  areaC: $('#area_career_degree').val(),
 
                   calificaciones: calificaciones,
                 }
