@@ -8,6 +8,7 @@ from datetime import datetime
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
+from django.shortcuts import render as render_template
 from django.template import loader
 from django.urls import reverse
 from requests import request
@@ -23,6 +24,14 @@ from apps.home.forms import fileUploadForm, certificadoTitulacionForm
 
 
 PATHPROJECT = config.PATHPROJECT
+
+@login_required(login_url="/login/")
+def page_not_found_view(request, exception):
+    return render_template(request, 'home/page-404.html', status=404)
+    
+@login_required(login_url="/login/")
+def error500(request):
+    return render_template(request, 'home/page-500.html', status=500)
 
 @login_required(login_url="/login/")
 def index(request):
@@ -68,7 +77,9 @@ def pages(request):
                     mes = str(datetime.now().month)
                 for tituloElectronico in titulosElectronicos:
                     if str(str(tituloElectronico.__dict__['updated_at_electronic_degree'])).split('-')[1] == mes:
-                        request.numTitulosElectronicos += 1
+                        if tituloElectronico.birth_certificate_electronic_degree and tituloElectronico.high_school_certificate_electronic_degree and tituloElectronico.curp_electronic_degree and tituloElectronico.small_photo_bw_electronic_degree and tituloElectronico.small_photo_color_electronic_degree:
+                            request.numTitulosElectronicos += 1
+                        
             except:
                 request.certificados = None
                 request.alumnos = None

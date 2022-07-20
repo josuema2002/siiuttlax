@@ -1,5 +1,11 @@
 
-function crearCertificado(values){
+const crearCertificado = async(values)=>{
+
+  var meses = new Array ("Enero","Febrero","Marzo","Abril","Mayo","Junio","Julio","Agosto","Septiembre","Octubre","Noviembre","Diciembre");
+  values.periodoInit = meses[parseInt(values.periodoInit[0] + values.periodoInit[1])-1] + ' ' + values.periodoInit.slice(3);
+  values.periodoEnd = meses[parseInt(values.periodoEnd[0] + values.periodoEnd[1])-1] + ' ' + values.periodoEnd.slice(3);
+  
+
     try {
         // jsPdf
         window.jsPDF = window.jspdf.jsPDF;
@@ -33,11 +39,37 @@ function crearCertificado(values){
         
         doc.setFontSize(14);
         doc.setFont('avantgarde', 'bold');
-        doc.text(margins.left + 60, 3 + margins.top, 'CERTIFICADO DE ESTUDIOS');
+        doc.text(margins.left + 60, margins.top, 'CERTIFICADO DE ESTUDIOS');
         doc.setFontSize(9);
         doc.setFont('avantgarde', 'normal');
-        const textInit = `La Universidad Tecnológica certifica que según constancias existentes en el archivo escolar, el C. ${values.nombre} ${values.apellidoP} ${values.apellidoM} con matrícula ${values.matricula} cursó y aprobó las asignaturas que integran el plan de estudios ${values.planE} en el periodo escolar ${values.periodoInit} - ${values.periodoEnd} de la carrera de ${values.tipoC} en ${values.nombreC} Area ${values.areaC} obteniendo las calificaciones finales que a continuación se anotan:`
-        doc.text(textInit, margins.left + 40, 8 + margins.top,{ maxWidth: 105, align: "justify"});
+        // const textInit = `La Universidad Tecnológica certifica que según constancias existentes en el archivo escolar, el C. ${values.nombre} ${values.apellidoP} ${values.apellidoM} con matrícula ${values.matricula} cursó y aprobó las asignaturas que integran el plan de estudios ${values.planE} en el periodo escolar ${values.periodoInit} - ${values.periodoEnd} de la carrera de ${values.tipoC} en ${values.nombreC} Area ${values.areaC} obteniendo las calificaciones finales que a continuación se anotan:`
+        var textInit = document.createElement('p');
+          
+        textInit.innerHTML = `La Universidad Tecnológica certifica que según constancias existentes en el archivo escolar, el <b>C. ${values.nombre} ${values.apellidoP} ${values.apellidoM}</b> con matrícula <b style="text-decoration-line: underline; ">${values.matricula}</b> cursó y aprobó las asignaturas que integran el plan de estudios <b style="text-decoration-line: underline; ">${values.planE}</b> en el periodo escolar <b style="text-decoration-line: underline; ">${values.periodoInit} - ${values.periodoEnd}</b> de la carrera ${values.tipoC} en: <b>${values.nombreC} Area ${values.areaC}</b> obteniendo las calificaciones finales que a continuación se anotan:`;
+        //3.2px 100px  font-family: avantgarde;
+        textInit.setAttribute('style', 'font-size: 13px; width: 430px;  text-align: justify; color: #000;');
+        document.body.appendChild(textInit);
+        // doc.text(textInit, margins.left + 40, 8 + margins.top,{ maxWidth: 105, align: "justify"});
+        
+        await html2canvas(textInit).then(function(canvas) {
+            const base64image = canvas.toDataURL('image/png');
+
+            doc.addImage(base64image, 'PNG', margins.left + 38, margins.top, 105, 30, '', 'FAST', 0);
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
+        .finally(function() {
+            document.body.removeChild(textInit);
+        });
+        // doc.html(textInit, {
+        //   callback: function (doc) {
+        //   },
+        //   x: margins.left + 38,
+        //   y: margins.top + 3
+        // });
+        
+        
         doc.setLineWidth(0.5);
         doc.line(margins.left, margins.top + 35, margins.left + 146, margins.top + 35, 'FD');
         doc.setLineWidth(0.3);
@@ -596,18 +628,38 @@ function crearCertificado(values){
           default:
             break;
         }
-        const text1 = `El presente certificado ampara ${countMateria} asignaturas de un total de ${countMateria} y ${countCompetencias} competencias profesionales de un total de ${countCompetencias}.`
+        var text1 = document.createElement('p');
+        text1.innerHTML = `El presente certificado ampara <spam style="text-decoration-line: underline; ">${countMateria}</spam> asignaturas de un total de <spam style="text-decoration-line: underline; ">${countMateria}</spam> y ${countCompetencias} competencias profesionales de un total de ${countCompetencias}.`;
+        text1.setAttribute('style', 'font-size: 13px; width: 600px;  text-align: justify; color: #000;');
+        document.body.appendChild(text1);
+        
+        
         const text2 = `Expedido en El Carmen Xalpatlahuaya de Huamantla, Tlaxcala., a los ${dia} dias del mes de ${mes} del año ${anio}`
 
-        const alturaText1 = parseInt(Math.ceil(text1.length/115)) * 4;
+        // const alturaText1 = parseInt(Math.ceil(text1.length/115)) * 4;
         const alturaText2 = parseInt(Math.ceil(text2.length/115)) * 7;
 
         doc.setFontSize(8);
         doc.setFont('avantgarde', 'normal');
-        doc.text(margins.left + 5, alturaNew + alturaText1 , text1, { align: 'left', maxWidth: 140 });
-        doc.text(margins.left + 5, alturaNew + alturaText1 + alturaText2 + 3, text2, { align: 'left', maxWidth: 140 });
+        // doc.text(margins.left + 5, alturaNew + alturaText1 , text1, { align: 'left', maxWidth: 140 });
 
-        alturaNew = alturaNew + alturaText1 + alturaText2 + 3;
+
+        await html2canvas(text1).then(function(canvas) {
+          const base64image2 = canvas.toDataURL('image/png');
+
+          doc.addImage(base64image2, 'PNG', margins.left + 5, alturaNew + 2, 138, 7, '', 'FAST', 0);
+        })
+        .catch(function(err) {
+            console.log(err);
+        })
+        .finally(function() {
+            document.body.removeChild(text1);
+        });
+
+
+        doc.text(margins.left + 5, alturaNew + 7 + alturaText2 + 3, text2, { align: 'left', maxWidth: 140 });
+
+        alturaNew = alturaNew + 15 + alturaText2 + 3;
 
         //firmas
         doc.line(margins.left, alturaNew + 20, margins.left + 65, alturaNew + 20, 'FD'); // - 1
@@ -671,7 +723,13 @@ function crearCertificado(values){
 
 
 
-        doc.save(values.matricula+'_'+new Date().getTime()+'_CT.pdf');
+        // doc.save(values.matricula+'_'+new Date().getTime()+'_CT.pdf');
+        setTimeout(() => {
+          window.open(doc.output('bloburl'), {
+            target: '_blank',
+            filename: values.matricula + '_' + new Date().getTime() + '_CT.pdf',
+          });
+        }, 500);
     } catch (error) {
     console.log(error);
     }

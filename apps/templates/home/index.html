@@ -35,7 +35,7 @@
     <section class="content">
       <div class="container-fluid">
         <!-- Small boxes (Stat box) -->
-        <div class="row">
+        <div class="row position-relative">
           <div class="col-lg-3 col-6">
             <!-- small box -->
             <div class="small-box bg-info">
@@ -47,7 +47,7 @@
               <div class="icon">
                 <i class="fas fa-file-certificate"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{request.PATHPROJECT}}/certificado/certificado-allC.html" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -57,12 +57,12 @@
               <div class="inner">
                 <h3>{{request.numTitulosElectronicos}}<sup style="font-size: 20px"></sup></h3>
 
-                <p>Alumnos subierón todos sus documentos este mes.</p>
+                <p>Alumnos para TSU <b>subierón</b> todos sus documentos este mes.</p>
               </div>
               <div class="icon">
                 <i class="fas fa-file-alt"></i>
               </div>
-              <a href="#" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
+              <a href="{{request.PATHPROJECT}}/tituloElectronico/titulo-tsu.html" class="small-box-footer">More info <i class="fas fa-arrow-circle-right"></i></a>
             </div>
           </div>
           <!-- ./col -->
@@ -96,6 +96,35 @@
             </div>
           </div>
           <!-- ./col -->
+
+
+          <div class="progress position-absolute p-0">
+            <div id="progressT" class="progress-bar progress-bar-animated progress-bar-striped rounded-5" style="width: 100%; height: 6px;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <div class="progress position-absolute bottom-0 p-0 d-flex align-items-end">
+            <div id="progressB" class="progress-bar progress-bar-animated progress-bar-striped rounded-5" style="width: 100%; height: 6px;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <div class="progress position-absolute h-100 p-0" style="width: 6px;">
+            <div id="progressS" class="progress-bar progress-bar-animated progress-bar-striped rounded-5" style="width: 100%; height: 100%;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <div class="progress position-absolute h-100 p-0 end-0" style="width: 6px;">
+            <div id="progressE" class="progress-bar progress-bar-animated progress-bar-striped rounded-5" style="width: 100%; height: 100%;" role="progressbar" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+          </div>
+          <script>
+            //cada segundo que cambie el color del progress bar
+            setInterval(function(){
+              var progress1 = document.getElementById("progressT");
+              var progress2 = document.getElementById("progressB");
+              var progress3 = document.getElementById("progressS");
+              var progress4 = document.getElementById("progressE");
+              progress1.style.backgroundColor = `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`;
+              progress2.style.backgroundColor = `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`;
+              progress3.style.backgroundColor = `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`;
+              progress4.style.backgroundColor = `rgb(${Math.random()*255}, ${Math.random()*255}, ${Math.random()*255})`;
+            }, 1000);
+          </script>
+
+
         </div>
         <!-- /.row -->
         <!-- Main row -->
