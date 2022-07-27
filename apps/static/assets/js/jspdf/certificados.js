@@ -47,7 +47,8 @@ const crearCertificado = async(values)=>{
           
         textInit.innerHTML = `La Universidad Tecnológica certifica que según constancias existentes en el archivo escolar, el <b>C. ${values.nombre} ${values.apellidoP} ${values.apellidoM}</b> con matrícula <b style="text-decoration-line: underline; ">${values.matricula}</b> cursó y aprobó las asignaturas que integran el plan de estudios <b style="text-decoration-line: underline; ">${values.planE}</b> en el periodo escolar <b style="text-decoration-line: underline; ">${values.periodoInit} - ${values.periodoEnd}</b> de la carrera ${values.tipoC} en: <b>${values.nombreC} Area ${values.areaC}</b> obteniendo las calificaciones finales que a continuación se anotan:`;
         //3.2px 100px  font-family: avantgarde;
-        textInit.setAttribute('style', 'font-size: 13px; width: 430px;  text-align: justify; color: #000;');
+        textInit.setAttribute('style', 'font-size: 13px; width: 430px;  text-align: justify; color: #000; font-family: avantgarde;');
+        textInit.classList.add('bg-transparent');
         document.body.appendChild(textInit);
         // doc.text(textInit, margins.left + 40, 8 + margins.top,{ maxWidth: 105, align: "justify"});
         
@@ -60,7 +61,7 @@ const crearCertificado = async(values)=>{
             console.log(err);
         })
         .finally(function() {
-            document.body.removeChild(textInit);
+            // document.body.removeChild(textInit);
         });
         // doc.html(textInit, {
         //   callback: function (doc) {
@@ -630,7 +631,8 @@ const crearCertificado = async(values)=>{
         }
         var text1 = document.createElement('p');
         text1.innerHTML = `El presente certificado ampara <spam style="text-decoration-line: underline; ">${countMateria}</spam> asignaturas de un total de <spam style="text-decoration-line: underline; ">${countMateria}</spam> y ${countCompetencias} competencias profesionales de un total de ${countCompetencias}.`;
-        text1.setAttribute('style', 'font-size: 13px; width: 600px;  text-align: justify; color: #000;');
+        text1.setAttribute('style', 'font-size: 13px; width: 600px;  text-align: justify; color: #000; font-family: avantgarde;');
+        text1.classList.add('bg-transparent');
         document.body.appendChild(text1);
         
         
@@ -653,7 +655,7 @@ const crearCertificado = async(values)=>{
             console.log(err);
         })
         .finally(function() {
-            document.body.removeChild(text1);
+            // document.body.removeChild(text1);
         });
 
 

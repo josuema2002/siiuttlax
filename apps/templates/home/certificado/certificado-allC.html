@@ -44,6 +44,7 @@
                 <table id="example1" class="table table-bordered table-striped">
                   <thead>
                   <tr>
+                    <th>Folio</th>
                     <th>Matricula</th>
                     <th>Nombre</th>
                     <th>Carrera</th>
@@ -54,8 +55,34 @@
                   </tr>
                   </thead>
                   <tbody>
+                    <script>
+                      var folio = "";
+                    </script>
                   {% for certificado in request.certificados %}
                   <tr>
+                    <td id="{{ certificado.id_degree_certificate }}">
+                      <script>
+                        folio = '{{ certificado.id_degree_certificate }}'
+                        switch(folio.length){
+                          case 1:
+                            folio = "0000" + folio;
+                            break;
+                          case 2:
+                            folio = "000" + folio;
+                            break;
+                          case 3:
+                            folio = "00" + folio;
+                            break;
+                          case 4:
+                            folio = "0" + folio;
+                            break;
+                          case 5:
+                            folio = folio;
+                            break;
+                        }
+                        document.getElementById('{{ certificado.id_degree_certificate }}').innerHTML= folio     
+                      </script>
+                    </td>
                     <td>{{ certificado.enrollment_student_degree_id }}</td>
                     <td>{{ certificado.name_student_degree }} {{ certificado.last_name_degree }} {{ certificado.second_last_name_degree }}</td>
                     <td>{{ certificado.career_degree }}</td>
@@ -93,6 +120,7 @@
                   </tbody>
                   <tfoot>
                     <tr>
+                      <th>Folio</th>
                       <th>Matricula</th>
                       <th>Nombre</th>
                       <th>Carrera</th>

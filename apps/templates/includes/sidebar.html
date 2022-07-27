@@ -21,7 +21,7 @@
       </div>
 
       <!-- SidebarSearch Form -->
-      <div class="form-inline">
+      <div class="form-inline d-none">
         <div class="input-group" data-widget="sidebar-search">
           <input class="form-control form-control-sidebar" type="search" placeholder="Search" aria-label="Search">
           <div class="input-group-append">
@@ -188,66 +188,6 @@
           </li>
           {% endif %}
 
-          
-          <li class="nav-item has-treeview {% if 'ui-' in segment %} menu-open {% endif %}">
-            <a href="#" class="nav-link {% if 'ui-' in segment %} active {% endif %}">
-              <i class="nav-icon fas fa-tree"></i>
-              <p>
-                UI Elements
-                <i class="fas fa-angle-left right"></i>
-              </p>
-            </a>
-            <ul class="nav nav-treeview">
-              <li class="nav-item">
-                <a href="/ui-general.html" class="nav-link {% if 'ui-general' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>General</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-icons.html" class="nav-link {% if 'ui-icons' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Icons</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-buttons.html" class="nav-link {% if 'ui-buttons' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Buttons</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-sliders.html" class="nav-link {% if 'ui-sliders' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Sliders</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-modals.html" class="nav-link {% if 'ui-modals' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Modals & Alerts</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-navbar.html" class="nav-link {% if 'ui-navbar' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Navbar & Tabs</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-timeline.html" class="nav-link {% if 'ui-timeline' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Timeline</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="/ui-ribbons.html" class="nav-link {% if 'ui-ribbons' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Ribbons</p>
-                </a>
-              </li>
-            </ul>
-          </li>
           <li class="nav-header">EXAMPLES</li>
           <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
@@ -320,14 +260,7 @@
               </li>
             </ul>
           </li>
-          <li class="nav-header">MISCELLANEOUS</li>
-          <li class="nav-item">
-            <a target="_blank" rel="noopener noreferrer"
-               href="https://adminlte.io/docs/3.0/" class="nav-link">
-              <i class="nav-icon fas fa-file"></i>
-              <p>UI Documentation</p>
-            </a>
-          </li>
+          
         </ul>
       </nav>
       <!-- /.sidebar-menu -->

@@ -27,8 +27,27 @@
     SIIUTTLAX - {% block title %}{% endblock %} | UTT
   </title> 
   
+  <!-- Fonts -->
+
   <!-- Google Font: Source Sans Pro -->
   <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+  
+  <style>
+    @font-face {
+      font-family: 'avantgarde';
+      src: url('{{ ASSETS_ROOT }}/fonts/avantgarde/AVGARDD_2.TTF') format('truetype');
+      font-style: normal;
+      font-weight: bold;
+    }
+    
+    @font-face {
+      font-family: 'avantgarde';
+      src: url('{{ ASSETS_ROOT }}/fonts/avantgarde/AVGARDN_2.TTF') format('truetype');
+      font-style: normal;
+      font-weight: normal;
+    }
+  </style>
+  
   <!-- Font Awesome -->
   <link rel="stylesheet" href="{{ ASSETS_ROOT }}/Fontawesome_PRO/css/all.min.css">
   <!-- <link rel="stylesheet" href="{{ ASSETS_ROOT }}/plugins/fontawesome-free/css/all.min.css"> -->
@@ -82,6 +101,7 @@
   
 </head>
 <body class="hold-transition {% block body_class %}{% endblock body_class %}">
+  {% load humanize %}
 <div class="wrapper">
 
     {% include 'includes/navigation.html' %}

@@ -89,15 +89,11 @@ class electronicDegree(models.Model):
 class estadisticasTitulacion(models.Model):
     id_estadisticas_titulacion = models.AutoField(primary_key=True)
     genero_estadisticas_titulacion = models.CharField(max_length=50)
-    fecha_init_estadisticas_titulacion = models.DateField()
-    fecha_end_estadisticas_titulacion = models.DateField()
     ingreso_estadisticas_titulacion = models.IntegerField()
     egreso_estadisticas_titulacion = models.IntegerField()
-    titulados_estadisticas_titulacion = models.IntegerField()
     rezagados_estadisticas_titulacion = models.IntegerField()
-    porcentaje_titulados_estadisticas_titulacion = models.BooleanField(default=False)
-    # total_estudiantes_estadisticas_titulacion = models.IntegerField()
-    # total_titulados_estadisticas_titulacion = models.IntegerField()
+    total_estudiantes_estadisticas_titulacion = models.IntegerField()
+    total_titulados_estadisticas_titulacion = models.IntegerField()
     # total_no_titulados_estadisticas_titulacion = models.IntegerField()
     # created_at_estadisticas_titulacion = models.DateTimeField(auto_now_add=True)
 

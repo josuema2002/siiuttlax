@@ -67,10 +67,10 @@ def pages(request):
                 for certificado in certificados:
                     if str(certificado.__dict__['updated_at_degree']).split('-')[0] == str(datetime.now().year):
                         request.numCertificados += 1
+
                 titulosElectronicos = electronicDegree.objects.all()
                 request.titulosElectronicos = titulosElectronicos
                 request.numTitulosElectronicos = 0
-                # saber si str(datetime.now().month) tiene una longitud de 1 o 2
                 if len(str(datetime.now().month)) == 1:
                     mes = '0' + str(datetime.now().month)
                 else:
@@ -83,8 +83,14 @@ def pages(request):
             except:
                 request.certificados = None
                 request.alumnos = None
+                request.numCertificados = 0
+                request.numTitulosElectronicos = 0
 
             if request.path.split('/')[-2] == 'estadisticas':
+
+                if load_template == 'charts-form.html':
+                    1+1
+
                 html_template = loader.get_template('home/estadisticas/' + load_template)
             elif request.path.split('/')[-2] == 'tituloElectronico':
 
@@ -177,6 +183,15 @@ def pages(request):
                     except:
                         load_template = 'titulo-allT.html'
 
+                if load_template == 'delete':
+                    try:
+                        matricula = request.GET['matricula']
+                        dataTitulo = electronicDegree.objects.get(id_student_electronic_degree=matricula)
+                        dataTitulo.delete()
+                        return HttpResponseRedirect(PATHPROJECT+'/tituloElectronico/titulo-allT.html')
+                    except:
+                        return HttpResponseRedirect(PATHPROJECT+'/tituloElectronico/titulo-form.html?matricula='+request.GET['matricula'])
+
                 html_template = loader.get_template('home/tituloElectronico/' + load_template)
             elif request.path.split('/')[-2] == 'certificado':
 
@@ -268,7 +283,7 @@ def pages(request):
                 request.files = files
                 request.titleFormTituloElectronico = 'Editar'
             except electronicDegree.DoesNotExist:
-                request.titleFormTituloElectronico = 'Formulario'
+                request.titleFormTituloElectronico = 'Subir'
 
             if request.path.split('/')[-2] == 'estadisticas' or request.path.split('/')[-2] == 'tituloElectronico' or request.path.split('/')[-2] == 'certificado' or request.path.split('/')[-2] == 'folio':
                 return HttpResponseRedirect('/404')
