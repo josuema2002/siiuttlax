@@ -95,6 +95,9 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 <link href="https://cdn.jsdelivr.net/css-toggle-switch/latest/toggle-switch.css" rel="stylesheet" />
 
+<!-- scroll -->
+<link rel="stylesheet" href="{{ ASSETS_ROOT }}/css/scroll.min.css">
+
   
   
   {% block stylesheets %}{% endblock stylesheets %}
@@ -211,10 +214,33 @@
 integrity="sha512-Qr/d6af6cN41/GIKiSmrQd4Y19/fo0YvWhD1VND8O+BsfbFBaZI4K7VVPoUZrd8PzMQ3CE71CkMjhrKf1NbhdQ==" 
 crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
+<!-- filesaver -->
+<script src="{{ ASSETS_ROOT }}/js/filesaver/FileSaver.min.js"></script>
+
 <!-- jsPdf -->
 <script src="{{ ASSETS_ROOT }}/plugins/jspdf/jspdf.umd.min.js"></script>
 <script src="{{ ASSETS_ROOT }}/js/jspdf/certificados.js"></script>
 
+<!-- sheetJS -->
+<script src="{{ ASSETS_ROOT }}/js/sheetJS/xlsx.mini.min.js"></script>
+
+<script>
+  function deleteRow(url) {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: "No podrás revertir esto!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Si, eliminar!'
+    }).then((result) => {
+      if (result.value) {
+        window.location.href = url;
+      }
+    })
+  }
+</script>
 
   {% block javascripts %}{% endblock javascripts %}
 </body>

@@ -180,7 +180,7 @@
                         $('#{{ field.name }}').val(JSON.stringify(calificaciones))
                       }, 500);
                     </script>
-                    <input type="text" placeholder="-" class="d-non" id="{{ field.name }}" name="{{ field.name }}"/>
+                    <input type="text" placeholder="-" class="d-none" id="{{ field.name }}" name="{{ field.name }}"/>
                   {% elif field.name == 'enrollment_student_degree' %}
                     <script>
                       setInterval(() => {

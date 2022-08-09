@@ -83,17 +83,25 @@ class electronicDegree(models.Model):
     def __str__(self):
         fila = 'ID_alumno: ' + str(self.id_student_electronic_degree) + '\n'
         return fila
+
+    def delete(self, *args, **kwargs):
+        self.small_photo_bw_electronic_degree.delete()
+        self.small_photo_color_electronic_degree.delete()
+        self.curp_electronic_degree.delete()
+        self.birth_certificate_electronic_degree.delete()
+        self.high_school_certificate_electronic_degree.delete()
+        self.tsu_electronic_degree.delete()
+        super().delete(*args, **kwargs)
     
     
-    
-class estadisticasTitulacion(models.Model):
-    id_estadisticas_titulacion = models.AutoField(primary_key=True)
-    genero_estadisticas_titulacion = models.CharField(max_length=50)
-    ingreso_estadisticas_titulacion = models.IntegerField()
-    egreso_estadisticas_titulacion = models.IntegerField()
-    rezagados_estadisticas_titulacion = models.IntegerField()
-    total_estudiantes_estadisticas_titulacion = models.IntegerField()
-    total_titulados_estadisticas_titulacion = models.IntegerField()
+# class estadisticasTitulacion(models.Model):
+    # id_estadisticas_titulacion = models.AutoField(primary_key=True)
+    # genero_estadisticas_titulacion = models.CharField(max_length=50)
+    # ingreso_estadisticas_titulacion = models.IntegerField()
+    # egreso_estadisticas_titulacion = models.IntegerField()
+    # rezagados_estadisticas_titulacion = models.IntegerField()
+    # total_estudiantes_estadisticas_titulacion = models.IntegerField()
+    # total_titulados_estadisticas_titulacion = models.IntegerField()
     # total_no_titulados_estadisticas_titulacion = models.IntegerField()
     # created_at_estadisticas_titulacion = models.DateTimeField(auto_now_add=True)
 

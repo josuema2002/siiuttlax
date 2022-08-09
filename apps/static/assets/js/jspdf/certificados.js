@@ -61,7 +61,7 @@ const crearCertificado = async(values)=>{
             console.log(err);
         })
         .finally(function() {
-            // document.body.removeChild(textInit);
+            document.body.removeChild(textInit);
         });
         // doc.html(textInit, {
         //   callback: function (doc) {
@@ -655,7 +655,7 @@ const crearCertificado = async(values)=>{
             console.log(err);
         })
         .finally(function() {
-            // document.body.removeChild(text1);
+            document.body.removeChild(text1);
         });
 
 

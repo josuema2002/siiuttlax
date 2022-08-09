@@ -72,7 +72,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a href="{{ request.PATHPROJECT }}/certificado/certificado-form.html" class="nav-link {% if 'form.html' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/certificado/certificado-form.html" class="nav-link {% if 'certificado-form.html' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
                   <p>Nuevo</p>
                 </a>
@@ -90,27 +90,9 @@
             </a>
             <ul class="nav nav-treeview">
               <li class="nav-item">
-                <a href="{{ request.PATHPROJECT }}/estadisticas/charts-allE.html" class="nav-link {% if 'allE' in segment %} active {% endif %}">
+                <a href="{{ request.PATHPROJECT }}/estadisticas/charts-form.html" class="nav-link {% if 'charts-form' in segment %} active {% endif %}">
                   <i class="far fa-circle nav-icon"></i>
-                  <p>Todas</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ request.PATHPROJECT }}/estadisticas/charts-chartjs.html" class="nav-link {% if 'charts-chartjs' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Hombres</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ request.PATHPROJECT }}/estadisticas/charts-flot.html" class="nav-link {% if 'charts-flot' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Mujeres</p>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a href="{{ request.PATHPROJECT }}/estadisticas/charts-inline.html" class="nav-link {% if 'charts-inline' in segment %} active {% endif %}">
-                  <i class="far fa-circle nav-icon"></i>
-                  <p>Humbres y mujeres</p>
+                  <p>Generar estadistica</p>
                 </a>
               </li>
             </ul>

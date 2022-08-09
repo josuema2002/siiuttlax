@@ -112,9 +112,9 @@
                       <a href="{{ request.PATHPROJECT }}/certificado/certificado-formE.html?matricula={{ certificado.enrollment_student_degree_id }}" class="btn btn-primary">
                         <i class="fa fa-edit"></i>
                       </a>
-                      <a href="{{ request.PATHPROJECT }}/certificado/delete?matricula={{ certificado.enrollment_student_degree_id }}" class="btn btn-danger">
+                      <button onclick="deleteRow('{{ request.PATHPROJECT }}/certificado/delete?matricula={{ certificado.enrollment_student_degree_id }}')" class="btn btn-danger">
                         <i class="fa fa-trash"></i>
-                      </a>
+                      </button>
                     </td>
                   {% endfor %}
                   </tbody>
@@ -151,6 +151,9 @@
 {% block javascripts %}
 
   <!-- page script -->
+
+  
+
   <script>
     $(function () {
       $("#example1").DataTable({

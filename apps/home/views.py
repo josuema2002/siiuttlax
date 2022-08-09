@@ -5,6 +5,8 @@ Copyright (c) 2019 - present AppSeed.us
 from asyncio.windows_events import NULL
 from codecs import register
 from datetime import datetime
+from operator import is_not
+from unittest import result
 from django import template
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
@@ -16,7 +18,7 @@ from requests import request
 from apps import config
 
 #importar los modelos
-from apps.home.models import student, degreeCertificate, electronicDegree, estadisticasTitulacion
+from apps.home.models import student, degreeCertificate, electronicDegree
 from django.contrib.auth.models import User
 
 #importar los forms
@@ -38,6 +40,33 @@ def index(request):
     context = {'segment': 'index'}
 
     request.PATHPROJECT = PATHPROJECT
+    try:
+        certificados = degreeCertificate.objects.all()
+        request.certificados = certificados
+        alumnos = student.objects.all()
+        request.alumnos = alumnos
+        request.numCertificados = 0
+        for certificado in certificados:
+            if str(certificado.__dict__['updated_at_degree']).split('-')[0] == str(datetime.now().year):
+                request.numCertificados += 1
+
+        titulosElectronicos = electronicDegree.objects.all()
+        request.titulosElectronicos = titulosElectronicos
+        request.numTitulosElectronicos = 0
+        if len(str(datetime.now().month)) == 1:
+            mes = '0' + str(datetime.now().month)
+        else:
+            mes = str(datetime.now().month)
+        for tituloElectronico in titulosElectronicos:
+            if str(str(tituloElectronico.__dict__['updated_at_electronic_degree'])).split('-')[1] == mes:
+                if tituloElectronico.birth_certificate_electronic_degree and tituloElectronico.high_school_certificate_electronic_degree and tituloElectronico.curp_electronic_degree and tituloElectronico.small_photo_bw_electronic_degree and tituloElectronico.small_photo_color_electronic_degree:
+                    request.numTitulosElectronicos += 1             
+    except:
+        request.certificados = None
+        request.alumnos = None
+        request.numCertificados = 0
+        request.numTitulosElectronicos = 0
+
 
     html_template = loader.get_template('home/index.html')
     return HttpResponse(html_template.render(context, request))
@@ -264,6 +293,85 @@ def pages(request):
                         'head_school_services_area_degree': 'Arq. Alfredo Ajuria Huerta',
                         'director_career_degree': 'M. en C. Yesenia Ricón Enríquez',
                         'ratings_degree': '[{"materia": "Matematicas", "horas": 50,"calificacion": 10},{"materia": "Español", "horas": 100, "calificacion": 9},{"materia": "Historia", "horas": 79, "calificacion": 8}]'
+                    })
+                else :
+                    return HttpResponseRedirect('/404/')
+
+            elif request.path.split('/')[-1] == 'estadistica1':
+                # obtener los datos POST de alumnos
+                if request.method == 'POST' and request.is_ajax():
+                    #obtener los datos POST
+                    datos = request.POST
+                    resultados = []
+                    resultadosArray = []
+                    ##obtener genero-------------
+                    RG=[]
+                    if datos['genero'] == '3':
+                        resultadosG = student.objects.all()
+                        
+                    else:
+                        resultadosG = student.objects.filter(
+                            gender_student=datos['genero']
+                        )
+                    for resultadoG in resultadosG:
+                        RG.append(resultadoG.__dict__)
+
+                    resultadosGA = list(resultadosG.values_list(flat=True))
+                    
+                    ##obtener carrera-------------
+                    RT=[]
+                    carreras=[]
+                    if datos['tipo'] == '1':
+                        if datos['area'] == '1':
+                            resultadosT = student.objects.all()
+                            #carreras es igual al retorno del nombre del area de la tabla para el carreras
+                            carreras = ['DSM', 'Entornos virtulaes', 'Mercadotecnia']
+                        else:
+                            resultadosT = student.objects.filter(area_career_student = datos['area'])
+                            carreras = [datos['area']]
+                    elif datos['tipo'] == '2':
+                        if datos['carrera'] == '1':
+                            resultadosT = student.objects.all()
+                            #carreras es igual al retorno del nombre de la carrera de la tabla para el carreras
+                            carreras = ['TI', 'TI2', 'Ingeniería en Sistemas', 'Ingeniería en Computación', 'Ingeniería en Mecatrónica', 'Ingeniería en Electrónica', 'Ingeniería en Mecatrónica', 'Ingeniería en Telecomunicaciones', 'Ingeniería en Automatización', 'Ingeniería en Gestión de la Calidad', 'Ingeniería en Gestión de la Producción', 'Ingeniería en Gestión de la Seguridad Industrial', 'Ingeniería en Gestión Empresarial']
+                        else:
+                            resultadosT = student.objects.filter(career_student = datos['carrera'])
+                            carreras = [datos['carrera']]
+
+                    for resultadoT in resultadosT:
+                        RT.append(resultadoT.__dict__)
+                    resultadosT = list(resultadosT.values_list(flat=True))
+
+                    ##obtener plan de estudio-------------
+                    #usar este cuando la bd tenga el plan de estudio, por defecto se usara uno falso
+                    
+                    # resultadosP = student.objects.filter(
+                    #     syllabus_year_degree=datos['periodoE']
+                    # ).values_list(flat=True)
+
+                    ##fucionar datos-------------
+                    #usar este
+                    # for i in resultadosG:
+                    #     if i in resultadosT:
+                    #         if i in resultadosP:
+                    #             resultados.append(i)
+                    #             for resultadoG in resultadosG:
+                    #              if resultadoG.enrollment_student == i:
+                    #               resultadosArray.append(resultadoG.__dict__)
+                    for i in resultadosGA:
+                        if i in resultadosT:
+                            resultados.append(i)
+                            for resultadoG in resultadosG:
+                                if resultadoG.enrollment_student == i:
+                                    resultadosArray.append(resultadoG.__dict__)
+                
+                    ##enviar datos-------------
+                    return JsonResponse({
+                        'resultadosG': str(RG),
+                        'resultadosT': str(RT),
+                        'carreras': carreras,
+                        'resultados': resultados,
+                        'resultadosArray': str(resultadosArray)
                     })
                 else :
                     return HttpResponseRedirect('/404/')

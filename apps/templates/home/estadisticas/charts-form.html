@@ -1,0 +1,584 @@
+{% extends "layouts/base.html" %}
+
+{% block title %} Estadisticas {% endblock %} 
+
+<!-- Element injected in the BODY element -->
+{% block body_class %} {% endblock body_class %} 
+
+<!-- Specific Page CSS goes HERE  -->
+{% block stylesheets %}
+{% endblock stylesheets %}
+
+{% block content %} 
+
+  <!-- Content Wrapper. Contains page content -->
+  <div class="content-wrapper">
+    <!-- Content Header (Page header) -->
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-2">
+          <div class="col-sm-6">
+            <h1>Estadisticas</h1>
+          </div>
+          <div class="col-sm-6">
+            <ol class="breadcrumb float-sm-right">
+              <li class="breadcrumb-item"><a href="{{ request.PATHPROJECT }}">Home</a></li>
+              <li class="breadcrumb-item active">Estadisticas</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+    <!-- Main content -->
+    <section class="content">
+      <div class="container-fluid">
+        <!-- SELECT2 EXAMPLE -->
+        <form action="" id="form" class="card card-default" method="POST" enctype="multipart/form-data">
+          {% csrf_token %}
+          <div class="card-header">
+            <h3 class="card-title">Generar nueva estadistica</h3>
+
+            <div class="card-tools">
+              <button type="button" class="btn btn-tool" data-card-widget="collapse">
+                <i class="fas fa-minus"></i>
+              </button>
+              <!-- <button type="button" class="btn btn-tool" data-card-widget="remove">
+                <i class="fas fa-times"></i>
+              </button> -->
+            </div>
+          </div>
+          <!-- /.card-header -->
+          <div class="card-body">
+            <!-- right column -->
+            <div class="col-md-12">
+              <!-- general form elements disabled -->
+              <div class="card card-warning">
+                <div class="card-header">
+                  <h3 class="card-title">Llene los campos para generar una nueva estadistica</h3>
+                </div>
+                <!-- /.card-header -->
+                <div class="card-body" id="card-body">
+                  <div class="row">
+                      <div class="form-group col-6">
+                          <label for="genero">Genero</label>
+                          <select id="genero" class="form-control" name="genero">
+                              <option selected disabled value="0">Seleccione una opción</option>
+                              <option value="1">Hombres</option>
+                              <option value="2">Mujeres</option>
+                              <option value="3">Ambos</option>
+                          </select>
+                      </div>
+                      <div class="form-group col-6">
+                          <label for="tipo">Tipo de titulacion</label>
+                          <select id="tipo" class="form-control" name="tipo">
+                              <option selected disabled value="0">Seleccione una opción</option>
+                              <option value="1">TSU</option>
+                              <option value="2">Ingenieria/Licenciatura</option>
+                          </select>
+                      </div>
+                  </div>
+                  <div class="row">
+                      <div class="form-group col-6 d-none">
+                          <label for="area">Area de la carrera</label>
+                          <select id="area" class="form-control" name="area">
+                              <option selected disabled value="0">Seleccione una opción</option>
+                              <option value="1">Todas</option>
+                              <script>
+                                  var areas = ['DSM', 'Entornos virtulaes', 'Mercadotecnia']
+                                  areas.forEach(function(area){
+                                      document.getElementById('area').appendChild(new Option(area, area));
+                                  });
+                              </script>
+                          </select>
+                      </div>
+                      <div class="form-group col-6 d-none">
+                          <label for="carrera">Carrera</label>
+                          <select id="carrera" class="form-control" name="carrera">
+                              <option selected disabled value="0">Seleccione una opción</option>
+                              <option value="1">Todas</option>
+                              <script>
+                                  var carreras = ['TI', 'TI2', 'Ingeniería en Sistemas', 'Ingeniería en Computación', 'Ingeniería en Mecatrónica', 'Ingeniería en Electrónica', 'Ingeniería en Mecatrónica', 'Ingeniería en Telecomunicaciones', 'Ingeniería en Automatización', 'Ingeniería en Gestión de la Calidad', 'Ingeniería en Gestión de la Producción', 'Ingeniería en Gestión de la Seguridad Industrial', 'Ingeniería en Gestión Empresarial']
+                                  carreras.forEach(function(carrera){
+                                      document.getElementById('carrera').appendChild(new Option(carrera, carrera));
+                                  });
+                              </script>
+                          </select>
+                      </div>
+
+                      <div class="form-group col-6">
+                          <label for="tipoE">Datos a la grafica</label>
+                          <select id="tipoE" class="form-control" name="tipoE">
+                              <option selected disabled value="0">Seleccione una opción</option>
+                              <option value="1">Difencia entre titulados y no titulados</option>
+                              <option value="2">Diferencia entre titulados y egresados</option>
+                          </select>
+                      </div>
+
+                  </div>
+                  <script>
+                      setInterval(function(){
+                        document.getElementById('tipo').addEventListener('change', ()=>{
+                          switch (document.getElementById('tipo').value) {
+                            case '1':
+                                document.getElementById('area').parentElement.classList.remove('d-none')
+                                document.getElementById('carrera').parentElement.classList.add('d-none')
+                                break;
+                            case '2':
+                                document.getElementById('area').parentElement.classList.add('d-none')
+                                document.getElementById('carrera').parentElement.classList.remove('d-none')
+                                break;
+                        
+                            default:
+                                document.getElementById('area').parentElement.classList.add('d-none')
+                                document.getElementById('carrera').parentElement.classList.add('d-none')
+                                break;
+                          }
+                        })
+                      }, 1000);
+                      
+                  </script>
+
+                  
+                  <div class="row">
+                    <div class="col-sm-6">
+                      <!-- text input -->
+                      <div class="form-group">
+                        <label id="">
+                          Periodo de estudio
+                        </label>
+                        <div class="input-group date" id="pE" data-target-input="nearest">
+                          <input type="text" placeholder="2022" class="form-control datetimepicker-input" data-target="#init" id="periodoE" name="periodoE"/>
+                            <div class="input-group-append" data-target="#pE" data-toggle="datetimepicker">
+                                <div class="input-group-text"><i class="fa fa-calendar"></i></div>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-sm-6">
+                      <label id="">
+                        Tipo de grafico
+                      </label>
+                      <br>
+                      <div class="btn-group btn-group-toggle d-flex justify-content-around flex-wrap" data-toggle="buttons">
+                        <label class="btn btn-primary">
+                          <input type="radio" name="grafic" value="1"> <i class="fas fa-chart-column"></i>
+                        </label>
+                        <label class="btn btn-primary">
+                          <input type="radio" name="grafic" value="2"> <i class="fas fa-chart-pie"></i>
+                        </label>
+                        <!-- <label class="btn btn-primary">
+                          <input type="radio" name="grafic" value="3"> <i class="fas fa-chart-area"></i>
+                        </label> -->
+                        <!-- <label class="btn btn-primary">
+                          <input type="radio" name="grafic" value="4"> <i class="fas fa-chart-line"></i>
+                        </label> -->
+                      </div>
+                    </div>
+                  </div>
+                  <div class="" id="canvasChart"></div>
+              </div>
+              <!-- /.card-body -->
+            </div>
+            <!-- /.card -->
+          </div>
+          <!--/.col (right) -->
+          </div>
+          <!-- /.card-body -->
+          <div class="card-footer d-flex justify-content-evenly flex-wrap">
+            <button class="btn btn-success" id="excel" type="button">
+                Generar Excel
+            </button>
+            <button class="btn btn-info" id="image" type="button">
+                Generar Imagen
+            </button>
+          </div>
+        </form>
+        <!-- /.card -->
+        <!-- /.row -->
+      </div><!-- /.container-fluid -->
+    </section>
+    <!-- /.content -->
+  </div>
+
+{% endblock content %}
+
+<!-- Specific Page JS goes HERE  -->
+{% block javascripts %}
+
+<!-- Page script -->
+<script>
+setTimeout(function(){
+  var Toast = Swal.mixin({
+      toast: true,
+      position: 'top-end',
+      showConfirmButton: false,
+      timer: 3000
+  });
+
+  setInterval(function(){
+    $('#pE').datetimepicker({
+      viewMode: 'years',
+      format: 'YYYY'
+    });
+  }, 3000);
+
+
+  function validateForm() {
+    if (
+      document.getElementById('genero').value == '0' &&
+      document.getElementById('tipo').value == '0' &&
+      document.getElementById('tipoE').value == '0' &&
+      document.getElementById('periodoE').value == ''
+      ) {
+        return false;
+    }
+    if (
+      (document.getElementById('tipo').value == '1' &&
+      document.getElementById('area').value == '0') ||
+      (document.getElementById('tipo').value == '2' &&
+      document.getElementById('carrera').value == '0')
+      ) {
+        return false;
+    }
+    return true;
+  }
+  
+  const getImage = ()=>{
+    if (validateForm() && !document.querySelector('input[name="grafic"]:checked') == false) {
+        $.ajax({
+          url: '{{request.PATHPROJECT}}' + '/estadistica1',
+          type: 'POST',
+          data: {
+              'csrfmiddlewaretoken': '{{ csrf_token }}',
+              genero: document.getElementById('genero').value,
+              tipo: document.getElementById('tipo').value,
+              tipoE: document.getElementById('tipoE').value,
+              area: document.getElementById('area').value,
+              carrera: document.getElementById('carrera').value,
+              periodoE: document.getElementById('periodoE').value,
+              // tipoG: document.getElementById('tipoG').value
+          },
+          success: function(data) {
+            Toast.fire({
+                icon: 'success',
+                title: 'Generando la imagen'
+            });
+            console.log(data);
+            //remplazar todos los que haya dentro de <> por '' en data.resultadosArray
+            var resultadosArray = data.resultadosArray.replace(/<\/?[^>]+(>|$)/g, "0");
+            resultadosArray = resultadosArray.replace(/'/g, '"');
+            resultadosArray = resultadosArray.replace(/True/g, '"True"');
+            resultadosArray = resultadosArray.replace(/False/g, '"False"');
+            resultadosArray = resultadosArray.replace(/None/g, '"None"');
+            resultadosArray = resultadosArray.replace(/datetime.datetime\(\d+, \d+, \d+, \d+, \d+, tzinfo=0\)/g, '"$&"');
+            arrayAlumnos = JSON.parse(resultadosArray);
+            
+  
+            document.getElementById('canvasChart').innerHTML = `<canvas id="chart" class="" style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>`
+  
+            setTimeout(function(){
+  
+              /*remplazar los numeros por los que se obtengan de la base de datos y remplazar los numeros por defecto
+              ejemplo para titulados y no titulados: 
+              num1 = 0
+              num2 = 0
+              arrayAlumnos.forEach(function(element) {
+                element.titulo == 'True' ? num1++ : num2++;
+              });
+  
+              ejemplo para titulados y egresados: 
+              num1 = 0
+              num2 = 0
+              arrayAlumnos.forEach(function(element) {
+                element.titulo == 'True' && num1++
+                element.egresado == 'True' && num2++
+              });*/
+  
+  
+              var num1 = 12
+              var num2 = 8
+  
+              var donutData        = {
+                labels: [
+                    `Titulados: ${num1}`,
+                    document.getElementById('tipoE').value == 1 ? `No titulados: ${num2}` : `Egresados: ${num2}`
+                ],
+                
+                datasets: [
+                  {
+                    data: [num1,num2],
+                    backgroundColor : ['#f39c12', '#00c0ef'],
+                  }
+                ]
+              }
+
+              var areaChartData = {
+                labels  : donutData.labels,
+                datasets: [
+                  {
+                    label               : 'Titulados',
+                    backgroundColor     : 'rgba(60,141,188,0.9)',
+                    borderColor         : 'rgba(60,141,188,0.8)',
+                    pointRadius          : false,
+                    pointColor          : '#3b8bba',
+                    pointStrokeColor    : 'rgba(60,141,188,1)',
+                    pointHighlightFill  : '#fff',
+                    pointHighlightStroke: 'rgba(60,141,188,1)',
+                    data                : [num1]
+                  },
+                  {
+                    label               : 'No titulados',
+                    backgroundColor     : 'rgba(210, 214, 222, 1)',
+                    borderColor         : 'rgba(210, 214, 222, 1)',
+                    pointRadius         : false,
+                    pointColor          : 'rgba(210, 214, 222, 1)',
+                    pointStrokeColor    : '#c1c7d1',
+                    pointHighlightFill  : '#fff',
+                    pointHighlightStroke: 'rgba(220,220,220,1)',
+                    data                : [num2]
+                  },
+                ]
+              }
+
+              switch (document.querySelector('input[name="grafic"]:checked').value) {
+                //<canvas id="pieChart" 
+                //style="min-height: 250px; height: 250px; max-height: 250px; max-width: 100%;"></canvas>
+  
+                case '1':
+                  //Bar chart
+                  var barChartCanvas = $('#chart').get(0).getContext('2d')
+                  var barChartData = $.extend(true, {}, areaChartData)
+                  var temp0 = areaChartData.datasets[0]
+                  var temp1 = areaChartData.datasets[1]
+                  barChartData.datasets[0] = temp1
+                  barChartData.datasets[1] = temp0
+
+                  var barChartOptions = {
+                    responsive              : true,
+                    maintainAspectRatio     : false,
+                    datasetFill             : false
+                  }
+
+                  var barChart = new Chart(barChartCanvas, {
+                    type: 'bar',
+                    data: barChartData,
+                    options: barChartOptions
+                  })
+                  break;
+                case '2':
+                  //Pie chart                  
+                  var pieChartCanvas = $('#chart').get(0).getContext('2d')
+                  var pieData        = donutData;
+                  var pieOptions     = {
+                    maintainAspectRatio : false,
+                    responsive : true,
+                  }
+                  //Create pie or douhnut chart
+                  // You can switch between pie and douhnut using the method below.
+                  var pieChart = new Chart(pieChartCanvas, {
+                    type: 'pie',
+                    data: pieData,
+                    options: pieOptions
+                  })
+                  break;
+                // case '3':
+                //   //Area chart
+                //   break;
+                // case '4':
+                //   //line chart
+                //   break;
+              
+                default:
+                  break;
+              }
+              //comvertir el cambas en imagen
+              setTimeout(function(){
+                var urlImg = document.getElementById('chart').toDataURL('image/png', 1);
+                var a = document.createElement('a');
+                a.href = urlImg;
+                a.download = 'estadistica.png';
+                a.target = '_blank';
+                a.click();
+                document.querySelector('input[name="grafic"]:checked').parentElement.classList.remove('active');
+                $('#form').trigger('reset');
+              }, 1000);
+            }, 500);
+          },
+          error: function(data) {
+              Toast.fire({
+                  icon: 'error',
+                  title: 'Error al generar la imagen, intente mas tarde'
+              });
+          }
+        });
+      } else {
+        Toast.fire({
+            icon: 'error',
+            title: 'LLene todos los campos'
+        })
+      }
+  }
+  $('#image').click(function(){
+    getImage();
+  })
+
+  const getExcel = ()=>{
+    if (validateForm()) {
+        $.ajax({
+          url: '{{request.PATHPROJECT}}' + '/estadistica1',
+          type: 'POST',
+          data: {
+              'csrfmiddlewaretoken': '{{ csrf_token }}',
+              genero: document.getElementById('genero').value,
+              tipo: document.getElementById('tipo').value,
+              tipoE: document.getElementById('tipoE').value,
+              area: document.getElementById('area').value,
+              carrera: document.getElementById('carrera').value,
+              periodoE: document.getElementById('periodoE').value,
+              // tipoG: document.getElementById('tipoG').value
+          },
+          success: function(data) {
+            Toast.fire({
+                icon: 'success',
+                title: 'Generando excel'
+            });
+            console.log(data);
+            //remplazar todos los que haya dentro de <> por '' en data.resultadosArray
+            var resultadosArray = data.resultadosArray.replace(/<\/?[^>]+(>|$)/g, "0");
+            resultadosArray = resultadosArray.replace(/'/g, '"');
+            resultadosArray = resultadosArray.replace(/True/g, '"True"');
+            resultadosArray = resultadosArray.replace(/False/g, '"False"');
+            resultadosArray = resultadosArray.replace(/None/g, '"None"');
+            resultadosArray = resultadosArray.replace(/datetime.datetime\(\d+, \d+, \d+, \d+, \d+, tzinfo=0\)/g, '"$&"');
+            arrayAlumnos = JSON.parse(resultadosArray);
+            
+  
+  
+            setTimeout(function(){
+
+              //generar excel con los datos de arrayAlumnos y descargarlo
+              var wb = XLSX .utils.book_new();
+              var ws = XLSX.utils.json_to_sheet(arrayAlumnos);
+              XLSX.utils.book_append_sheet(wb, ws, "Alumnos");
+              var wbout = XLSX.write(wb, {bookType:'xlsx',  type: 'binary'});
+              function s2ab(s) {
+                  var buf = new ArrayBuffer(s.length);
+                  var view = new Uint8Array(buf);
+                  for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF;
+                  return buf;
+              }
+              saveAs(new Blob([s2ab(wbout)],{type:"application/octet-stream"}), 'estadistica.xlsx');
+              !document.querySelector('input[name="grafic"]:checked')==false && document.querySelector('input[name="grafic"]:checked').parentElement.classList.remove('active');
+              $('#form').trigger('reset');
+            
+
+
+              // var urlImg = document.getElementById('chart').toDataURL('image/png', 1);
+              // var a = document.createElement('a');
+              // a.href = urlImg;
+              // a.download = 'estadistica.png';
+              // a.target = '_blank';
+              // a.click();
+              // document.querySelector('input[name="grafic"]:checked').parentElement.classList.remove('active');
+              // $('#form').trigger('reset');
+            }, 1000);
+          },
+          error: function(data) {
+              Toast.fire({
+                  icon: 'error',
+                  title: 'Error al generar el Excel, intente mas tarde'
+              });
+          }
+        });
+      } else {
+        Toast.fire({
+            icon: 'error',
+            title: 'LLene todos los campos'
+        })
+      }
+  }
+
+  $('#excel').click(function(){
+    getExcel();
+  })
+  
+}, 1000)
+
+</script>
+
+<script>
+  $(function () {
+    //Initialize Select2 Elements
+    $('.select2').select2()
+
+    //Initialize Select2 Elements
+    $('.select2bs4').select2({
+      theme: 'bootstrap4'
+    })
+
+    //Datemask dd/mm/yyyy
+    $('#datemask').inputmask('dd/mm/yyyy', { 'placeholder': 'dd/mm/yyyy' })
+    //Datemask2 mm/dd/yyyy
+    $('#datemask2').inputmask('mm/dd/yyyy', { 'placeholder': 'mm/dd/yyyy' })
+    //Money Euro
+    $('[data-mask]').inputmask()
+
+    //Date range picker
+    $('#reservationdate').datetimepicker({
+        format: 'L'
+    });
+    //Date range picker
+    $('#reservation').daterangepicker()
+    //Date range picker with time picker
+    $('#reservationtime').daterangepicker({
+      timePicker: true,
+      timePickerIncrement: 30,
+      locale: {
+        format: 'MM/DD/YYYY hh:mm A'
+      }
+    })
+    //Date range as a button
+    $('#daterange-btn').daterangepicker(
+      {
+        ranges   : {
+          'Today'       : [moment(), moment()],
+          'Yesterday'   : [moment().subtract(1, 'days'), moment().subtract(1, 'days')],
+          'Last 7 Days' : [moment().subtract(6, 'days'), moment()],
+          'Last 30 Days': [moment().subtract(29, 'days'), moment()],
+          'This Month'  : [moment().startOf('month'), moment().endOf('month')],
+          'Last Month'  : [moment().subtract(1, 'month').startOf('month'), moment().subtract(1, 'month').endOf('month')]
+        },
+        startDate: moment().subtract(29, 'days'),
+        endDate  : moment()
+      },
+      function (start, end) {
+        $('#reportrange span').html(start.format('MMMM D, YYYY') + ' - ' + end.format('MMMM D, YYYY'))
+      }
+    )
+
+    //Timepicker
+    $('#timepicker').datetimepicker({
+      format: 'LT'
+    })
+
+    //Bootstrap Duallistbox
+    $('.duallistbox').bootstrapDualListbox()
+
+    //Colorpicker
+    $('.my-colorpicker1').colorpicker()
+    //color picker with addon
+    $('.my-colorpicker2').colorpicker()
+
+    $('.my-colorpicker2').on('colorpickerChange', function(event) {
+      $('.my-colorpicker2 .fa-square').css('color', event.color.toString());
+    });
+
+    $("input[data-bootstrap-switch]").each(function(){
+      $(this).bootstrapSwitch('state', $(this).prop('checked'));
+    });
+
+  })
+</script>
+
+{% endblock javascripts %}
