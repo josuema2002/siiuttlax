@@ -25,7 +25,7 @@
 
     <div class="login-logo">
         <a target="_blank" rel="noopener noreferrer" 
-           href="https://appseed.us/admin-dashboards/django-dashboard-adminlte">Django <b>Admin</b>LTE</a>
+           href="https://appseed.us/admin-dashboards/django-dashboard-adminlte">SIIUTT <b></b></a>
     </div>
 
     <!-- /.login-logo -->
@@ -36,7 +36,7 @@
             {% if msg %}
                 {{ msg | safe }}
             {% else %}
-                Add your credentials
+                Ingresa tus datos para iniciar sesión
             {% endif %}
         </p>
 
@@ -48,7 +48,7 @@
             {{ form.username }}
             <div class="input-group-append">
               <div class="input-group-text">
-                <span class="fas fa-envelope"></span>
+                <span class="fas fa-user"></span>
               </div>
             </div>
           </div>
@@ -61,17 +61,18 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-8">
+            <div class="col-8"></div>
+            <!-- <div class="col-8">
               <div class="icheck-primary">
                 <input type="checkbox" id="remember">
                 <label for="remember">
                   Remember Me
                 </label>
               </div>
-            </div>
+            </div> -->
             <!-- /.col -->
             <div class="col-4">
-              <button type="submit" name="login" class="btn btn-primary btn-block">Sign In</button>
+              <button type="submit" name="login" class="btn btn-primary btn-block">Login</button>
             </div>
             <!-- /.col -->
           </div>
@@ -80,13 +81,13 @@
         <br /><br />
 
         <div class="text-center">
-            Not a member? <a href="{% url 'register' %}" class="text-center">Register</a>
+            No soy un usuario? <a href="{% url 'register' %}" class="text-center">Register</a>
             <br />
             <br />
-            &copy; ColorLib 
+            <!-- &copy; ColorLib 
             <a target="_blank" rel="noopener noreferrer"
                href="https://appseed.us/admin-dashboards/django-dashboard-adminlte"><b>Admin</b>LTE</a> 
-            - coded by <a target="_blank" rel="noopener noreferrer" href="https://appseed.us">AppSeed</a>.
+            - coded by <a target="_blank" rel="noopener noreferrer" href="https://appseed.us">AppSeed</a>. -->
         </div>
 
       </div>

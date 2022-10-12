@@ -25,7 +25,7 @@
 
     <div class="login-logo">
         <a target="_blank" rel="noopener noreferrer" 
-           href="https://appseed.us/admin-dashboards/django-dashboard-adminlte">Django <b>Admin</b>LTE</a>
+           href="https://appseed.us/admin-dashboards/django-dashboard-adminlte">SIIUTT <b></b></a>
     </div>    
 
     <div class="card">
@@ -35,7 +35,7 @@
                 <span class="text-danger">{{ msg | safe }}</span>
             {% else %}
             <span>
-                Add your credentials
+                Ingresa tus datos para iniciar sesión
             </span>
             {% endif %}            
         </p>
@@ -86,8 +86,8 @@
           
           <div class="row">
             <div class="col-8">
-              <div class="icheck-primary">
-                <input type="checkbox" id="agreeTerms" name="terms" value="agree">
+              <div class="icheck-primary d-none">
+                <input type="checkbox" id="agreeTerms" name="terms" value="agree" checked>
                 <label for="agreeTerms">
                 I agree to the <a href="#">terms</a>
                 </label>
@@ -103,13 +103,13 @@
 
         <br />
         <div class="text-center">
-            Have an account? <a href="{% url 'login' %}" class="text-center">Login</a>
+            Tengo una cuenta? <a href="{% url 'login' %}" class="text-center">Login</a>
             <br />
             <br />
-            &copy; ColorLib 
+            <!-- &copy; ColorLib 
             <a target="_blank" rel="noopener noreferrer"
                href="https://appseed.us/admin-dashboards/django-dashboard-adminlte"><b>Admin</b>LTE</a> 
-            - coded by <a target="_blank" rel="noopener noreferrer" href="https://appseed.us">AppSeed</a>.
+            - coded by <a target="_blank" rel="noopener noreferrer" href="https://appseed.us">AppSeed</a>. -->
         </div>
 
       </div>

@@ -224,14 +224,11 @@ def pages(request):
                 html_template = loader.get_template('home/tituloElectronico/' + load_template)
             elif request.path.split('/')[-2] == 'certificado':
 
-                
-                
                 if load_template == 'certificado-form.html':
                     request.form = certificadoTitulacionForm(request.POST or None)
                     if request.method == 'POST' and request.is_ajax():
                         if request.form.is_valid():
-                            form = request.form
-                            form.save()
+                            request.form.save()
                             return JsonResponse({'status': '201', 'message': 'Certificado guardado'})
                         else:
                             return HttpResponse(request.POST)
@@ -244,8 +241,7 @@ def pages(request):
                         request.dataAlumno = dataAlumno
                         if request.method == 'POST' and request.is_ajax():
                             if request.form.is_valid():
-                                form = request.form
-                                form.save()
+                                request.form.save()
                                 return JsonResponse({'status': '201', 'message': 'Certificado guardado'})
                             else:
                                 return HttpResponse(request.POST)
@@ -254,16 +250,12 @@ def pages(request):
                     
                 if load_template == 'delete':
                     try:
-                        matricula = request.GET['matricula']
-                        dataAlumno = degreeCertificate.objects.get(enrollment_student_degree=matricula)
-                        dataAlumno.delete()
+                        degreeCertificate.objects.get(enrollment_student_degree=request.GET['matricula']).delete()
                         return HttpResponseRedirect(PATHPROJECT+'/certificado/certificado-allC.html')
                     except:
                         return HttpResponseRedirect(PATHPROJECT+'/certificado/certificado-allC.html')
 
                 html_template = loader.get_template('home/certificado/' + load_template)
-            elif request.path.split('/')[-2] == 'folio':
-                html_template = loader.get_template('home/folio/' + load_template)
             elif request.path.split('/')[-2] == 'fileUpload':
                 #return HttpResponseRedirect('/soloAlumno') usar
                 html_template = loader.get_template('home/fileUpload/' + load_template)

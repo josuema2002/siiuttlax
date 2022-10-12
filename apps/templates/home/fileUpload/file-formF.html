@@ -72,7 +72,7 @@
                             name="{{ field.name }}" accept="apication/pdf">
                             {% if field.value %}
                               <a href="/media/{{ field.value }}" target="_blank">Ver archivo</a>
-                            {% else %}
+                            {% elif request.titleFormTituloElectronico != 'Subir'%}
                               <a href="#" class="text-dark">No hay archivo</a>
                             {% endif %}
                         </div>
@@ -99,7 +99,7 @@
                           {% else %}
                             <a href="/media/{{ field.value }}" target="_blank">Ver archivo</a>
                           {% endif %}
-                        {% else %}
+                        {% elif request.titleFormTituloElectronico != 'Subir' %}
                           <a href="#" class="text-dark">No hay archivo</a>
                         {% endif %}
                     </div>

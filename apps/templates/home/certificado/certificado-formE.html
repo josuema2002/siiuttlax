@@ -86,8 +86,8 @@
                           <label id="{{ field.name }}L">
                             <script>
                               setTimeout(()=>{
-                                $('#{{ field.name }}L').html('{{ field.label }}'.split(" ").slice(0, -1).join(" "));
-                                $('#{{ field.name }}').attr('placeholder', '{{ field.label }}'.split(" ").slice(0, -1).join(" "));
+                                $('#{{ field.name }}L').html('{{ field.label }}');
+                                $('#{{ field.name }}').attr('placeholder', '{{ field.label }}');
                                 
                               }, 300);
                             </script>
@@ -109,8 +109,8 @@
                           <label id="{{ field.name }}L">
                             <script>
                               setTimeout(()=>{
-                                $('#{{ field.name }}L').html('{{ field.label }}'.split(" ").slice(0, -1).join(" "));
-                                $('#{{ field.name }}').attr('placeholder', '{{ field.label }}'.split(" ").slice(0, -1).join(" "));
+                                $('#{{ field.name }}L').html('{{ field.label }}');
+                                $('#{{ field.name }}').attr('placeholder', '{{ field.label }}');
                                 
                               }, 300);
                             </script>
@@ -141,8 +141,9 @@
                           <label id="{{ field.name }}L">
                             <script>
                               setTimeout(()=>{
-                                $('#{{ field.name }}L').html('{{ field.label }}'.split(" ").slice(0, -1).join(" "));
-                                $('#{{ field.name }}').attr('placeholder', '{{ field.label }}'.split(" ").slice(0, -1).join(" "));
+                                //.split(" ").slice(0, -1).join(" ")
+                                $('#{{ field.name }}L').html('{{ field.label }}');
+                                $('#{{ field.name }}').attr('placeholder', '{{ field.label }}');
                                 
                               }, 300);
                             </script>

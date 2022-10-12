@@ -44,8 +44,8 @@ const crearCertificado = async(values)=>{
         doc.setFont('avantgarde', 'normal');
         // const textInit = `La Universidad Tecnológica certifica que según constancias existentes en el archivo escolar, el C. ${values.nombre} ${values.apellidoP} ${values.apellidoM} con matrícula ${values.matricula} cursó y aprobó las asignaturas que integran el plan de estudios ${values.planE} en el periodo escolar ${values.periodoInit} - ${values.periodoEnd} de la carrera de ${values.tipoC} en ${values.nombreC} Area ${values.areaC} obteniendo las calificaciones finales que a continuación se anotan:`
         var textInit = document.createElement('p');
-          
-        textInit.innerHTML = `La Universidad Tecnológica certifica que según constancias existentes en el archivo escolar, el <b>C. ${values.nombre} ${values.apellidoP} ${values.apellidoM}</b> con matrícula <b style="text-decoration-line: underline; ">${values.matricula}</b> cursó y aprobó las asignaturas que integran el plan de estudios <b style="text-decoration-line: underline; ">${values.planE}</b> en el periodo escolar <b style="text-decoration-line: underline; ">${values.periodoInit} - ${values.periodoEnd}</b> de la carrera ${values.tipoC} en: <b>${values.nombreC} Area ${values.areaC}</b> obteniendo las calificaciones finales que a continuación se anotan:`;
+
+        textInit.innerHTML = `La Universidad Tecnológica certifica que según constancias existentes en el archivo escolar, el <b>C. ${values.nombre.toUpperCase()} ${values.apellidoP.toUpperCase()} ${values.apellidoM.toUpperCase()}</b> con matrícula <b style="text-decoration-line: underline; ">${values.matricula}</b> cursó y aprobó las asignaturas que integran el plan de estudios <b style="text-decoration-line: underline; ">${values.planE}</b> en el periodo escolar <b style="text-decoration-line: underline; ">${values.periodoInit} - ${values.periodoEnd}</b> de la carrera ${values.tipoC} en: <b>${values.nombreC} Area ${values.areaC}</b> obteniendo las calificaciones finales que a continuación se anotan:`;
         //3.2px 100px  font-family: avantgarde;
         textInit.setAttribute('style', 'font-size: 13px; width: 430px;  text-align: justify; color: #000; font-family: avantgarde;');
         textInit.classList.add('bg-transparent');
@@ -415,7 +415,7 @@ const crearCertificado = async(values)=>{
         }
 
         values.calificaciones.forEach((asig,i) =>{
-          if (i < 50){
+          if (i < 55){
             doc.setFont('avantgarde', 'normal');
             doc.line(margins.left, margins.top + 50 + (i*3), margins.left, margins.top + 53 + (i*3), 'FD'); // | 1
             doc.line(margins.left, margins.top + 53 + (i*3), margins.left + 146, margins.top + 53 + (i*3), 'FD') // - 2
@@ -472,7 +472,7 @@ const crearCertificado = async(values)=>{
 
         if (cabeEnHoja1 == false) {
 
-          values.calificaciones.slice(50).forEach((asig,i) =>{
+          values.calificaciones.slice(55).forEach((asig,i) =>{
 
             doc.setFont('avantgarde', 'normal');
             doc.line(margins.left, margins.top + 0 + (i*3), margins.left + 146, margins.top + 0 + (i*3), 'FD') // - 0
