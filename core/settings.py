@@ -5,9 +5,6 @@ Copyright (c) 2019 - present AppSeed.us
 
 import os, environ
 
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
 
 from unipath import Path
 
@@ -47,7 +44,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'apps.home',  # Enable the inner home (home)
-    'cloudinary',
     'django.contrib.humanize',
 ]
 
@@ -90,36 +86,36 @@ WSGI_APPLICATION = 'core.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.0/ref/settings/#databases
 
-# if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
-#     DATABASES = { 
-#       'default': {
-#         'ENGINE'  : 'django.db.backends.mysql', 
-#         'NAME'    : os.getenv('DB_NAME'     , 'appseed_db'),
-#         'USER'    : os.getenv('DB_USERNAME' , 'appseed_db_usr'),
-#         'PASSWORD': os.getenv('DB_PASS'     , 'pass'),
-#         'HOST'    : os.getenv('DB_HOST'     , 'localhost'),
-#         'PORT'    : os.getenv('DB_PORT'     , 3306),
-#         }, 
-#     }
-# else:
-#     DATABASES = {
-#         'default': {
-#             'ENGINE': 'django.db.backends.sqlite3',
-#             'NAME': 'db.sqlite3',
-#         }
-#     }
-
-DATABASES = {
-    'default': {
-        'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql'),
-        'NAME': env('DB_NAME', default='titulacion'),
-        'USER': env('DB_USERNAME', default='postgres'),
-        'PASSWORD': env('DB_PASS', default='2002'),#usar la contraseña que usa postgres
-        #'HOST': 'localhost',
-        'HOST': env('DB_HOST', default='127.0.0.1'),
-        'DATABASE_PORT': env('DB_PORT', default='5432'),
+if os.environ.get('DB_ENGINE') and os.environ.get('DB_ENGINE') == "mysql":
+    DATABASES = { 
+      'default': {
+        'ENGINE'  : 'django.db.backends.mysql', 
+        'NAME'    : os.getenv('DB_NAME'     , 'appseed_db'),
+        'USER'    : os.getenv('DB_USERNAME' , 'appseed_db_usr'),
+        'PASSWORD': os.getenv('DB_PASS'     , 'pass'),
+        'HOST'    : os.getenv('DB_HOST'     , 'localhost'),
+        'PORT'    : os.getenv('DB_PORT'     , 3306),
+        }, 
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': 'db.sqlite3',
+        }
+    }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': env('DB_ENGINE', default='django.db.backends.postgresql'),
+#         'NAME': env('DB_NAME', default='titulacion'),
+#         'USER': env('DB_USERNAME', default='postgres'),
+#         'PASSWORD': env('DB_PASS', default='2002'),#usar la contraseña que usa postgres
+#         #'HOST': 'localhost',
+#         'HOST': env('DB_HOST', default='127.0.0.1'),
+#         'DATABASE_PORT': env('DB_PORT', default='5432'),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
@@ -177,9 +173,3 @@ print("MEDIA_ROOT: ", MEDIA_ROOT)
 
 #############################################################
 #############################################################
-
-cloudinary.config( 
-  cloud_name = "appseed", 
-  api_key = "111222333",
-  api_secret = "TaDaaACsHgfhjGF" 
-)
